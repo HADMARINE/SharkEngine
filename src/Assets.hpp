@@ -15,9 +15,9 @@ namespace Assets {
     void pauseUntilKeyPressed(std::string mes);
     void pauseUntilKeyPressed();
     namespace Parser{
-        static std::wstring parseStringToWstring(const std::string);
-        static Json::Value parseStringToJson(const std::string);
-        static std::string parseJsonToString(const Json::Value);
+        std::wstring parseStringToWstring(const std::string);
+        Json::Value parseStringToJson(const std::string);
+        std::string parseJsonToString(const Json::Value);
     }
 };
 
