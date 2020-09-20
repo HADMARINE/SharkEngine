@@ -18,10 +18,7 @@ add_executable(
 
 include_directories(
     $ENV{VCPKG_INSTALLED_DIR}/include
-    $ENV{VULKAN_SDK}/include
 )
-
-message($ENV{VULKAN_SDK}/include/vulkan)
 
 find_package(glm CONFIG REQUIRED)
 target_link_libraries(vulkan_engine PRIVATE glm)
@@ -29,30 +26,11 @@ target_link_libraries(vulkan_engine PRIVATE glm)
 find_package(glfw3 CONFIG REQUIRED)
 target_link_libraries(vulkan_engine PRIVATE glfw)
 
-if(WIN32 OR WIN64)
-  message(WINDOWS_NOT_READY_YET)
-  find_library(
-      LIBVULKAN
-      NAMES libvulkan.dll
-      HINTS $ENV{VULKAN_SDK}/lib
-      REQUIRED
-  )
-else()
-  find_library(
-      LIBVULKAN
-      NAMES libvulkan.dylib
-      HINTS $ENV{VULKAN_SDK}/lib
-      REQUIRED
-  )
-endif()
+find_package(Vulkan REQUIRED)
+target_include_directories(vulkan_engine PUBLIC ${Vulkan_INCLUDE_DIRS})
+target_link_libraries(vulkan_engine PRIVATE Vulkan::Vulkan)
 
-target_link_libraries(vulkan_engine PRIVATE ${LIBVULKAN})
-
-find_library(
-    LIBJSONCPP
-    NAMES libjsoncpp.a
-    HINTS $ENV{VCPKG_INSTALLED_DIR}/lib
-    REQUIRED
-)
-
-target_link_libraries(vulkan_engine PRIVATE ${LIBJSONCPP})
+find_package(jsoncpp REQUIRED)
+get_target_property(JSON_INC_PATH jsoncpp_lib INTERFACE_INCLUDE_DIRECTORIES)
+target_include_directories(vulkan_engine PUBLIC ${Jsoncpp_INCLUDE_DIRS})
+target_link_libraries(vulkan_engine PRIVATE jsoncpp_lib)
