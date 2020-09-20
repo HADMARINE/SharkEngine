@@ -6,6 +6,8 @@
 #define VULKAN_ENGINE_ASSETS_HPP
 
 #include "stdafx.hpp"
+#include <sstream>
+#include <json/json.h>
 
 namespace Assets {
     void pauseUntilKeyPressed(char, std::string);
@@ -14,6 +16,8 @@ namespace Assets {
     void pauseUntilKeyPressed();
     namespace Parser{
         static std::wstring parseStringToWstring(const std::string);
+        static Json::Value parseStringToJson(const std::string);
+        static std::string parseJsonToString(const Json::Value);
     }
 };
 

@@ -31,9 +31,34 @@ namespace Assets {
 
     namespace Parser {
         wstring Parser::parseStringToWstring(const string str) {
-          wstring *wstr = new wstring;
-          wstr->assign(str.begin(), str.end());
-          return *wstr;
+          wstring wstr;
+          wstr.assign(str.begin(), str.end());
+          return wstr;
         };
+
+        Json::Value Parser::parseStringToJson(const string str) {
+          Json::CharReaderBuilder rbuilder;
+          string errs;
+          Json::Value val;
+          stringstream ss;
+
+          ss << str;
+
+          rbuilder["collectComments"] = false;
+
+          bool isSuccess = parseFromStream(rbuilder, ss, &val, &errs);
+
+          if(!isSuccess) {
+            CLogger::Error("%s", errs.c_str());
+          }
+
+          return nullptr;
+        }
+
+        string Parser::parseJsonToString(const Json::Value val) {
+          Json::StreamWriterBuilder wbuilder;
+          string str_data = writeString(wbuilder, val);
+          return str_data;
+        }
     }
 }
