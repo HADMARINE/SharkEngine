@@ -29,6 +29,11 @@ namespace Assets {
       cin.ignore(numeric_limits<streamsize>::max(), '\n');
     }
 
+    int getRandomNumber(int min, int max) {
+        srand((unsigned int)time(nullptr));
+        return (rand() % (max + 1 - min) ) + min;
+    }
+
     namespace Parser {
         wstring Parser::parseStringToWstring(const string str) {
           wstring wstr;

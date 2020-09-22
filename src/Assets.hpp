@@ -14,6 +14,9 @@ namespace Assets {
     void pauseUntilKeyPressed(char k);
     void pauseUntilKeyPressed(std::string mes);
     void pauseUntilKeyPressed();
+
+    int getRandomNumber(int, int);
+
     namespace Parser{
         std::wstring parseStringToWstring(const std::string);
         Json::Value parseStringToJson(const std::string);
