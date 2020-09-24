@@ -13,7 +13,7 @@ add_executable(
     src/util/CLogger.cpp
     src/CLogger.hpp
     src/util/Assets.cpp
-        src/Assets.hpp
+    src/Assets.hpp
     src/HadmarineEngine.hpp)
 
 include_directories(

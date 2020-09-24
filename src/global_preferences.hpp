@@ -5,6 +5,7 @@
 #pragma once
 
 #include <cstdlib>
+#include <cstdint>
 
 namespace GlobalPreferences {
     constexpr const char * APPLICATION_NAME = "HADMARINE_ENGINE";
