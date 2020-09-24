@@ -125,7 +125,7 @@ void CLogger::Info(const char *mes, ...) {
 #if defined(_WIN32) || defined(_WIN64)
   SetConsoleTextColor("time");
   cout << CLogger::getTimeNow();
-  SetConsoleTextColor(BLACK, LIGHTGRAY);
+  SetConsoleTextColor(CLogger::COLOR::BLACK, CLogger::COLOR::LIGHTGRAY);
   cout << " INFO ";
   SetConsoleTextColor();
   cout << " " << buf << endl;
@@ -163,10 +163,10 @@ void CLogger::ErrorWithDialog(const char *mes, ...) {
 #if defined(_WIN32) || defined(_WIN64)
   wchar_t application_name[128] = L"", content[4096] = L"";
   size_t application_name_size, content_size;
-  mbstowcs_s(&application_name_size, application_name, 128, APPLICATION_NAME, 128);
-  mbstowcs_s(&content_size, content, 4096, mes.c_str(), 4096);
-  MessageBox(NULL, LPCWSTR(content),
-             LPCWSTR(application_name), MB_OK);
+  mbstowcs_s(&application_name_size, application_name, 128, GlobalPreferences::APPLICATION_NAME, 128);
+  mbstowcs_s(&content_size, content, 4096, mes, 4096);
+  MessageBox(NULL, reinterpret_cast<LPCSTR>(LPCWSTR(content)),
+             reinterpret_cast<LPCSTR>(LPCWSTR(application_name)), MB_OK);
 #else
   CLogger::Debug("CLogger::Error - ErrorStackDialogue is avaliable only in WINDOWS");
 #endif

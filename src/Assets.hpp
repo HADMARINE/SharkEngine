@@ -2,19 +2,23 @@
 // Created by HADMARINE on 2020/09/20.
 //
 
-#ifndef VULKAN_ENGINE_ASSETS_HPP
-#define VULKAN_ENGINE_ASSETS_HPP
+#pragma once
 
 #include "stdafx.hpp"
+#include <sstream>
+#include <json/json.h>
 
 namespace Assets {
     void pauseUntilKeyPressed(char, std::string);
     void pauseUntilKeyPressed(char k);
     void pauseUntilKeyPressed(std::string mes);
     void pauseUntilKeyPressed();
+
+    int getRandomNumber(int, int);
+
     namespace Parser{
-        static std::wstring parseStringToWstring(const std::string);
+      [[maybe_unused]] std::wstring parseStringToWstring(const std::string&);
+      [[maybe_unused]] Json::Value parseStringToJson(const std::string&);
+        std::string parseJsonToString(const Json::Value&);
     }
 };
-
-#endif //VULKAN_ENGINE_ASSETS_HPP

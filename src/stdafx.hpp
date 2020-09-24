@@ -2,17 +2,18 @@
 // Created by HADMARINE on 2020/09/20.
 //
 
-#ifndef VULKAN_ENGINE_STDAFX_HPP
-#define VULKAN_ENGINE_STDAFX_HPP
-
-#include "global_prefences.hpp"
-#include <stdio.h>
-#include <cstdlib>
-#include <iostream>
-#include <string>
-#include <functional>
+#include "Assets.hpp"
+#include "CLogger.hpp"
+#include "global_preferences.hpp"
 #include <algorithm>
 #include <cstdarg>
-#include "CLogger.hpp"
+#include <cstdlib>
+#include <functional>
+#include <iostream>
+#include <stdio.h>
+#include <string>
+#include <vector>
 
-#endif //VULKAN_ENGINE_STDAFX_HPP
+#if defined(_WIN32) || defined(_WIN64)
+#define NOMINMAX
+#endif

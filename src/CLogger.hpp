@@ -2,8 +2,7 @@
 // Created by HADMARINE on 2020/09/20.
 //
 
-#ifndef VULKAN_ENGINE_CLOGGER_HPP
-#define VULKAN_ENGINE_CLOGGER_HPP
+#pragma once
 
 #include "stdafx.hpp"
 #include <ctime>
@@ -28,5 +27,3 @@ public:
     static void ClearWindow();
     static std::string getTimeNow();
 };
-
-#endif //VULKAN_ENGINE_CLOGGER_HPP
