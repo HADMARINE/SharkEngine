@@ -2,8 +2,7 @@
 // Created by HADMARINE on 2020/09/20.
 //
 
-#ifndef VULKAN_ENGINE_GLOBAL_PREFENCES_HPP
-#define VULKAN_ENGINE_GLOBAL_PREFENCES_HPP
+#pragma once
 
 #include <cstdlib>
 
@@ -14,5 +13,3 @@ namespace GlobalPreferences {
     constexpr const uint32_t SCREEN_HEIGHT = 600;
 
 }
-
-#endif //VULKAN_ENGINE_GLOBAL_PREFENCES_HPP
