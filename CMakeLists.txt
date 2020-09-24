@@ -6,19 +6,16 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
 add_executable(
-    main
-    src/main.cpp
-    src/stdafx.hpp
-    src/global_preferences.hpp
-    src/util/CLogger.cpp
-    src/CLogger.hpp
-    src/util/Assets.cpp
-    src/Assets.hpp
-    src/HadmarineEngine.hpp)
-
-#include_directories(
-#    $ENV{VCPKG_INSTALLED_DIR}/include
-#)
+        main
+        src/main.cpp
+        src/stdafx.hpp
+        src/global_preferences.hpp
+        src/util/CLogger.cpp
+        src/CLogger.hpp
+        src/util/Assets.cpp
+        src/Assets.hpp
+        src/HadmarineEngine.hpp
+)
 
 find_package(glm CONFIG REQUIRED)
 target_link_libraries(main PRIVATE glm)
