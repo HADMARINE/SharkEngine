@@ -16,9 +16,9 @@ add_executable(
     src/Assets.hpp
     src/HadmarineEngine.hpp)
 
-include_directories(
-    $ENV{VCPKG_INSTALLED_DIR}/include
-)
+#include_directories(
+#    $ENV{VCPKG_INSTALLED_DIR}/include
+#)
 
 find_package(glm CONFIG REQUIRED)
 target_link_libraries(main PRIVATE glm)
