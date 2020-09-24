@@ -5,15 +5,17 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
+set(CMAKE_CXX_FLAGS_RELEASE_INIT "-Wall")
+
 add_executable(
-    vulkan_engine
+    main
     src/main.cpp
     src/stdafx.hpp
-    src/global_prefences.hpp
+    src/global_preferences.hpp
     src/util/CLogger.cpp
     src/CLogger.hpp
     src/util/Assets.cpp
-    src/Assets.hpp
+        src/Assets.hpp
     src/HadmarineEngine.hpp)
 
 include_directories(
@@ -21,16 +23,16 @@ include_directories(
 )
 
 find_package(glm CONFIG REQUIRED)
-target_link_libraries(vulkan_engine PRIVATE glm)
+target_link_libraries(main PRIVATE glm)
 
 find_package(glfw3 CONFIG REQUIRED)
-target_link_libraries(vulkan_engine PRIVATE glfw)
+target_link_libraries(main PRIVATE glfw)
 
 find_package(Vulkan REQUIRED)
-target_include_directories(vulkan_engine PUBLIC ${Vulkan_INCLUDE_DIRS})
-target_link_libraries(vulkan_engine PRIVATE Vulkan::Vulkan)
+target_include_directories(main PUBLIC ${Vulkan_INCLUDE_DIRS})
+target_link_libraries(main PRIVATE Vulkan::Vulkan)
 
 find_package(jsoncpp REQUIRED)
 get_target_property(JSON_INC_PATH jsoncpp_lib INTERFACE_INCLUDE_DIRECTORIES)
-target_include_directories(vulkan_engine PUBLIC ${Jsoncpp_INCLUDE_DIRS})
-target_link_libraries(vulkan_engine PRIVATE jsoncpp_lib)
+target_include_directories(main PUBLIC ${Jsoncpp_INCLUDE_DIRS})
+target_link_libraries(main PRIVATE jsoncpp_lib)
