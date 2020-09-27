@@ -13,6 +13,8 @@
 #include <stdio.h>
 #include <string>
 #include <vector>
+#include <list>
+#include <queue>
 
 #if defined(_WIN32) || defined(_WIN64)
 #define NOMINMAX
