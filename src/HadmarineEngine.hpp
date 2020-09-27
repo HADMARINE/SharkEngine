@@ -14,11 +14,11 @@
 #include <set>
 #include <stdexcept>
 
-#ifdef NDEBUG
-constexpr const bool enableValidationLayers = false;
-#else
-constexpr const bool enableValidationLayers = true;
-#endif
+//#ifdef NDEBUG
+//constexpr const bool enableValidationLayers = false;
+//#else
+//constexpr const bool enableValidationLayers = true;
+//#endif
 
 
 const std::vector<const char *> validationLayers = {
@@ -106,6 +106,8 @@ private:
     std::vector<VkFence> imagesInFlight;
     size_t currentFrame = 0;
 
+    bool framebufferResized = false;
+
     void initWindow() {
         glfwInit();
 
@@ -117,6 +119,13 @@ private:
                 GlobalPreferences::SCREEN_HEIGHT,
                 GlobalPreferences::APPLICATION_NAME,
                 nullptr, nullptr);
+        glfwSetWindowUserPointer(window, this);
+        glfwSetFramebufferSizeCallback(window, framebufferResizeCallback);
+    }
+
+    static void framebufferResizeCallback(GLFWwindow* window, int width, int height) {
+        auto app = reinterpret_cast<HadmarineEngine*>(glfwGetWindowUserPointer(window));
+        app->framebufferResized = true;
     }
 
     void initVulkan() {
@@ -145,29 +154,19 @@ private:
     }
 
     void cleanup() {
+        cleanupSwapChain();
+
         for (size_t i = 0; i < GlobalPreferences::MAX_FRAMES_IN_FLIGHT; i++) {
             vkDestroySemaphore(device, renderFinishedSemaphores[i], nullptr);
             vkDestroySemaphore(device, imageAvailableSemaphores[i], nullptr);
             vkDestroyFence(device, inFlightFences[i], nullptr);
         }
+
         vkDestroyCommandPool(device, commandPool, nullptr);
 
-        for (auto frameBuffer: swapChainFramebuffers) {
-            vkDestroyFramebuffer(device, frameBuffer, nullptr);
-        }
-
-        vkDestroyPipeline(device, graphicsPipeline, nullptr);
-        vkDestroyPipelineLayout(device, pipelineLayout, nullptr);
-        vkDestroyRenderPass(device, renderPass, nullptr);
-
-        for (auto imageView : swapChainImageViews) {
-            vkDestroyImageView(device, imageView, nullptr);
-        }
-
-        vkDestroySwapchainKHR(device, swapChain, nullptr);
         vkDestroyDevice(device, nullptr);
 
-        if (enableValidationLayers) {
+        if (GlobalPreferences::enableValidationLayers) {
             DestroyDebugUtilsMessengerEXT(instance, debugMessenger, nullptr);
         }
 
@@ -177,6 +176,46 @@ private:
         glfwDestroyWindow(window);
 
         glfwTerminate();
+    }
+
+    void recreateSwapChain() {
+        int width = 0, height = 0;
+        glfwGetFramebufferSize(window, &width, &height);
+
+        while(width == 0 || height == 0) {
+            glfwGetFramebufferSize(window, &width, &height);
+            glfwWaitEvents();
+        }
+
+        vkDeviceWaitIdle(device);
+
+        cleanupSwapChain();
+
+        createSwapChain();
+        createImageViews();
+        createRenderPass();
+        createGraphicsPipeline();
+        createFrameBuffers();
+        createCommandBuffers();
+    }
+
+    void cleanupSwapChain() {
+        for (auto & swapChainFramebuffer : swapChainFramebuffers) {
+            vkDestroyFramebuffer(device, swapChainFramebuffer, nullptr);
+        }
+
+        vkFreeCommandBuffers(device, commandPool, static_cast<uint32_t>(commandBuffers.size()), commandBuffers.data());
+
+        vkDestroyPipeline(device, graphicsPipeline, nullptr);
+        vkDestroyPipelineLayout(device, pipelineLayout, nullptr);
+        vkDestroyRenderPass(device, renderPass, nullptr);
+
+        for (auto & swapChainImageView : swapChainImageViews) {
+            vkDestroyImageView(device, swapChainImageView, nullptr);
+        }
+
+        vkDestroySwapchainKHR(device, swapChain, nullptr);
+
     }
 
     static std::vector<char> readFile(const std::string &fileName) {
@@ -203,9 +242,17 @@ private:
         vkResetFences(device, 1, &inFlightFences[currentFrame]);
 
         uint32_t imageIndex;
-        vkAcquireNextImageKHR(device, swapChain, UINT64_MAX,
+        VkResult result = vkAcquireNextImageKHR(device, swapChain, UINT64_MAX,
                               imageAvailableSemaphores[currentFrame],
                               VK_NULL_HANDLE, &imageIndex);
+
+        if (result == VK_ERROR_OUT_OF_DATE_KHR) {
+            recreateSwapChain();
+            return;
+        } else if (result != VK_SUCCESS && result != VK_SUBOPTIMAL_KHR) {
+            CLogger::Error("Failed to acquire swap chain image");
+            throw std::runtime_error("Failed to acquire swap chain image");
+        }
 
         if (imagesInFlight[imageIndex] != VK_NULL_HANDLE) {
             vkWaitForFences(device, 1, &imagesInFlight[imageIndex], VK_TRUE, UINT64_MAX);
@@ -248,7 +295,15 @@ private:
 
         presentInfo.pImageIndices = &imageIndex;
 
-        vkQueuePresentKHR(presentQueue, &presentInfo);
+        result = vkQueuePresentKHR(presentQueue, &presentInfo);
+        
+        if (result == VK_ERROR_OUT_OF_DATE_KHR || result == VK_SUBOPTIMAL_KHR || framebufferResized) {
+            framebufferResized = false;
+            recreateSwapChain();
+        } else if (result != VK_SUCCESS) {
+            CLogger::Error("Failed to present swap chain image");
+            throw std::runtime_error("Failed to present swap chain image");
+        }
 
         vkQueueWaitIdle(presentQueue);
 
@@ -443,7 +498,7 @@ private:
     }
 
     void createInstance() {
-        if (enableValidationLayers && !checkValidationLayerSupport()) {
+        if (GlobalPreferences::enableValidationLayers && !checkValidationLayerSupport()) {
             CLogger::Error("Validation layers requested, but not available");
             throw std::runtime_error("Validation layers requested, but not available");
         }
@@ -451,9 +506,13 @@ private:
         VkApplicationInfo appInfo{};
         appInfo.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
         appInfo.pApplicationName = GlobalPreferences::APPLICATION_NAME;
-        appInfo.applicationVersion = VK_MAKE_VERSION(1, 0, 0);
-        appInfo.pEngineName = "HADMARINE ENGINE";
-        appInfo.engineVersion = VK_MAKE_VERSION(1, 0, 0);
+
+        auto applicationVersion = Assets::Parser::parseStringToSemver(GlobalPreferences::APPLICATION_VERSION);
+        auto engineVersion = Assets::Parser::parseStringToSemver(GlobalPreferences::ENGINE_VERSION);
+
+        appInfo.applicationVersion = VK_MAKE_VERSION(applicationVersion.major, applicationVersion.minor, applicationVersion.patch);
+        appInfo.pEngineName = GlobalPreferences::ENGINE_NAME;
+        appInfo.engineVersion = VK_MAKE_VERSION(engineVersion.major, engineVersion.minor, engineVersion.patch);
         appInfo.apiVersion = VK_API_VERSION_1_0;
 
         VkInstanceCreateInfo createInfo{};
@@ -465,7 +524,7 @@ private:
         createInfo.ppEnabledExtensionNames = extensions.data();
 
         VkDebugUtilsMessengerCreateInfoEXT debugCreateInfo;
-        if (enableValidationLayers) {
+        if (GlobalPreferences::enableValidationLayers) {
             createInfo.enabledLayerCount = static_cast<uint32_t>(validationLayers.size());
             createInfo.ppEnabledLayerNames = validationLayers.data();
 
@@ -523,7 +582,7 @@ private:
     }
 
     void setupDebugMessenger() {
-        if (!enableValidationLayers) return;
+        if (!GlobalPreferences::enableValidationLayers) return;
 
         VkDebugUtilsMessengerCreateInfoEXT createInfo;
         populateDebugMessengerCreateInfo(createInfo);
@@ -622,7 +681,7 @@ private:
         createInfo.enabledExtensionCount = static_cast<uint32_t>(deviceExtensions.size());
         createInfo.ppEnabledExtensionNames = deviceExtensions.data();
 
-        if (enableValidationLayers) {
+        if (GlobalPreferences::enableValidationLayers) {
             createInfo.enabledLayerCount = static_cast<uint32_t>(validationLayers.size());
             createInfo.ppEnabledLayerNames = validationLayers.data();
         } else {
@@ -925,6 +984,8 @@ private:
         if (capabilities.currentExtent.width != UINT32_MAX) {
             return capabilities.currentExtent;
         } else {
+            int width, height;
+            glfwGetFramebufferSize(window, &width, &height);
             VkExtent2D actualExtent = {GlobalPreferences::SCREEN_WIDTH,
                                        GlobalPreferences::SCREEN_WIDTH};
 
@@ -947,7 +1008,7 @@ private:
 
         std::vector<const char *> extensions(glfwExtensions, glfwExtensions + glfwExtensionCount);
 
-        if (enableValidationLayers) {
+        if (GlobalPreferences::enableValidationLayers) {
             extensions.push_back(VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
         }
 
