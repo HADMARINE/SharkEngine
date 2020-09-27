@@ -42,22 +42,18 @@ namespace Assets {
     };
 
     Json::Value parseStringToJson(const string &str) {
-      Json::CharReaderBuilder rbuilder;
-      string errs;
-      Json::Value val;
-      stringstream ss;
+        const auto stringLength = static_cast<int>(str.length());
+        JSONCPP_STRING err;
+        Json::Value root;
 
-      ss << str;
-
-      rbuilder["collectComments"] = false;
-
-      bool isSuccess = parseFromStream(rbuilder, ss, &val, &errs);
-
-      if (!isSuccess) {
-        CLogger::Error("%s", errs.c_str());
-      }
-
-      return nullptr;
+        Json::CharReaderBuilder builder;
+        const unique_ptr<Json::CharReader> reader(builder.newCharReader());
+        if (!reader->parse(str.c_str(), str.c_str() + stringLength, &root,
+                           &err)) {
+            CLogger::Debug("Failed to parse json string");
+            throw runtime_error("Failed to parse json string");
+        }
+        return root;
     }
 
     string parseJsonToString(const Json::Value &val) {
