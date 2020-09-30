@@ -3,26 +3,22 @@
 //
 
 #include "../../Component.h"
-using name
+#include "../../Message.h"
+
+using namespace SharkEngine::Core;
+
 Component::Component(std::string _ID) {
+    _id = _ID;
+    Awake();
 }
 Component::~Component(void) {
 }
 const std::string Component::GetComponentID() const {
-    return std::string();
+    return _id;
 }
 void Component::SetOwner(GameObject *obj) {
+    m_pOwner = obj;
 }
 GameObject *Component::GetOwner() const {
-    return nullptr;
-}
-void Component::Awake(void) {
-}
-void Component::Update(void) {
-}
-void Component::Render(void) {
-}
-void Component::OnMessage() {
-}
-void Component::SendMessage() {
+    return m_pOwner;
 }

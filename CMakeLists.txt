@@ -15,7 +15,7 @@ add_executable(
         src/util/Assets.cpp
         src/Assets.hpp
         src/HadmarineEngine.hpp
-        src/core/Engine/GameObject.cpp src/GameObject.h src/core/Engine/Component.cpp src/Component.h src/Object.h src/core/Engine/Scene.cpp src/Scene.h src/core/Engine/Manager/SceneManager.cpp src/SceneManager.h src/core/Engine/Manager/ResourcesManager.cpp src/ResourcesManager.h)
+        src/core/Engine/GameObject.cpp src/GameObject.h src/core/Engine/Component.cpp src/Component.h src/Object.h src/core/Engine/Scene.cpp src/Scene.h src/core/Engine/Manager/SceneManager.cpp src/SceneManager.h src/core/Engine/Manager/ResourcesManager.cpp src/ResourcesManager.h src/core/Engine/Message.cpp src/Message.h)
 
 find_package(glm CONFIG REQUIRED)
 target_link_libraries(main PRIVATE glm)

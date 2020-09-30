@@ -7,9 +7,10 @@
 
 #include <string>
 
-class GameObject;
-
 namespace SharkEngine::Core {
+    class GameObject;
+    class Message;
+
     class Component {
     public:
         Component(std::string _ID);
@@ -20,12 +21,13 @@ namespace SharkEngine::Core {
         void SetOwner(GameObject* obj);
         GameObject* GetOwner() const;
 
-        virtual void Awake(void);
-        virtual void Update(void);
-        virtual void Render(void);
+        virtual void Awake(void) = 0;
+        virtual void Update(void) = 0;
+        virtual void Render(void) = 0;
+        virtual void LateUpdate(void) = 0;
 
-        virtual void OnMessage();
-        virtual void SendMessage();
+        virtual void OnMessage(Message*) = 0;
+        virtual void SendMessage() = 0;
 
     protected:
         GameObject* m_pOwner;

@@ -9,11 +9,19 @@
 #include <map>
 #include <string>
 
-class GameObject;
 namespace SharkEngine::Core {
+    class GameObject;
+
     class Scene {
     public:
-        GameObject* GetRootGameObjects();
+        Scene();
+        ~Scene();
+
+        const std::map<std::string, GameObject*>* GetRootGameObjects();
+        GameObject* FindGameObject(std::string szName);
+
+        void AddGameObject(GameObject*);
+        void EndScene();
 
         int handle;
         bool isLoaded;
