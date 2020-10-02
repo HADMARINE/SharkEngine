@@ -41,11 +41,12 @@ namespace SharkEngine::Core {
         //Control Component --------
         void AddComponent(Component*);
         template <typename T>
-        T* GetComponent();
-        void OnMessage(Message*);
+        T* GetComponent(std::string _id = "");
+        void ProcessMessage(Message*);
+        void AddMessage(Message*);
 
         //Control MyState -------------
-        void Destroy() {m_bIsDestroy = true;}
+        void Destroy();
         bool IsDestroy() {return m_bIsDestroy; }
         std::string GetName() {return _ID;}
         static void Destroy(GameObject*);
@@ -54,8 +55,9 @@ namespace SharkEngine::Core {
         std::string _ID;
         std::map<std::string, Component *> m_Components;
         std::map<std::string, GameObject *> m_Children;
+        std::list<Message*> messageQueue;
+
         GameObject * m_pParent;
-        ComponentManager* componentManager;
 
         Scene * m_currentScene;
 
@@ -68,15 +70,10 @@ namespace SharkEngine::Core {
     class ComponentManager {
     public:
         GameObject* m_pOwner;
-        std::list<Message*> messageQueue;
+
 
         void AddMessage(Message* mes) {
             messageQueue.push_back(mes);
-        };
-        void ProcessMessageQueue() {
-            for(Message* mes : messageQueue) {
-                m_pOwner->OnMessage(mes);
-            }
         };
     };
 }
