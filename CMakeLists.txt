@@ -14,7 +14,7 @@ add_executable(
         src/CLogger.hpp
         src/util/Assets.cpp
         src/Assets.hpp
-        src/HadmarineEngine.hpp
+        src/VulkanEngine.hpp
 )
 
 find_package(glm CONFIG REQUIRED)
