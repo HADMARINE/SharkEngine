@@ -1,1 +1,14 @@
 TODO Here
+
+fileIO engine
+    -> zip file
+    -> HTTP Reader
+    -> memBuff - 메모리에 적재
+network engine
+    -> REST API
+    -> WebSocket
+sound engine
+
+string paring engine
+
+namespace SharkEngine
