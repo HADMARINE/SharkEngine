@@ -10,11 +10,13 @@
 #include <cstdlib>
 #include <functional>
 #include <iostream>
-#include <stdio.h>
+#include <cstdio>
 #include <string>
 #include <vector>
 #include <list>
 #include <queue>
+#include <stdexcept>
+#include <set>
 
 #if defined(_WIN32) || defined(_WIN64)
 #define NOMINMAX
