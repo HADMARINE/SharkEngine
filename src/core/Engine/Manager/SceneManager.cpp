@@ -33,6 +33,12 @@ void SceneManager::Render() {
 }
 
 void SceneManager::EndScene() {
+    const std::map<std::string, GameObject*> tmp = *currentScene->GetRootGameObjects();
+
+    for(auto iter : tmp) {
+        iter.second->EndScene();
+    }
+
     currentScene->EndScene();
 }
 

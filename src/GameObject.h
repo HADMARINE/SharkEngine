@@ -16,7 +16,6 @@ namespace SharkEngine::Core {
     class Component;
     class Scene;
     class GameObject;
-    class ComponentManager;
 
     //----------------------------------------------------------------
     // GameObject (Component System)
@@ -27,7 +26,7 @@ namespace SharkEngine::Core {
         virtual ~GameObject();
 
         //Main Loop ------------
-        virtual void Awake();       //Initialize GameObjects, Children
+        virtual void Awake() = 0;       //Initialize GameObjects, Children
         void Update();
         void LateUpdate();
         void Render();
@@ -65,16 +64,6 @@ namespace SharkEngine::Core {
         bool m_bIsDestroy;
 
         int m_iLayer;
-    };
-
-    class ComponentManager {
-    public:
-        GameObject* m_pOwner;
-
-
-        void AddMessage(Message* mes) {
-            messageQueue.push_back(mes);
-        };
     };
 }
 #endif//VULKAN_ENGINE_GAMEOBJECT_H

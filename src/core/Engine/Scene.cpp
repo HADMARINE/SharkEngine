@@ -17,6 +17,12 @@ Scene::Scene() {
 Scene::~Scene() {
 }
 void Scene::EndScene() {
+    sceneObject.erase(remove_if(sceneObject.begin(), sceneObject.end(), [&](auto iter) {
+        bool isDestroy = iter->second->IsDestroy();
+        if(isDestroy)
+            SAFE_DELETE(iter->second);
+        return isDestroy;
+    }), sceneObject.end());
 }
 void Scene::AddGameObject(GameObject * iter) {
     sceneObject.insert(std::pair<std::string, GameObject*>(iter->GetName(), iter));

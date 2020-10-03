@@ -15,7 +15,7 @@ add_executable(
         src/util/Assets.cpp
         src/Assets.hpp
         src/HadmarineEngine.hpp
-        src/core/Engine/GameObject.cpp src/GameObject.h src/core/Engine/Component.cpp src/Component.h src/Object.h src/core/Engine/Scene.cpp src/Scene.h src/core/Engine/Manager/SceneManager.cpp src/SceneManager.h src/core/Engine/Manager/ResourcesManager.cpp src/ResourcesManager.h src/core/Engine/Message.cpp src/Message.h src/CoreDefine.h)
+        src/core/Engine/GameObject.cpp src/GameObject.h src/core/Engine/Component.cpp src/Component.h src/core/Engine/Scene.cpp src/Scene.h src/core/Engine/Manager/SceneManager.cpp src/SceneManager.h src/core/Engine/Manager/ResourcesManager.cpp src/ResourcesManager.h src/core/Engine/Message.cpp src/Message.h src/CoreDefine.h src/core/Engine/Components/Transfrom.cpp src/Transfrom.h src/core/Engine/Mathf/Mathf.cpp src/Mathf.h)
 
 find_package(glm CONFIG REQUIRED)
 target_link_libraries(main PRIVATE glm)
@@ -31,3 +31,13 @@ find_package(jsoncpp REQUIRED)
 get_target_property(JSON_INC_PATH jsoncpp_lib INTERFACE_INCLUDE_DIRECTORIES)
 target_include_directories(main PUBLIC ${Jsoncpp_INCLUDE_DIRS})
 target_link_libraries(main PRIVATE jsoncpp_lib)
+
+# GLM SETUP
+set (EXTDIR "${CMAKE_SOURCE_DIR}/../../external")
+set (GLMINCLUDES "${EXTDIR}")
+get_filename_component(GLMINC_PREFIX "${GLMINCLUDES}" ABSOLUTE)
+
+#if(NOT EXISTS &{GLMINC_PREFIX})
+#        message(FATAL_ERROR "Necessary glm headers do not exist: " &{GLMINC_PREFIX})
+#endif()
+include_directories(&{GLMINC_PREFIX})

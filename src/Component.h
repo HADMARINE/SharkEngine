@@ -25,6 +25,7 @@ namespace SharkEngine::Core {
         virtual void Update(void) = 0;
         virtual void Render(void) = 0;
         virtual void LateUpdate(void) = 0;
+        virtual void EndScene(void) = 0;
 
         virtual void OnMessage(Message*) = 0;
         virtual void SendMessage() = 0;

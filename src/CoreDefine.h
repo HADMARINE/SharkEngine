@@ -5,6 +5,10 @@
 #ifndef VULKAN_ENGINE_COREDEFINE_H
 #define VULKAN_ENGINE_COREDEFINE_H
 
+#include "glm/glm.hpp"
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtx/quaternion.hpp>
+
 //DELETE Macro
 #define SAFE_DELETE(p)  \
 	{                   \
