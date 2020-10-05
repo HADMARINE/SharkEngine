@@ -8,10 +8,10 @@
 #include <cstdint>
 
 namespace GlobalPreferences {
-    constexpr const char * APPLICATION_NAME = "HADMARINE_ENGINE_TESTER";
+    constexpr const char * APPLICATION_NAME = "SHARK_ENGINE_DEMO";
     constexpr const char * APPLICATION_VERSION = "1.0.0";
     constexpr const char * ENGINE_VERSION = "1.0.0";
-    constexpr const char * ENGINE_NAME = "HADMARINE_ENGINE";
+    constexpr const char * ENGINE_NAME = "SharkEngine";
 
     constexpr const bool DEBUG = true;
 

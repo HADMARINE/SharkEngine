@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.17)
-project(vulkan_engine VERSION 1.0 LANGUAGES CXX)
+project(SharkEngine VERSION 1.0 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -31,3 +31,6 @@ find_package(jsoncpp REQUIRED)
 get_target_property(JSON_INC_PATH jsoncpp_lib INTERFACE_INCLUDE_DIRECTORIES)
 target_include_directories(main PUBLIC ${Jsoncpp_INCLUDE_DIRS})
 target_link_libraries(main PRIVATE jsoncpp_lib)
+
+find_path(STB_INCLUDE_DIRS "stb.h")
+target_include_directories(main PRIVATE ${STB_INCLUDE_DIRS})
