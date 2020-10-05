@@ -12,12 +12,12 @@ namespace GlobalPreferences {
     constexpr const char * APPLICATION_VERSION = "1.0.0";
     constexpr const char * ENGINE_VERSION = "1.0.0";
     constexpr const char * ENGINE_NAME = "SharkEngine";
-
     constexpr const bool DEBUG = true;
 
     constexpr const uint32_t SCREEN_WIDTH = 800;
     constexpr const uint32_t SCREEN_HEIGHT = 600;
 
+// max frame in bound on GPU
     constexpr const int MAX_FRAMES_IN_FLIGHT = 2;
 
     constexpr const bool enableValidationLayers = DEBUG;
