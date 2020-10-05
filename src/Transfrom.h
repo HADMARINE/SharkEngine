@@ -42,11 +42,13 @@ namespace SharkEngine::Core::Components {
         quat GetLocalRotation(){return localRotation;};
 
         vec3 GetLossyScale(){return lossyScale;};
-        vec3 GetLocalScale(){return localScale};
+        vec3 GetLocalScale(){return localScale;};
 
-        mat4 GetLocalToWorldMatrix(){return localToWorldMatrix};
-        mat4 GetWorldToLocalMatrix(){return worldToLocalMatrix};
+        mat4 GetLocalToWorldMatrix(){return localToWorldMatrix;};
+        mat4 GetWorldToLocalMatrix(){return worldToLocalMatrix;};
 
+        vec3 TransformDirection(vec3);
+        vec3 TransformDirection(float, float, float);
         vec3 InverseTransformDirection(vec3);
         vec3 InverseTransformDirection(float, float, float);
         vec3 InverseTrnasformPoint(vec3);
