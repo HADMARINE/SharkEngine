@@ -16,8 +16,8 @@ namespace SharkEngine::Core::Components {
     class Transform : public Component {
     public:
         Transform(std::string _ID) : Component(_ID) {}
-        Transform(std::string _ID, vec3 pos, quat rotation) : Component(_ID), localPostion(pos), position(pos), rotation(rotation) {}
-        ~Transform();
+        Transform(std::string _ID, vec3 pos, quat rotation) : Component(_ID), localPosition(pos), position(pos), rotation(rotation) {}
+        ~Transform() {};
 
         void Awake() override;
         void Update() override;
@@ -29,16 +29,16 @@ namespace SharkEngine::Core::Components {
         void SendMessage() override;
 
         //Get Methods
-        vec3 GetPosition(){return position};
-        vec3 GetLocalPosition(){return localPostion};
+        vec3 GetPosition(){return position; };
+        vec3 GetLocalPosition(){return localPosition; };
 
-        vec3 GetRightDirection(){return right};
+        vec3 GetRightDirection(){return right; };
         vec3 GetUpDirection(){return up;};
         vec3 GetForwardDirection(){return forward;};
         vec3 GetEulerAngles(){return eulerAngles;};
         vec3 GetLocalEulerAngles(){return localEulerAngles;};
 
-        quat GetRotation(){return rotation};
+        quat GetRotation(){return rotation; };
         quat GetLocalRotation(){return localRotation;};
 
         vec3 GetLossyScale(){return lossyScale;};
@@ -48,11 +48,15 @@ namespace SharkEngine::Core::Components {
         mat4 GetWorldToLocalMatrix(){return worldToLocalMatrix;};
 
         vec3 TransformDirection(vec3);
+        vec3 TransformDirection(vec4);
         vec3 TransformDirection(float, float, float);
         vec3 InverseTransformDirection(vec3);
+        vec3 InverseTransformDirection(vec4);
         vec3 InverseTransformDirection(float, float, float);
-        vec3 InverseTrnasformPoint(vec3);
-        vec3 InverseTrnasformPoint(float, float, float);
+        vec3 TransformPoint(vec3);
+        vec3 TransformPoint(float, float, float);
+        vec3 InverseTransformPoint(vec3);
+        vec3 InverseTransformPoint(float, float, float);
         void LookAt(Transform*);
         void LookAt(vec3);
         void Rotate(vec3);
@@ -64,12 +68,12 @@ namespace SharkEngine::Core::Components {
 
     private:
         //Position, Direction, Angles, Quaternion, scale, matrix
-        vec3 localPostion;
-        vec3 position;
+        vec4 localPosition; //Local
+        vec4 position;      //World
 
-        vec3 right;
-        vec3 up;
-        vec3 forward;
+        vec4 right;
+        vec4 up;
+        vec4 forward;
 
         vec3 eulerAngles;
         vec3 localEulerAngles;
@@ -77,9 +81,10 @@ namespace SharkEngine::Core::Components {
         quat rotation;
         quat localRotation;
 
-        vec3 lossyScale;
-        vec3 localScale;
+        vec4 lossyScale;
+        vec4 localScale;
 
+        mat4 m_Matrix;
         mat4 localToWorldMatrix;
         mat4 worldToLocalMatrix;
     };
