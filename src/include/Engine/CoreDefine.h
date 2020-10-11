@@ -9,6 +9,8 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/quaternion.hpp>
 #include <glm/gtx/transform.hpp>
+#include <array>
+#include <queue>
 
 //DELETE Macro
 #define SAFE_DELETE(p)  \

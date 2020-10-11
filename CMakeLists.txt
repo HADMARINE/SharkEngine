@@ -15,7 +15,7 @@ add_executable(
         src/util/Assets.cpp
         src/Assets.hpp
         src/HadmarineEngine.hpp
-        src/core/Engine/GameObject.cpp src/GameObject.h src/core/Engine/Component.cpp src/Component.h src/core/Engine/Scene.cpp src/Scene.h src/core/Engine/Manager/SceneManager.cpp src/SceneManager.h src/core/Engine/Manager/ResourcesManager.cpp src/ResourcesManager.h src/core/Engine/Message.cpp src/Message.h src/CoreDefine.h src/core/Engine/Components/Transfrom.cpp src/Transfrom.h src/core/Engine/Mathf/Mathf.cpp src/Mathf.h)
+        src/include/Engine/CoreDefine.h src/core/Engine/Transfrom.cpp src/Transfrom.h src/core/Engine/Manager/EntityIDManager.cpp src/include/Engine/Manager/EntityIDManager.h src/include/Engine/CoreTypes.h src/include/Engine/ComponentArray.hpp src/core/Engine/Manager/ComponentManager.cpp src/include/Engine/Manager/ComponentManager.h)
 
 find_package(glm CONFIG REQUIRED)
 target_link_libraries(main PRIVATE glm)
