@@ -10,10 +10,6 @@
 #include <unordered_map>
 
 namespace SharkEngine::Core {
-    class ComponentBase {
-
-    };
-
     class IComponentArray
     {
     public:
@@ -37,13 +33,11 @@ namespace SharkEngine::Core {
 
         void DestroyComponent (EntityID _id)
         {
-            // Copy element at end into deleted element's place to maintain density
             size_t indexOfRemovedEntity = m_EntityToIndexMap[_id];
             size_t indexOfLastElement = m_Size - 1;
             SAFE_DELETE(m_ComponentArray[indexOfRemovedEntity]);
             m_ComponentArray[indexOfRemovedEntity] = m_ComponentArray[indexOfLastElement];
 
-            // Update map to point to moved spot
             EntityID entityOfLastElement = m_IndexToEntityMap[indexOfLastElement];
             m_EntityToIndexMap[entityOfLastElement] = indexOfRemovedEntity;
             m_IndexToEntityMap[indexOfRemovedEntity] = entityOfLastElement;

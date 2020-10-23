@@ -5,8 +5,8 @@
 #ifndef VULKAN_ENGINE_ENTITYIDMANAGER_H
 #define VULKAN_ENGINE_ENTITYIDMANAGER_H
 
-#include "../CoreTypes.h"
-#include "../CoreDefine.h"
+#include "../../CoreDefine.h"
+#include "../../CoreTypes.h"
 
 using namespace std;
 
