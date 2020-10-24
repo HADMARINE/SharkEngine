@@ -5,13 +5,16 @@
 #ifndef VULKAN_ENGINE_ENTITY_H
 #define VULKAN_ENGINE_ENTITY_H
 
+#include "../../CoreTypes.h"
+
 namespace SharkEngine::Core {
     class Entity {
     public:
         Entity();
         virtual ~Entity();
 
-
+        EntityID m_id;
+        List<>
     };
 }
 

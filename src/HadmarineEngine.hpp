@@ -71,6 +71,10 @@ public:
         cleanup();
     }
 
+    const GLFWwindow* GetWindow() {
+        return window;
+    }
+
 private:
     //    Member variable
     GLFWwindow *window;
