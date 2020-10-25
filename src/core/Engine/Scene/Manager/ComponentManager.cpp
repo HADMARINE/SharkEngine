@@ -15,7 +15,7 @@ void ComponentManager:: RegisterComponent() {
 }
 
 template<typename T>
-ComponentID ComponentManager::GetComponentType() {
+ComponentID ComponentManager::GetComponentID() {
     const char* typeName = typeid(T).name();
     return m_ComponentIDs[typeName];
 }
@@ -45,4 +45,15 @@ void ComponentManager::EntityDestroyed(EntityID _id) {
 template<typename T>
 shared_ptr<ComponentArray<T>> ComponentManager::GetComponentArray() {
     return shared_ptr<ComponentArray<T>>();
+}
+void ComponentManager::Update() {
+    for(auto const& iter : m_ComponentArrays) {
+        
+    }
+}
+void ComponentManager::LateUpdate() {
+}
+void ComponentManager::Render() {
+}
+void ComponentManager::EndScene() {
 }

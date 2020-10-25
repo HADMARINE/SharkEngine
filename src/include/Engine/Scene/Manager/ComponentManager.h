@@ -20,7 +20,7 @@ namespace SharkEngine::Core {
         void RegisterComponent();
 
         template<typename T>
-        ComponentID GetComponentType();
+        ComponentID GetComponentID();
 
         template<typename T>
         void AddComponent(EntityID, T*);
@@ -32,6 +32,11 @@ namespace SharkEngine::Core {
         void DestroyComponent(EntityID);
 
         void EntityDestroyed(EntityID);
+
+        void Update();
+        void LateUpdate();
+        void Render();
+        void EndScene();
 
     private:
         unordered_map<const char*, ComponentID>m_ComponentIDs{};

@@ -8,13 +8,13 @@
 using namespace SharkEngine::Core;
 
 template<typename T>
-shared_ptr<T> SignatureManager::RegisterSystem() {
+shared_ptr<T> SignatureManager::RegisterScene() {
     const char* typeName = typeid(T).name();
 
     // Create a pointer to the system and return it so it can be used externally
-    auto system = std::make_shared<T>();
+    auto scene = std::make_shared<T>();
     m_Systems.insert({typeName, system});
-    return system;
+    return scene;
 }
 
 template<typename T>

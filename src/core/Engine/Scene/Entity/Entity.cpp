@@ -3,3 +3,7 @@
 //
 
 #include "../../../../include/Engine/Scene/Entity/Entity.h"
+SharkEngine::Core::Entity::Entity() {
+}
+SharkEngine::Core::Entity::~Entity() {
+}

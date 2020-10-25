@@ -18,7 +18,7 @@ void SceneManager::Render() {
 void SceneManager::EndScene() {
     currentScene->EndScene();
 }
-const Scene *SceneManager::getCurrentScene() {
+const Scene *SceneManager::GetCurrentScene() {
     return currentScene;
 }
 template<typename T>

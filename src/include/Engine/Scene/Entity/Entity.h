@@ -8,13 +8,25 @@
 #include "../../CoreTypes.h"
 
 namespace SharkEngine::Core {
+    class Scene;
+
     class Entity {
     public:
         Entity();
         virtual ~Entity();
 
+        void AddComponent(ComponentID componentID);
+        template <typename T>
+        T* GetComponent();
+        void SetActive(bool active);
+        bool GetActive();
+
         EntityID m_id;
-        List<>
+
+        bool isDestroy;
+        bool isActive;
+
+        Scene* currentScene;
     };
 }
 

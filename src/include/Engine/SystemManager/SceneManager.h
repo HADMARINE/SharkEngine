@@ -13,7 +13,7 @@ namespace SharkEngine::Core {
         SceneManager() {};
         ~SceneManager() {};
 
-        const Scene* getCurrentScene();
+        const Scene* GetCurrentScene();
 
         void MainLoop();
 

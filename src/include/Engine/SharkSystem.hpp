@@ -16,6 +16,13 @@ using namespace SharkEngine::Core;
 
 class SharkSystem {
 public:
+    SharkSystem() {
+
+    }
+    ~SharkSystem() {
+
+    }
+
     static SharkSystem* Initialize() {
         static SharkSystem* sys = new SharkSystem();
         return sys;

@@ -7,6 +7,7 @@
 
 #include "CoreTypes.h"
 #include "CoreDefine.h"
+#include "Scene/Components/Component.h"
 #include <unordered_map>
 
 namespace SharkEngine::Core {
@@ -35,7 +36,8 @@ namespace SharkEngine::Core {
         {
             size_t indexOfRemovedEntity = m_EntityToIndexMap[_id];
             size_t indexOfLastElement = m_Size - 1;
-            SAFE_DELETE(m_ComponentArray[indexOfRemovedEntity]);
+            SAFE_DELETE(
+                    m_ComponentArray[indexOfRemovedEntity]);
             m_ComponentArray[indexOfRemovedEntity] = m_ComponentArray[indexOfLastElement];
 
             EntityID entityOfLastElement = m_IndexToEntityMap[indexOfLastElement];
@@ -71,6 +73,17 @@ namespace SharkEngine::Core {
             {
                 // Remove the entity's component if it existed
                 DestroyComponent(_id);
+            }
+        }
+
+        std::array<Component*, MAX_ENTITIES>* GetComponentArray() {
+            std::array<Component*, MAX_ENTITIES> cmp_array;
+            int count = 0;
+
+            for(int i = 0; i < MAX_ENTITYS; i++) {
+                Component * tmp = dynamic_cast<Component*>(m_ComponentArray[i]);
+                if(tmp != nullptr)
+                    cmp_array[count++] = tmp;
             }
         }
 
