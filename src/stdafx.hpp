@@ -4,19 +4,19 @@
 
 #include "Assets.hpp"
 #include "CLogger.hpp"
-#include "global_preferences.hpp"
+#include "GlobalPreferences.hpp"
 #include <algorithm>
 #include <cstdarg>
+#include <cstdio>
 #include <cstdlib>
 #include <functional>
 #include <iostream>
-#include <cstdio>
-#include <string>
-#include <vector>
 #include <list>
 #include <queue>
-#include <stdexcept>
 #include <set>
+#include <stdexcept>
+#include <string>
+#include <vector>
 
 #if defined(_WIN32) || defined(_WIN64)
 #define NOMINMAX

@@ -17,8 +17,8 @@ namespace GlobalPreferences {
     constexpr const uint32_t SCREEN_WIDTH = 800;
     constexpr const uint32_t SCREEN_HEIGHT = 600;
 
-// max frame in bound on GPU
-    constexpr const int MAX_FRAMES_IN_FLIGHT = 2;
+// max frame in bound on GPU, ONLY 2^n values
+    constexpr const int MAX_FRAMES_IN_FLIGHT = 32;
 
     constexpr const bool enableValidationLayers = DEBUG;
 }

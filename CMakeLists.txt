@@ -9,13 +9,13 @@ add_executable(
         main
         src/main.cpp
         src/stdafx.hpp
-        src/global_preferences.hpp
+        src/GlobalPreferences.hpp
         src/util/CLogger.cpp
         src/CLogger.hpp
         src/util/Assets.cpp
         src/Assets.hpp
-        src/VulkanEngine.hpp
-)
+        src/core/engine/VulkanEngine.hpp
+        src/core/engine/VulkanCore.cpp)
 
 find_package(glm CONFIG REQUIRED)
 target_link_libraries(main PRIVATE glm)
@@ -34,3 +34,6 @@ target_link_libraries(main PRIVATE jsoncpp_lib)
 
 find_path(STB_INCLUDE_DIRS "stb.h")
 target_include_directories(main PRIVATE ${STB_INCLUDE_DIRS})
+
+find_package(tinyobjloader CONFIG REQUIRED)
+target_link_libraries(main PRIVATE tinyobjloader::tinyobjloader)

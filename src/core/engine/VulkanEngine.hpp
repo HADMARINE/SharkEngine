@@ -8,7 +8,7 @@
 #define GLM_FORCE_DEPTH_ZERO_TO_ONE
 #define STB_IMAGE_IMPLEMENTATION
 
-#include "stdafx.hpp"
+#include "../../stdafx.hpp"
 #include <GLFW/glfw3.h>
 #include <array>
 #include <cstring>
@@ -63,7 +63,7 @@ namespace SharkEngine {
 
     struct Vertex {
         glm::vec3 pos;
-        glm::vec3 color;
+        glm::vec4 color;
         glm::vec2 texCoord;
 
         static VkVertexInputBindingDescription getBindingDescription() {
@@ -85,7 +85,7 @@ namespace SharkEngine {
 
             attributeDescriptions[1].binding = 0;
             attributeDescriptions[1].location = 1;
-            attributeDescriptions[1].format = VK_FORMAT_R32G32B32_SFLOAT;
+            attributeDescriptions[1].format = VK_FORMAT_R32G32B32A32_SFLOAT;
             attributeDescriptions[1].offset = offsetof(Vertex, color);
 
             attributeDescriptions[2].binding = 0;
@@ -103,33 +103,109 @@ namespace SharkEngine {
         alignas(16) glm::mat4 proj;
     };
 
-    const std::vector<Vertex> vertices = {
-            {{-0.5f, -0.5f, 0.0f}, {1.0f, 0.0f, 0.0f}, {0.0f, 0.0f}},
-            {{0.5f, -0.5f, 0.0f}, {0.0f, 1.0f, 0.0f}, {1.0f, 0.0f}},
-            {{0.5f, 0.5f, 0.0f}, {0.0f, 0.0f, 1.0f}, {1.0f, 1.0f}},
-            {{-0.5f, 0.5f, 0.0f}, {1.0f, 1.0f, 1.0f}, {0.0f, 1.0f}},
-
-            {{-0.5f, -0.5f, -0.5f}, {1.0f, 0.0f, 0.0f}, {0.0f, 0.0f}},
-            {{0.5f, -0.5f, -0.5f}, {0.0f, 1.0f, 0.0f}, {1.0f, 0.0f}},
-            {{0.5f, 0.5f, -0.5f}, {0.0f, 0.0f, 1.0f}, {1.0f, 1.0f}},
-            {{-0.5f, 0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f, 1.0f}}
+    struct TextureImageStruct {
+        VkImage *image;
+        VkDeviceMemory *deviceMemory;
     };
 
-    const std::vector<uint16_t> indices = {
-            0, 1, 2, 2, 3, 0,
-            4, 5, 6, 6, 7, 4
+    class GraphicsObject {
+    private:
+        std::vector<Vertex> vertices;
+        std::vector<uint16_t> indices;
+        TextureImageStruct *texture;
+
+    public:
+        static int indexCount;
+        std::vector<Vertex> getVertices() { return vertices; };
+        std::vector<uint16_t> getIndices() { return indices; };
+        TextureImageStruct *getTexture() const { return texture; };
+        GraphicsObject(const std::vector<Vertex> &vertices, TextureImageStruct *texture) {
+            this->vertices = vertices;
+            this->texture = texture;
+            for (int i = 0; i < vertices.size() - 2; i++) {
+                this->indices.push_back(indexCount);
+                this->indices.push_back(indexCount + i + 1);
+                this->indices.push_back(indexCount + i + 2);
+            }
+            indexCount += vertices.size();
+        }
     };
+
+    int GraphicsObject::indexCount = 0;
 
     class VulkanEngine {
     public:
-        void run() {
+        void run(const std::vector<TextureImageStruct> *texImgStructs) {
             initWindow();
             initVulkan();
             mainLoop();
-            cleanup();
+            cleanup(texImgStructs);
+        }
+        void setGraphicsObjects(std::vector<GraphicsObject> *graphicsObjects) {
+            this->graphicsObjects = graphicsObjects;
+        }
+
+        TextureImageStruct *createTextureImage(const std::string location) {
+            int texWidth, texHeight, texChannels;
+            stbi_uc *pixels = stbi_load((std::string("../src/source/") + location).c_str(), &texWidth, &texHeight, &texChannels, STBI_rgb_alpha);
+            VkDeviceSize imageSize = texWidth * texHeight * 4;
+
+            if (!pixels) {
+                CLogger::Error("Failed to load texture image");
+                throw std::runtime_error("Failed to load texture image");
+            }
+
+            VkBuffer stagingBuffer;
+            VkDeviceMemory stagingBufferMemory;
+            createBuffer(imageSize, VK_BUFFER_USAGE_TRANSFER_SRC_BIT, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT, stagingBuffer, stagingBufferMemory);
+
+            void *data;
+            vkMapMemory(device, stagingBufferMemory, 0, imageSize, 0, &data);
+            memcpy(data, pixels, static_cast<size_t>(imageSize));
+            vkUnmapMemory(device, stagingBufferMemory);
+
+            stbi_image_free(pixels);
+
+            VkImage fTextureImage;
+            VkDeviceMemory fTextureImageMemory;
+
+            createImage(texWidth, texHeight, VK_FORMAT_R8G8B8A8_SRGB, VK_IMAGE_TILING_OPTIMAL, VK_IMAGE_USAGE_TRANSFER_DST_BIT | VK_IMAGE_USAGE_SAMPLED_BIT,
+                        VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, fTextureImage, fTextureImageMemory);
+
+            transitionImageLayout(fTextureImage, VK_FORMAT_R8G8B8A8_SRGB, VK_IMAGE_LAYOUT_UNDEFINED, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL);
+            copyBufferToImage(stagingBuffer, fTextureImage, static_cast<uint32_t>(texWidth), static_cast<uint32_t>(texHeight));
+            transitionImageLayout(fTextureImage, VK_FORMAT_R8G8B8A8_SRGB, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL);
+
+            vkDestroyBuffer(device, stagingBuffer, nullptr);
+            vkFreeMemory(device, stagingBufferMemory, nullptr);
+
+            TextureImageStruct texImgStructReturn{};
+
+            texImgStructReturn.image = &fTextureImage;
+            texImgStructReturn.deviceMemory = &fTextureImageMemory;
+
+            return &texImgStructReturn;
         }
 
     private:
+        std::vector<GraphicsObject> *graphicsObjects;
+
+        std::vector<Vertex> vertices = {
+                {{-0.5f, -0.5f, 0.0f}, {1.0f, 0.0f, 0.0f, 1.0f}, {0.0f, 1.0f}},
+                {{0.5f, -0.5f, 0.0f}, {0.0f, 1.0f, 0.0f, 1.0f}, {1.0f, 1.0f}},
+                {{0.5f, 0.5f, 0.0f}, {0.0f, 0.0f, 1.0f, 1.0f}, {1.0f, 0.0f}},
+                {{-0.5f, 0.5f, 0.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.0f, 0.0f}},
+
+                {{-0.5f, -0.5f, -0.5f}, {1.0f, 0.0f, 0.0f, 1.0f}, {0.0f, 0.0f}},
+                {{0.5f, -0.5f, -0.5f}, {0.0f, 1.0f, 0.0f, 1.0f}, {1.0f, 0.0f}},
+                {{0.5f, 0.5f, -0.5f}, {0.0f, 0.0f, 1.0f, 1.0f}, {1.0f, 1.0f}},
+                {{-0.5f, 0.5f, -0.5f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.0f, 1.0f}}};
+
+        std::vector<uint16_t> indices = {
+                0, 1, 2, 2, 3, 0,
+                4, 5, 6, 6, 7, 4};
+
+
         //    Member variable
         GLFWwindow *window;
 
@@ -207,6 +283,7 @@ namespace SharkEngine {
             app->framebufferResized = true;
         }
 
+
         void initVulkan() {
             createInstance();
             setupDebugMessenger();
@@ -221,7 +298,11 @@ namespace SharkEngine {
             createCommandPool();
             createDepthResources();
             createFrameBuffers();
-            createTextureImage();
+
+            auto textureImageInitial = createTextureImage("texture.jpg");
+            textureImage = *textureImageInitial->image;
+            textureImageMemory = *textureImageInitial->deviceMemory;
+
             createTextureImageView();
             createTextureSampler();
             createVertexBuffer();
@@ -238,18 +319,21 @@ namespace SharkEngine {
                 glfwPollEvents();
                 drawFrame();
             }
-
             vkDeviceWaitIdle(device);
         }
 
-        void cleanup() {
+
+        void cleanup(const std::vector<TextureImageStruct> *textureImageStructs) {
             cleanupSwapChain();
 
             vkDestroySampler(device, textureSampler, nullptr);
 
             vkDestroyImageView(device, textureImageView, nullptr);
-            vkDestroyImage(device, textureImage, nullptr);
-            vkFreeMemory(device, textureImageMemory, nullptr);
+
+            for (TextureImageStruct textureImageStruct : *textureImageStructs) {
+                vkDestroyImage(device, *textureImageStruct.image, nullptr);
+                vkFreeMemory(device, *textureImageStruct.deviceMemory, nullptr);
+            }
 
             vkDestroyDescriptorSetLayout(device, descriptorSetLayout, nullptr);
 
@@ -329,6 +413,9 @@ namespace SharkEngine {
         }
 
         void drawFrame() {
+            createCommandBuffers();
+            CLogger::Debug("HELLO DRAWFRAME");
+
             vkWaitForFences(device, 1, &inFlightFences[currentFrame],
                             VK_TRUE, UINT64_MAX);
             vkResetFences(device, 1, &inFlightFences[currentFrame]);
@@ -411,11 +498,13 @@ namespace SharkEngine {
             float time = std::chrono::duration<float, std::chrono::seconds::period>(currentTime - startTime).count();
 
             UniformBufferObject ubo{};
-            ubo.model = glm::rotate(glm::mat4(1.0f), time * glm::radians(90.0f),
+            ubo.model = glm::rotate(glm::mat4(1.0f), glm::radians(-45.0f),
                                     glm::vec3(0.0f, 0.0f, 1.0f));
-            ubo.view = glm::lookAt(glm::vec3(2.0f, 2.0f, 2.0f),
+            ubo.view = glm::lookAt(glm::vec3(2.0f, 2.0f, 5.0f),
                                    glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-            ubo.proj = glm::perspective(glm::radians(45.0f), swapChainExtent.width / (float) swapChainExtent.height, 0.1f, 10.0f);
+            // Field of view
+            ubo.proj = glm::perspective(glm::radians(45.0f),
+                                        swapChainExtent.width / (float) swapChainExtent.height, 0.1f, 100.0f);
 
             ubo.proj[1][1] *= -1;
 
@@ -538,14 +627,14 @@ namespace SharkEngine {
 
             VkPipelineColorBlendAttachmentState colorBlendAttachment{};
             colorBlendAttachment.colorWriteMask =
-                    VK_COLOR_COMPONENT_R_BIT | VK_COLOR_COMPONENT_G_BIT | VK_COLOR_COMPONENT_B_BIT;
-            colorBlendAttachment.blendEnable = VK_FALSE;
-            colorBlendAttachment.srcColorBlendFactor = VK_BLEND_FACTOR_ONE;
-            colorBlendAttachment.dstColorBlendFactor = VK_BLEND_FACTOR_ZERO;
+                    VK_COLOR_COMPONENT_R_BIT | VK_COLOR_COMPONENT_G_BIT | VK_COLOR_COMPONENT_B_BIT | VK_COLOR_COMPONENT_A_BIT;
+            colorBlendAttachment.blendEnable = VK_TRUE;
+            colorBlendAttachment.srcColorBlendFactor = VK_BLEND_FACTOR_SRC_ALPHA;
+            colorBlendAttachment.dstColorBlendFactor = VK_BLEND_FACTOR_ONE_MINUS_SRC_ALPHA;
             colorBlendAttachment.colorBlendOp = VK_BLEND_OP_ADD;
-            colorBlendAttachment.srcAlphaBlendFactor = VK_BLEND_FACTOR_ONE;
-            colorBlendAttachment.dstAlphaBlendFactor = VK_BLEND_FACTOR_ZERO;
-            colorBlendAttachment.alphaBlendOp = VK_BLEND_OP_ADD;
+            colorBlendAttachment.srcAlphaBlendFactor = VK_BLEND_FACTOR_SRC_ALPHA;
+            colorBlendAttachment.dstAlphaBlendFactor = VK_BLEND_FACTOR_ONE_MINUS_SRC_ALPHA;
+            colorBlendAttachment.alphaBlendOp = VK_BLEND_OP_SUBTRACT;
 
             VkPipelineColorBlendStateCreateInfo colorBlending{};
             colorBlending.sType = VK_STRUCTURE_TYPE_PIPELINE_COLOR_BLEND_STATE_CREATE_INFO;
@@ -688,37 +777,6 @@ namespace SharkEngine {
             vkQueueWaitIdle(graphicsQueue);
 
             vkFreeCommandBuffers(device, commandPool, 1, &commandBuffer);
-        }
-
-        void createTextureImage() {
-            int texWidth, texHeight, texChannels;
-            stbi_uc *pixels = stbi_load("../src/source/texture.jpg", &texWidth, &texHeight, &texChannels, STBI_rgb_alpha);
-            VkDeviceSize imageSize = texWidth * texHeight * 4;
-
-            if (!pixels) {
-                CLogger::Error("Failed to load texture image");
-                throw std::runtime_error("Failed to load texture image");
-            }
-
-            VkBuffer stagingBuffer;
-            VkDeviceMemory stagingBufferMemory;
-            createBuffer(imageSize, VK_BUFFER_USAGE_TRANSFER_SRC_BIT, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT, stagingBuffer, stagingBufferMemory);
-
-            void *data;
-            vkMapMemory(device, stagingBufferMemory, 0, imageSize, 0, &data);
-            memcpy(data, pixels, static_cast<size_t>(imageSize));
-            vkUnmapMemory(device, stagingBufferMemory);
-
-            stbi_image_free(pixels);
-
-            createImage(texWidth, texHeight, VK_FORMAT_R8G8B8A8_SRGB, VK_IMAGE_TILING_OPTIMAL, VK_IMAGE_USAGE_TRANSFER_DST_BIT | VK_IMAGE_USAGE_SAMPLED_BIT, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, textureImage, textureImageMemory);
-
-            transitionImageLayout(textureImage, VK_FORMAT_R8G8B8A8_SRGB, VK_IMAGE_LAYOUT_UNDEFINED, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL);
-            copyBufferToImage(stagingBuffer, textureImage, static_cast<uint32_t>(texWidth), static_cast<uint32_t>(texHeight));
-            transitionImageLayout(textureImage, VK_FORMAT_R8G8B8A8_SRGB, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL);
-
-            vkDestroyBuffer(device, stagingBuffer, nullptr);
-            vkFreeMemory(device, stagingBufferMemory, nullptr);
         }
 
         void createTextureImageView() {
@@ -865,8 +923,7 @@ namespace SharkEngine {
                     0,
                     0, nullptr,
                     0, nullptr,
-                    1, &barrier
-            );
+                    1, &barrier);
 
             endSingleTimeCommands(commandBuffer);
         }
@@ -945,6 +1002,8 @@ namespace SharkEngine {
         }
 
         void createIndexBuffer() {
+            //            std::vector<uint16_t> indices;
+
             VkDeviceSize bufferSize = sizeof(indices[0]) * indices.size();
 
             VkBuffer stagingBuffer;
@@ -1036,7 +1095,6 @@ namespace SharkEngine {
                 imageInfo.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
                 imageInfo.imageView = textureImageView;
                 imageInfo.sampler = textureSampler;
-
                 std::array<VkWriteDescriptorSet, 2> descriptorWrites{};
 
                 descriptorWrites[0].sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
@@ -1168,8 +1226,7 @@ namespace SharkEngine {
             for (size_t i = 0; i < swapChainImageViews.size(); i++) {
                 std::array<VkImageView, 2> attachments = {
                         swapChainImageViews[i],
-                        depthImageView
-                };
+                        depthImageView};
 
                 VkFramebufferCreateInfo frameBufferInfo{};
                 frameBufferInfo.sType = VK_STRUCTURE_TYPE_FRAMEBUFFER_CREATE_INFO;
@@ -1341,6 +1398,17 @@ namespace SharkEngine {
             createDescriptorPool();
             createDescriptorSets();
             createCommandBuffers();
+            //            for (const GraphicsObject graphicsObject : *graphicsObjects) {
+            //                std::cout << "FUCFKCUFKCUKF" << std::endl;
+            //                auto gObjTexture = graphicsObject.getTexture();
+            //                textureImage = *gObjTexture->image;
+            //                textureImageMemory = *gObjTexture->deviceMemory;
+            //                createFrameBuffers();
+            //                createUniformBuffers();
+            //                createDescriptorPool();
+            //                createDescriptorSets();
+            //                createCommandBuffers();
+            //            }
         }
 
         VkImageView createImageView(VkImage image, VkFormat format,
@@ -1410,7 +1478,7 @@ namespace SharkEngine {
             VkAttachmentDescription depthAttachment{};
             depthAttachment.format = findDepthFormat();
             depthAttachment.samples = VK_SAMPLE_COUNT_1_BIT;
-            depthAttachment.loadOp  = VK_ATTACHMENT_LOAD_OP_CLEAR;
+            depthAttachment.loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR;
             depthAttachment.storeOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
             depthAttachment.stencilLoadOp = VK_ATTACHMENT_LOAD_OP_DONT_CARE;
             depthAttachment.stencilStoreOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
@@ -1468,7 +1536,7 @@ namespace SharkEngine {
             }
         }
 
-        VkFormat findSupportedFormat(const std::vector<VkFormat>& candidates, VkImageTiling tiling, VkFormatFeatureFlags features) {
+        VkFormat findSupportedFormat(const std::vector<VkFormat> &candidates, VkImageTiling tiling, VkFormatFeatureFlags features) {
             for (VkFormat format : candidates) {
                 VkFormatProperties props;
                 vkGetPhysicalDeviceFormatProperties(physicalDevice, format, &props);
@@ -1517,6 +1585,81 @@ namespace SharkEngine {
             }
 
             for (size_t i = 0; i < commandBuffers.size(); i++) {
+                if(i == 0) {
+                    auto textureImageInitial = createTextureImage("texture2.jpg");
+                    textureImage = *textureImageInitial->image;
+                    textureImageMemory = *textureImageInitial->deviceMemory;
+                    createTextureImageView();
+                    for (size_t i = 0; i < swapChainImages.size(); i++) {
+                        VkDescriptorBufferInfo bufferInfo{};
+                        bufferInfo.buffer = uniformBuffers[i];
+                        bufferInfo.offset = 0;
+                        bufferInfo.range = sizeof(UniformBufferObject);
+
+                        VkDescriptorImageInfo imageInfo{};
+                        imageInfo.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
+                        imageInfo.imageView = textureImageView;
+                        imageInfo.sampler = textureSampler;
+                        std::array<VkWriteDescriptorSet, 2> descriptorWrites{};
+
+                        descriptorWrites[0].sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+                        descriptorWrites[0].dstSet = descriptorSets[i];
+                        descriptorWrites[0].dstBinding = 0;
+                        descriptorWrites[0].dstArrayElement = 0;
+                        descriptorWrites[0].descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
+                        descriptorWrites[0].descriptorCount = 1;
+                        descriptorWrites[0].pBufferInfo = &bufferInfo;
+
+                        descriptorWrites[1].sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+                        descriptorWrites[1].dstSet = descriptorSets[i];
+                        descriptorWrites[1].dstBinding = 1;
+                        descriptorWrites[1].dstArrayElement = 0;
+                        descriptorWrites[1].descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+                        descriptorWrites[1].descriptorCount = 1;
+                        descriptorWrites[1].pImageInfo = &imageInfo;
+
+                        vkUpdateDescriptorSets(device, static_cast<uint32_t>(descriptorWrites.size()), descriptorWrites.data(), 0, nullptr);
+                    }
+                }
+
+                if(i == 2) {
+                    auto textureImageInitial = createTextureImage("texture2.jpg");
+                    textureImage = *textureImageInitial->image;
+                    textureImageMemory = *textureImageInitial->deviceMemory;
+                    createTextureImageView();
+                    for (size_t i = 0; i < swapChainImages.size(); i++) {
+                        VkDescriptorBufferInfo bufferInfo{};
+                        bufferInfo.buffer = uniformBuffers[i];
+                        bufferInfo.offset = 0;
+                        bufferInfo.range = sizeof(UniformBufferObject);
+
+                        VkDescriptorImageInfo imageInfo{};
+                        imageInfo.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
+                        imageInfo.imageView = textureImageView;
+                        imageInfo.sampler = textureSampler;
+                        std::array<VkWriteDescriptorSet, 2> descriptorWrites{};
+
+                        descriptorWrites[0].sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+                        descriptorWrites[0].dstSet = descriptorSets[i];
+                        descriptorWrites[0].dstBinding = 0;
+                        descriptorWrites[0].dstArrayElement = 0;
+                        descriptorWrites[0].descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
+                        descriptorWrites[0].descriptorCount = 1;
+                        descriptorWrites[0].pBufferInfo = &bufferInfo;
+
+                        descriptorWrites[1].sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+                        descriptorWrites[1].dstSet = descriptorSets[i];
+                        descriptorWrites[1].dstBinding = 1;
+                        descriptorWrites[1].dstArrayElement = 0;
+                        descriptorWrites[1].descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+                        descriptorWrites[1].descriptorCount = 1;
+                        descriptorWrites[1].pImageInfo = &imageInfo;
+
+                        vkUpdateDescriptorSets(device, static_cast<uint32_t>(descriptorWrites.size()), descriptorWrites.data(), 0, nullptr);
+                    }
+                }
+
+
                 VkCommandBufferBeginInfo beginInfo{};
                 beginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
                 beginInfo.flags = 0;
@@ -1563,7 +1706,7 @@ namespace SharkEngine {
                 vkCmdEndRenderPass(commandBuffers[i]);
 
                 if (vkEndCommandBuffer(commandBuffers[i]) != VK_SUCCESS) {
-                    CLogger::Error("Failed to record comand buffer");
+                    CLogger::Error("Failed to record command buffer");
                     throw std::runtime_error("Failed to record command buffer");
                 }
             }

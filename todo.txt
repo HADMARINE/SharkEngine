@@ -12,3 +12,11 @@ sound engine
 string paring engine
 
 namespace SharkEngine
+
+
+
+필요한 파라미터
+
+x y z 좌표계
+r g b (a) 컬러
+v w 텍스쳐 맵핑 texcoord
