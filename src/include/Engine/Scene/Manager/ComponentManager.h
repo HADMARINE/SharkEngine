@@ -8,14 +8,16 @@
 #include "../../ComponentArray.hpp"
 #include "../../CoreDefine.h"
 #include "../../CoreTypes.h"
-#include <unordered_map>
+#include "../Components/Base/Component.h"
 #include <shared_mutex>
+#include <unordered_map>
 
 using namespace std;
 
 namespace SharkEngine::Core {
     class ComponentManager {
     public:
+        ~ComponentManager();
         template<typename T>
         void RegisterComponent();
 
@@ -46,7 +48,6 @@ namespace SharkEngine::Core {
 
         template<typename T>
         shared_ptr<ComponentArray<T>> GetComponentArray();
-
     };
 }
 

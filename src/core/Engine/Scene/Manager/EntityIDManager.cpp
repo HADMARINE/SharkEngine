@@ -1,5 +1,5 @@
 //
-// Created by S  ongEunwoo on 2020/10/12.
+// Created by SongEunwoo on 2020/10/12.
 //
 
 #include "../../../../include/Engine/Scene/Manager/EntityIDManager.h"

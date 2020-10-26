@@ -5,7 +5,7 @@
 #ifndef VULKAN_ENGINE_COMPONENT_H
 #define VULKAN_ENGINE_COMPONENT_H
 
-#include "../../CoreTypes.h"
+#include "../../../CoreTypes.h"
 
 namespace SharkEngine::Core {
     class Component {

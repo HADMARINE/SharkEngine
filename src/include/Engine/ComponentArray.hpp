@@ -5,9 +5,9 @@
 #ifndef VULKAN_ENGINE_COMPONENTARRAY_HPP
 #define VULKAN_ENGINE_COMPONENTARRAY_HPP
 
-#include "CoreTypes.h"
 #include "CoreDefine.h"
-#include "Scene/Components/Component.h"
+#include "CoreTypes.h"
+#include "Scene/Components/Base/Component.h"
 #include <unordered_map>
 
 namespace SharkEngine::Core {
@@ -16,6 +16,7 @@ namespace SharkEngine::Core {
     public:
         virtual ~IComponentArray() = default;
         virtual void EntityDestroyed(EntityID _id) = 0;
+        virtual std::array<Component*, MAX_ENTITIES>* GetComponentArray() = 0;
     };
 
     template <typename T>
@@ -80,15 +81,17 @@ namespace SharkEngine::Core {
             std::array<Component*, MAX_ENTITIES> cmp_array;
             int count = 0;
 
-            for(int i = 0; i < MAX_ENTITYS; i++) {
+            for(EntityID i = 0; i < MAX_COMPONENTS; i++) {
                 Component * tmp = dynamic_cast<Component*>(m_ComponentArray[i]);
                 if(tmp != nullptr)
                     cmp_array[count++] = tmp;
             }
+
+            return &cmp_array;
         }
 
     private:
-        std::array<T*, MAX_ENTITIES> m_ComponentArray;
+        std::array<Component*, MAX_COMPONENTS> m_ComponentArray;
         std::unordered_map<EntityID, size_t> m_EntityToIndexMap;
         std::unordered_map<size_t, EntityID> m_IndexToEntityMap;
 

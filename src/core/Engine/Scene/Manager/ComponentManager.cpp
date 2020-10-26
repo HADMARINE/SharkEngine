@@ -3,6 +3,8 @@
 //
 
 #include "../../../../include/Engine/Scene/Manager/ComponentManager.h"
+#include "../../../../include/Engine/CoreDefine.h"
+#include "../../../../include/Engine/Scene/Components/Base/Component.h"
 using namespace SharkEngine::Core;
 
 template<typename T>
@@ -47,13 +49,57 @@ shared_ptr<ComponentArray<T>> ComponentManager::GetComponentArray() {
     return shared_ptr<ComponentArray<T>>();
 }
 void ComponentManager::Update() {
-    for(auto const& iter : m_ComponentArrays) {
-        
+    for(auto const& pair : m_ComponentArrays) {
+        auto const& components = pair.second;
+
+        auto const& componentArray = components->GetComponentArray();
+
+        for (auto compoIter : *componentArray) {
+            compoIter->Update();
+        }
     }
 }
 void ComponentManager::LateUpdate() {
+    for(auto const& pair : m_ComponentArrays) {
+        auto const& components = pair.second;
+
+        auto const& componentArray = components->GetComponentArray();
+
+        for (auto compoIter : *componentArray) {
+            compoIter->LateUpdate();
+        }
+    }
 }
 void ComponentManager::Render() {
+    for(auto const& pair : m_ComponentArrays) {
+        auto const& components = pair.second;
+
+        auto const& componentArray = components->GetComponentArray();
+
+        for (auto compoIter : *componentArray) {
+            compoIter->Render();
+        }
+    }
 }
 void ComponentManager::EndScene() {
+    for(auto const& pair : m_ComponentArrays) {
+        auto const& components = pair.second;
+
+        auto const& componentArray = components->GetComponentArray();
+
+        for (auto compoIter : *componentArray) {
+            compoIter->EndScene();
+        }
+    }
+}
+ComponentManager::~ComponentManager() {
+    for(auto const& pair : m_ComponentArrays) {
+        auto const& components = pair.second;
+
+        auto const& componentArray = components->GetComponentArray();
+
+        for(auto compoIter : *componentArray) {
+            SAFE_DELETE(compoIter);
+        }
+    }
 }

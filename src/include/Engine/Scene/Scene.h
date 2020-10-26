@@ -7,16 +7,18 @@
 
 #include <iostream>
 #include <list>
+#include <set>
 #include <map>
+#include <shared_mutex>
 #include "../CoreTypes.h"
 
 using namespace std;
 
 namespace SharkEngine::Core {
-    class Entity;
     class EntityIDManager;
     class ComponentManager;
     class SignatureManager;
+    class Component;
 
     //--------------------------------------------------------------------------------------
     // Scene
@@ -43,12 +45,36 @@ namespace SharkEngine::Core {
         void Render();
         void EndScene();
 
-        list<EntityID> m_EntityList;
+        EntityID CreateEntity();
+        void DestroyEntity(EntityID);
+
+        template <typename T>
+        void RegisterComponent();
+
+        template <typename T>
+        void RemoveComponent(EntityID);
+
+        template <typename T>
+        void AddComponent(EntityID, Component*);
+
+        template <typename T>
+        T* GetComponent(EntityID);
+
+        template <typename T>
+        ComponentID GetComponentType();
+
+        template <typename T>
+        shared_ptr<T> RegisterSystem();
+
+        template <typename T>
+        void SetSystemSignature(Signature);
+
+        set<EntityID> m_EntityList;
 
     private:
         unique_ptr<ComponentManager> m_ComponentManager;
-        unique_ptr<EntityIDManager> m_EntityManager;
-        unique_ptr<SignatureManager> m_SystemManager;
+        unique_ptr<EntityIDManager> m_EntityIDManager;
+        unique_ptr<SignatureManager> m_SignatureManager;
     };
 }
 
