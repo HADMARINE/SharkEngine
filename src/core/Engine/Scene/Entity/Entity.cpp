@@ -1,9 +1,5 @@
 //
-// Created by EunwooSong on 2020-10-23.
+// Created by EunwooSong on 2020-10-26.
 //
 
-#include "../../../../include/Engine/Scene/Entity/Entity.h"
-SharkEngine::Core::Entity::Entity() {
-}
-SharkEngine::Core::Entity::~Entity() {
-}
+#include "Entity.h"
