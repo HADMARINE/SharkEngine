@@ -49,7 +49,7 @@ void SharkEngine::Core::Scene::AddComponent(EntityID _id, Component* _compo) {
     m_ComponentManager->AddComponent<T>(_id, _compo);
 
     auto signature = m_EntityIDManager->GetSignature(_id);
-    signatuer.set(m_ComponentManager->GetComponentID<T>(), true);
+    signature.set(m_ComponentManager->GetComponentID<T>(), true);
     m_EntityIDManager->SetSignature(entity, signature);
 
     m_SignatureManager->EntitySignatureChanged(_id, signature);
@@ -60,7 +60,7 @@ void SharkEngine::Core::Scene::RemoveComponent(SharkEngine::Core::EntityID _id) 
     m_ComponentManager->DestroyComponent<T>(_id);
 
     auto signature = m_EntityIDManager->GetSignature(_id);
-    signatuer.set(m_ComponentManager->GetComponentID<T>(), false);
+    signature.set(m_ComponentManager->GetComponentID<T>(), false);
 }
 
 template<typename T>
