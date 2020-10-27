@@ -33,6 +33,7 @@
 
 #cmake-build
 cmake-build-debug/
+build/
 
 #idea
 .idea/
