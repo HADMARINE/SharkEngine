@@ -40,7 +40,7 @@ add_executable(
         src/include/Engine/Scene/Components/Base/Component.h
         src/core/Engine/Scene/Entity/Entity.cpp
         src/include/Engine/Scene/Entity/Entity.h
-)
+        src/include/Engine/Audio/SharkAudio.hpp)
 
 find_package(glm CONFIG REQUIRED)
 target_link_libraries(main PRIVATE glm)
