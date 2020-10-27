@@ -15,7 +15,7 @@ add_executable(
         src/util/Assets.cpp
         src/Assets.hpp
         src/core/engine/VulkanEngine.hpp
-        src/core/engine/VulkanCore.cpp)
+        src/core/engine/VulkanCore.cpp
         src/SharkEngine.hpp
         src/include/Engine/CoreDefine.h
         src/core/Engine/Transfrom.cpp
