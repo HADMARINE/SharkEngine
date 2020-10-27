@@ -62,7 +62,7 @@ struct SwapChainSupportDetails {
     std::vector<VkPresentModeKHR> presentModes;
 };
 
-class HadmarineEngine {
+class SharkEngine {
 public:
     void run() {
         initWindow();

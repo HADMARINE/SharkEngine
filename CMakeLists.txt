@@ -14,7 +14,7 @@ add_executable(
         src/CLogger.hpp
         src/util/Assets.cpp
         src/Assets.hpp
-        src/HadmarineEngine.hpp
+        src/SharkEngine.hpp
         src/include/Engine/CoreDefine.h
         src/core/Engine/Transfrom.cpp
         src/Transfrom.h
