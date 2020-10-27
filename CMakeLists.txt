@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.17)
-project(vulkan_engine VERSION 1.0 LANGUAGES CXX)
+project(SharkEngine VERSION 1.0 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -9,11 +9,13 @@ add_executable(
         main
         src/main.cpp
         src/stdafx.hpp
-        src/global_preferences.hpp
+        src/GlobalPreferences.hpp
         src/util/CLogger.cpp
         src/CLogger.hpp
         src/util/Assets.cpp
         src/Assets.hpp
+        src/core/engine/VulkanEngine.hpp
+        src/core/engine/VulkanCore.cpp)
         src/SharkEngine.hpp
         src/include/Engine/CoreDefine.h
         src/core/Engine/Transfrom.cpp
@@ -55,15 +57,11 @@ get_target_property(JSON_INC_PATH jsoncpp_lib INTERFACE_INCLUDE_DIRECTORIES)
 target_include_directories(main PUBLIC ${Jsoncpp_INCLUDE_DIRS})
 target_link_libraries(main PRIVATE jsoncpp_lib)
 
-# GLM SETUP
-set(EXTDIR "${CMAKE_SOURCE_DIR}/../../external")
-set(GLMINCLUDES "${EXTDIR}")
-get_filename_component(GLMINC_PREFIX "${GLMINCLUDES}" ABSOLUTE)
+find_path(STB_INCLUDE_DIRS "stb.h")
+target_include_directories(main PRIVATE ${STB_INCLUDE_DIRS})
 
-#if(NOT EXISTS &{GLMINC_PREFIX})
-#        message(FATAL_ERROR "Necessary glm headers do not exist: " &{GLMINC_PREFIX})
-#endif()
-include_directories(&{GLMINC_PREFIX})
+find_package(tinyobjloader CONFIG REQUIRED)
+target_link_libraries(main PRIVATE tinyobjloader::tinyobjloader)
 
 find_package(OpenAL CONFIG REQUIRED)
 target_link_libraries(main PRIVATE OpenAL::OpenAL)
