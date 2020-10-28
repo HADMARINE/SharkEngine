@@ -1,0 +1,10 @@
+//
+// Created by HADMARINE on 2020/10/28.
+//
+
+#ifndef SHARKENGINE_CAMERA_HPP
+#define SHARKENGINE_CAMERA_HPP
+
+
+
+#endif//SHARKENGINE_CAMERA_HPP
