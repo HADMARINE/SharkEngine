@@ -92,3 +92,6 @@ target_link_libraries(main PRIVATE tinyobjloader::tinyobjloader)
 
 find_package(OpenAL CONFIG REQUIRED)
 target_link_libraries(main PRIVATE OpenAL::OpenAL)
+
+find_package(gli CONFIG REQUIRED)
+target_link_libraries(main PRIVATE gli)

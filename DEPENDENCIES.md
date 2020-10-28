@@ -13,9 +13,9 @@ ___
 
 ### Windows
 ```cmd
-vcpkg install stb stb:x64-windows glm glm:x64-windows glfw3 glfw3:x64-windows vulkan vulkan:x64-windows jsoncpp jsoncpp:x64-windows tinyobjloader tinyobjloader:x64-windows openal-soft openal-soft:x64-windows
+vcpkg install stb stb:x64-windows glm glm:x64-windows glfw3 glfw3:x64-windows vulkan vulkan:x64-windows jsoncpp jsoncpp:x64-windows tinyobjloader tinyobjloader:x64-windows openal-soft openal-soft:x64-windows gli gli:x64-windows
 ```
 ### macOS, Linux
 ```shell script
-vcpkg install stb glm glfw3 vulkan jsoncpp tinyobjloader openal-soft
+vcpkg install stb glm glfw3 vulkan jsoncpp tinyobjloader openal-soft gli
 ```
