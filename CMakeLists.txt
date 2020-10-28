@@ -14,8 +14,27 @@ add_executable(
         src/CLogger.hpp
         src/util/Assets.cpp
         src/Assets.hpp
-        src/core/engine/VulkanEngine.hpp
-        src/core/engine/VulkanCore.cpp)
+        src/core/engine/VulkanEngine.h
+        src/core/engine/VulkanCore.cpp
+        src/core/engine/VulkanApplication.cpp
+        src/include/Graphic/VulkanApplication.h
+        src/core/engine/VulkanDevice.cpp
+        src/include/Graphic/VulkanDevice.h
+        src/core/engine/VulkanDescriptor.cpp
+        src/include/Graphic/VulkanDescriptor.h
+        src/core/engine/VulkanDrawable.cpp
+        src/include/Graphic/VulkanDrawable.h
+        src/core/engine/VulkanInstance.cpp
+        src/include/Graphic/VulkanInstance.h
+        src/core/engine/VulkanPipeline.cpp
+        src/include/Graphic/VulkanPipeline.h
+        src/core/engine/VulkanRenderer.cpp
+        src/include/Graphic/VulkanRenderer.h
+        src/core/engine/VulkanShader.cpp
+        src/include/Graphic/VulkanShader.h
+        src/core/engine/VulkanSwapChain.cpp
+        src/include/Graphic/VulkanSwapChain.h
+        src/core/engine/VulkanLayer.cpp src/include/Graphic/VulkanLayer.h src/include/Graphic/IncludeVulkan.h src/core/engine/VulkanStructs.cpp src/include/Graphic/VulkanStructs.h src/core/engine/VulkanMeshStruct.cpp src/include/Graphic/VulkanMeshStruct.h)
 
 find_package(glm CONFIG REQUIRED)
 target_link_libraries(main PRIVATE glm)
