@@ -2,12 +2,12 @@
 // Created by HADMARINE on 2020/09/20.
 //
 
-#include "SharkEngine.hpp"
+#include "core/Engine/VulkanEngine.h"
 
 int main() {
-    SharkEngine engine;
+    SharkEngine::VulkanEngine engine();
   try{
-    engine.run();
+    engine().run();
   } catch (const std::exception& e) {
     return EXIT_FAILURE;
   }
