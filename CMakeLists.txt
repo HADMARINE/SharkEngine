@@ -39,8 +39,6 @@ add_executable(
         src/include/Graphic/VulkanStructs.h
         src/core/engine/VulkanMeshStruct.cpp
         src/include/Graphic/VulkanMeshStruct.h
-        src/core/engine/VulkanEngine.h
-        src/core/engine/VulkanCore.cpp
         src/include/Engine/CoreDefine.h
         src/core/Engine/Transfrom.cpp
         src/Transfrom.h
