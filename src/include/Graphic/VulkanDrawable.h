@@ -8,6 +8,7 @@
 #define NUMBER_OF_VIEWPORTS 1
 #define NUMBER_OF_SCISSORS NUMBER_OF_VIEWPORTS
 
+#pragma once
 #include "IncludeVulkan.h"
 #include "VulkanDescriptor.h"
 #include "VulkanStructs.h"
@@ -44,6 +45,23 @@ public:
 
     void SetTextures(TextureData* tex);
 public:
+    /***************DRAWABLE WRAPPERS***************/
+    struct UniformData {
+        VkBuffer						buffer;			// Buffer resource object
+        VkDeviceMemory					memory;			// Buffer resourece object's allocated device memory
+        VkDescriptorBufferInfo			bufferInfo;		// Buffer info that need to supplied into write descriptor set (VkWriteDescriptorSet)
+        VkMemoryRequirements			memRqrmnt;		// Store the queried memory requirement of the uniform buffer
+        std::vector<VkMappedMemoryRange>mappedRange;	// Metadata of memory mapped objects
+        uint8_t*						pData;			// Host pointer containing the mapped device address which is used to write data into.
+    } UniformData;
+
+    // Structure storing vertex buffer metadata
+    struct VertexBuffer {
+        VkBuffer buf;
+        VkDeviceMemory mem;
+        VkDescriptorBufferInfo bufferInfo;
+    } VertexBuffer;
+
     // Stores the vertex input rate
     VkVertexInputBindingDescription		viIpBinding;
     // Store metadata helpful in data interpretation

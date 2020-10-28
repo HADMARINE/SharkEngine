@@ -5,8 +5,7 @@
 #ifndef SHARKENGINE_VULKANAPPLICATION_H
 #define SHARKENGINE_VULKANAPPLICATION_H
 
-#include "../../stdafx.hpp"
-#include "IncludeVulkan.h"
+#pragma once
 #include "VulkanInstance.h"
 #include "VulkanDevice.h"
 #include "VulkanRenderer.h"

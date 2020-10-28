@@ -14,7 +14,6 @@ add_executable(
         src/CLogger.hpp
         src/util/Assets.cpp
         src/Assets.hpp
-        src/core/engine/VulkanEngine.h
         src/core/engine/VulkanApplication.cpp
         src/include/Graphic/VulkanApplication.h
         src/core/engine/VulkanDevice.cpp

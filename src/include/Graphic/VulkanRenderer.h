@@ -11,6 +11,8 @@
 #include "VulkanShader.h"
 #include "VulkanPipeline.h"
 
+#include <GLFW/glfw3.h>
+
 #define NUM_SAMPLES VK_SAMPLE_COUNT_1_BIT
 
 class VulkanRenderer {
@@ -25,11 +27,11 @@ public:
     bool Render();
 
     // Create an empty window
-    void CreatePresentationWindow(const int& windowWidth = 500, const int& windowHeight = 500);
-    void SetImageLayout(VkImage image, VkImageAspectFlags aspectMask, VkImageLayout oldImageLayout, VkImageLayout newImageLayout, const VkImageSubresourceRange& subresourceRange, const VkCommandBuffer& cmdBuf);
+    void CreatePresentationWindow();
 
-    //! Windows procedure method for handling events.
-    static LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+    static void FramebufferResizeCallback(GLFWwindow *window, int width, int height);
+
+    void SetImageLayout(VkImage image, VkImageAspectFlags aspectMask, VkImageLayout oldImageLayout, VkImageLayout newImageLayout, const VkImageSubresourceRange& subresourceRange, const VkCommandBuffer& cmdBuf);
 
     // Destroy the presentation window
     void DestroyPresentationWindow();
@@ -67,17 +69,7 @@ public:
     void DestroyDrawableUniformBuffer();
     void DestroyTextureResource();
 public:
-#ifdef _WIN32
-#define APP_NAME_STR_LEN 80
-    HINSTANCE					connection;				// hInstance - Windows Instance
-    char						name[APP_NAME_STR_LEN]; // name - App name appearing on the window
-    HWND						window;					// hWnd - the window handle
-#else
-    xcb_connection_t*			connection;
-	xcb_screen_t*				screen;
-	xcb_window_t				window;
-	xcb_intern_atom_reply_t*	reply;
-#endif
+    GLFWwindow *window;
 
     struct{
         VkFormat		format;
@@ -98,6 +90,8 @@ public:
     //임시 텍스쳐 메니저
     int					width, height;
     std::map<const char*, TextureData*> texturesData;
+
+
 
 private:
     VulkanApplication* application;

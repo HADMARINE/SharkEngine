@@ -63,7 +63,7 @@ VulkanApplication *VulkanApplication::GetInstance() {
     return instance.get();
 }
 void VulkanApplication::Initialize() {
-    char title[] = "SharkEngine";
+    const char * title = GlobalPreferences::ENGINE_NAME;
 
     instanceObj.layerExtension.AreLayersSupported(layerNames);
     CreateVulkanInstance(layerNames, instanceExtensionNames, title);
@@ -81,7 +81,7 @@ void VulkanApplication::Initialize() {
 
     if (!rendererObj) {
         rendererObj = new VulkanRenderer(this, deviceObj);
-        rendererObj->CreatePresentationWindow(500, 500);
+        rendererObj->CreatePresentationWindow();
         rendererObj->GetSwapChain()->InitializeSwapChain();
     }
     rendererObj->Initialize();

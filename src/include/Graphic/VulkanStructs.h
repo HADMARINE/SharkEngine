@@ -32,25 +32,9 @@ struct TextureData{
     VkDescriptorImageInfo	descsImgInfo;
 };
 
-/***************DRAWABLE WRAPPERS***************/
-struct UniformData {
-    VkBuffer						buffer;			// Buffer resource object
-    VkDeviceMemory					memory;			// Buffer resourece object's allocated device memory
-    VkDescriptorBufferInfo			bufferInfo;		// Buffer info that need to supplied into write descriptor set (VkWriteDescriptorSet)
-    VkMemoryRequirements			memRqrmnt;		// Store the queried memory requirement of the uniform buffer
-    std::vector<VkMappedMemoryRange>mappedRange;	// Metadata of memory mapped objects
-    uint8_t*						pData;			// Host pointer containing the mapped device address which is used to write data into.
-} UniformData;
 
-// Structure storing vertex buffer metadata
-struct VertexBuffer {
-    VkBuffer buf;
-    VkDeviceMemory mem;
-    VkDescriptorBufferInfo bufferInfo;
-} VertexBuffer;
 
 /***************PPM PARSER CLASS***************/
-
 class PpmParser
 {
 public:
@@ -71,62 +55,8 @@ private:
     gli::texture2d* tex2D;
 };
 
-struct SwapChainBuffer{
-    VkImage image;
-    VkImageView view;
-};
-
-/*************** SWAP CHAIN STRUCTURE **************/
-struct SwapChainPrivateVariables
-{
-    // Store the image surface capabilities
-    VkSurfaceCapabilitiesKHR	surfCapabilities;
-
-    // Stores the number of present mode support by the implementation
-    uint32_t					presentModeCount;
-
-    // Arrays for retrived present modes
-    std::vector<VkPresentModeKHR> presentModes;
-
-    // Size of the swap chain color images
-    VkExtent2D					swapChainExtent;
-
-    // Number of color images supported by the implementation
-    uint32_t					desiredNumberOfSwapChainImages;
-
-    VkSurfaceTransformFlagBitsKHR preTransform;
-
-    // Stores present mode bitwise flag for the creation of swap chain
-    VkPresentModeKHR			swapchainPresentMode;
-
-    // The retrived drawing color swap chain images
-    std::vector<VkImage>		swapchainImages;
-
-    std::vector<VkSurfaceFormatKHR> surfFormats;
-};
-
-struct SwapChainPublicVariables
-{
-    // The logical platform dependent surface object
-    VkSurfaceKHR surface;
-
-    // Number of buffer image used for swap chain
-    uint32_t swapchainImageCount;
-
-    // Swap chain object
-    VkSwapchainKHR swapChain;
-
-    // List of color swap chain images
-    std::vector<SwapChainBuffer> colorBuffer;
-
-    // Semaphore for sync purpose
-    VkSemaphore presentCompleteSemaphore;
-
-    // Current drawing surface index in use
-    uint32_t currentColorBuffer;
-
-    // Format of the image
-    VkFormat format;
-};
+extern std::vector<const char *> instanceExtensionNames;
+extern std::vector<const char *> layerNames;
+extern std::vector<const char *> deviceExtensionNames;
 
 #endif//SHARKENGINE_WRAPPER_H

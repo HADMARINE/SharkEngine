@@ -5,6 +5,7 @@
 #ifndef SHARKENGINE_VULKANDEVICE_H
 #define SHARKENGINE_VULKANDEVICE_H
 
+#pragma once
 #include "IncludeVulkan.h"
 #include "VulkanLayer.h"
 

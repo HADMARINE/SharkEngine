@@ -5,6 +5,7 @@
 #ifndef SHARKENGINE_VULKANDESCRIPTOR_H
 #define SHARKENGINE_VULKANDESCRIPTOR_H
 
+#pragma once
 #include "IncludeVulkan.h"
 
 class VulkanDevice;
