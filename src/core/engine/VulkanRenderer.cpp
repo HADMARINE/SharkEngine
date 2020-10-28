@@ -7,11 +7,10 @@
 #include "../../include/Graphic/VulkanApplication.h"
 #include "../../include/Graphic/VulkanDevice.h"
 #include "../../include/Graphic/VulkanMeshStruct.h"
+#include "../../GlobalPreferences.hpp"
 
 VulkanRenderer::VulkanRenderer(VulkanApplication *app, VulkanDevice *deviceObject) {
     memset(&Depth, 0, sizeof(Depth));
-    memset(&connection, 0, sizeof(HINSTANCE));				// hInstance - Windows Instance
-
     application = app;
     deviceObj	= deviceObject;
 
@@ -47,10 +46,6 @@ void VulkanRenderer::Initialize() {
     CreateTextureLinear("../../source/texture.jpg", VK_IMAGE_USAGE_SAMPLED_BIT);
     CreateTextureLinear("../../source/texture2.jpg", VK_IMAGE_USAGE_SAMPLED_BIT);
 
-//    for (VulkanDrawable* drawableObj : drawableList) {
-//        drawableObj->SetTextures(&texture);
-//    }
-
     CreateDescriptors();
     CreatePipelineStateManagement();
 }
@@ -67,169 +62,52 @@ void VulkanRenderer::Update() {
     }
 }
 bool VulkanRenderer::Render() {
-    MSG msg;   // message
-    PeekMessage(&msg, NULL, 0, 0, PM_REMOVE);
-    if (msg.message == WM_QUIT) {
-        return false;
+    if(!glfwWindowShouldClose(window)) {
+        glfwPollEvents();
+
+        for (VulkanDrawable* drawableObj : drawableList)
+        {
+            drawableObj->Render();
+        }
+        return true;
     }
-    TranslateMessage(&msg);
-    DispatchMessage(&msg);
-    RedrawWindow(window, NULL, NULL, RDW_INTERNALPAINT);
-    return true;
+
+    vkDeviceWaitIdle(application->deviceObj->device);
+    return false;
 }
 
-#ifdef _WIN32
-LRESULT VulkanRenderer::WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
-    VulkanApplication* appObj = VulkanApplication::GetInstance();
-    switch (uMsg) {
+void VulkanRenderer::CreatePresentationWindow() {
+    width	= GlobalPreferences::SCREEN_WIDTH;
+    height	= GlobalPreferences::SCREEN_HEIGHT;
 
-        case WM_CLOSE:
-            PostQuitMessage(0);
-            break;
-        case WM_PAINT:
-            for (VulkanDrawable* drawableObj : appObj->rendererObj->drawableList)
-            {
-                drawableObj->Render();
-            }
+    glfwInit();
 
-            return 0;
+    glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
+    glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
 
-        case WM_SIZE:
-            if (wParam != SIZE_MINIMIZED) {
-                appObj->rendererObj->width = lParam & 0xffff;
-                appObj->rendererObj->height = (lParam & 0xffff0000) >> 16;
-                appObj->rendererObj->GetSwapChain()->SetSwapChainExtent(appObj->rendererObj->width, appObj->rendererObj->height);
-                appObj->Resize();
-            }
-            break;
+    window = glfwCreateWindow(
+            GlobalPreferences::SCREEN_WIDTH,
+            GlobalPreferences::SCREEN_HEIGHT,
+            GlobalPreferences::APPLICATION_NAME,
+            nullptr, nullptr);
 
-        default:
-            break;
-    }
-    return (DefWindowProc(hWnd, uMsg, wParam, lParam));
+    glfwSetWindowUserPointer(window, this);
+    glfwSetFramebufferSizeCallback(window, FramebufferResizeCallback);
 }
-void VulkanRenderer::CreatePresentationWindow(const int &windowWidth, const int &windowHeight) {
-#ifdef _WIN32
-    width	= windowWidth;
-    height	= windowHeight;
-    assert(width > 0 || height > 0);
 
-    WNDCLASSEX  winInfo;
+void VulkanRenderer::FramebufferResizeCallback(GLFWwindow *window, int width, int height) {
+    auto app = reinterpret_cast<VulkanRenderer*>(glfwGetWindowUserPointer(window));
 
-    sprintf(name, "Texture demo - Linear Layout");
-    memset(&winInfo, 0, sizeof(WNDCLASSEX));
-    // Initialize the window class structure:
-    winInfo.cbSize			= sizeof(WNDCLASSEX);
-    winInfo.style			= CS_HREDRAW | CS_VREDRAW;
-    winInfo.lpfnWndProc		= WndProc;
-    winInfo.cbClsExtra		= 0;
-    winInfo.cbWndExtra		= 0;
-    winInfo.hInstance		= connection; // hInstance
-    winInfo.hIcon			= LoadIcon(NULL, IDI_APPLICATION);
-    winInfo.hCursor			= LoadCursor(NULL, IDC_ARROW);
-    winInfo.hbrBackground	= (HBRUSH)GetStockObject(WHITE_BRUSH);
-    winInfo.lpszMenuName	= NULL;
-    winInfo.lpszClassName	= name;
-    winInfo.hIconSm			= LoadIcon(NULL, IDI_WINLOGO);
-
-    // Register window class:
-    if (!RegisterClassEx(&winInfo)) {
-        // It didn't work, so try to give a useful error:
-        CLogger::Error("Unexpected error trying to start the application!\n");
-        exit(1);
-    }
-
-    // Create window with the registered class:
-    RECT wr = { 0, 0, width, height };
-    AdjustWindowRect(&wr, WS_OVERLAPPEDWINDOW, FALSE);
-    window = CreateWindowEx(0,
-                            name,					// class name
-                            name,					// app name
-                            WS_OVERLAPPEDWINDOW |	// window style
-                            WS_VISIBLE |
-                            WS_SYSMENU,
-                            100, 100,				// x/y coords
-                            wr.right - wr.left,     // width
-                            wr.bottom - wr.top,     // height
-                            NULL,					// handle to parent
-                            NULL,					// handle to menu
-                            connection,				// hInstance
-                            NULL);					// no extra parameters
-
-    if (!window) {
-        // It didn't work, so try to give a useful error:
-        printf("Cannot create a window in which to draw!\n");
-        fflush(stdout);
-        exit(1);
-    }
-
-    SetWindowLongPtr(window, GWLP_USERDATA, (LONG_PTR)&application);
-#else
-    const xcb_setup_t *setup;
-	xcb_screen_iterator_t iter;
-	int scr;
-
-	connection = xcb_connect(NULL, &scr);
-	if (connection == NULL) {
-		std::cout << "Cannot find a compatible Vulkan ICD.\n";
-		exit(-1);
-	}
-
-	setup = xcb_get_setup(connection);
-	iter = xcb_setup_roots_iterator(setup);
-	while (scr-- > 0)
-		xcb_screen_next(&iter);
-
-	screen = iter.data;
-#endif // _WIN32
+    app->width = width;
+    app->height = height;
+    app->GetSwapChain()->SetSwapChainExtent(width, height);
+    app->application->Resize();
 }
 
 void VulkanRenderer::DestroyPresentationWindow() {
-    DestroyWindow(window);
-}
-#else
-void VulkanRenderer::CreatePresentationWindow()
-{
-	uint32_t value_mask, value_list[32];
-
-	window = xcb_generate_id(connection);
-
-	value_mask = XCB_CW_BACK_PIXEL | XCB_CW_EVENT_MASK;
-	value_list[0] = screen->black_pixel;
-	value_list[1] = XCB_EVENT_MASK_KEY_RELEASE | XCB_EVENT_MASK_EXPOSURE;
-
-	xcb_create_window(connection, XCB_COPY_FROM_PARENT, window, screen->root, 0, 0, width, height, 0,
-		XCB_WINDOW_CLASS_INPUT_OUTPUT, screen->root_visual, value_mask, value_list);
-
-	/* Magic code that will send notification when window is destroyed */
-	xcb_intern_atom_cookie_t cookie = xcb_intern_atom(connection, 1, 12, "WM_PROTOCOLS");
-	xcb_intern_atom_reply_t* reply = xcb_intern_atom_reply(connection, cookie, 0);
-
-	xcb_intern_atom_cookie_t cookie2 = xcb_intern_atom(connection, 0, 16, "WM_DELETE_WINDOW");
-	reply = xcb_intern_atom_reply(connection, cookie2, 0);
-
-	xcb_change_property(connection, XCB_PROP_MODE_REPLACE, window, (*reply).atom, 4, 32, 1,	&(*reply).atom);
-	free(reply);
-
-	xcb_map_window(connection, window);
-
-	const uint32_t coords[] = { 100,  100 };
-	xcb_configure_window(connection, window, XCB_CONFIG_WINDOW_X | XCB_CONFIG_WINDOW_Y, coords);
-	xcb_flush(connection);
-
-	xcb_generic_event_t *e;
-	while ((e = xcb_wait_for_event(connection))) {
-		if ((e->response_type & ~0x80) == XCB_EXPOSE)
-			break;
-	}
+    glfwDestroyWindow(window);
 }
 
-void VulkanRenderer::DestroyWindow()
-{
-	xcb_destroy_window(connection, window);
-	xcb_disconnect(connection);
-}
-#endif // _WIN32
 void VulkanRenderer::SetImageLayout(VkImage image, VkImageAspectFlags aspectMask, VkImageLayout oldImageLayout, VkImageLayout newImageLayout, const VkImageSubresourceRange &subresourceRange, VkCommandBuffer const &cmdBuf) {
     VkImageMemoryBarrier imgMemoryBarrier = {};
     imgMemoryBarrier.sType			= VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER;

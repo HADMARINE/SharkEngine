@@ -5,6 +5,7 @@
 #ifndef SHARKENGINE_VULKANINSTANCE_H
 #define SHARKENGINE_VULKANINSTANCE_H
 
+#pragma once
 #include "VulkanLayer.h"
 
 class VulkanInstance {

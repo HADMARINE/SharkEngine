@@ -5,6 +5,7 @@
 #ifndef SHARKENGINE_VULKANLAYER_H
 #define SHARKENGINE_VULKANLAYER_H
 
+#pragma once
 #include "IncludeVulkan.h"
 
 struct LayerProperties{

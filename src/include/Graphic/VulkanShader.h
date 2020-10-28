@@ -5,6 +5,7 @@
 #ifndef SHARKENGINE_VULKANSHADER_H
 #define SHARKENGINE_VULKANSHADER_H
 
+#pragma once
 #include "IncludeVulkan.h"
 
 class VulkanShader

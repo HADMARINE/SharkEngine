@@ -5,6 +5,7 @@
 #ifndef SHARKENGINE_INCLUDEVULKAN_H
 #define SHARKENGINE_INCLUDEVULKAN_H
 
+#pragma once
 #include "../../stdafx.hpp"
 
 /*********** C/C++ HEADER FILES ***********/

@@ -5,6 +5,7 @@
 #ifndef SHARKENGINE_VULKANMESHSTRUCT_H
 #define SHARKENGINE_VULKANMESHSTRUCT_H
 
+#pragma once
 /*--------------------------------------------------------------------------------------
 Mesh data strucure and  and VertexFormat Data
 --------------------------------------------------------------------------------------*/

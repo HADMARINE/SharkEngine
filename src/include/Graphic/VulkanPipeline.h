@@ -5,6 +5,7 @@
 #ifndef SHARKENGINE_VULKANPIPELINE_H
 #define SHARKENGINE_VULKANPIPELINE_H
 
+#pragma once
 #include "IncludeVulkan.h"
 
 #define NUMBER_OF_VIEWPORTS 1

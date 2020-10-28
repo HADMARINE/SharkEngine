@@ -2,42 +2,29 @@
 // Created by HADMARINE on 2020/09/20.
 //
 
-#include "core/engine/VulkanEngine.h"
+#include "include/Graphic/VulkanApplication.h"
+
+std::vector<const char *> instanceExtensionNames = {
+        VK_KHR_SURFACE_EXTENSION_NAME,
+        VK_EXT_DEBUG_REPORT_EXTENSION_NAME,
+};
+
+std::vector<const char *> layerNames = {
+        "VK_LAYER_LUNARG_standard_validation"
+};
+
+std::vector<const char *> deviceExtensionNames = {
+        VK_KHR_SWAPCHAIN_EXTENSION_NAME
+};
 
 int main() {
-    using namespace SharkEngine;
-    SharkEngine::VulkanEngine engine;
-    try {
-
-        //std::vector<TextureImageStruct> textures;
-        engine.run();
-
-        //std::vector<GraphicsObject> graphicsObjects;
-        //        VulkanEngine::setGraphicsObject(graphicsObjects);
-        //textures.push_back(*engine.createTextureImage("texture.jpg"));
-        //textures.push_back(*engine.createTextureImage("texture2.jpg"));
-
-//        GraphicsObject obj1(std::vector<Vertex>{
-//                                    {{-0.5f, -0.5f, 0.0f}, {1.0f, 0.0f, 0.0f, 1.0f}, {0.0f, 1.0f}},
-//                                    {{0.5f, -0.5f, 0.0f}, {0.0f, 1.0f, 0.0f, 1.0f}, {1.0f, 1.0f}},
-//                                    {{0.5f, 0.5f, 0.0f}, {0.0f, 0.0f, 1.0f, 1.0f}, {1.0f, 0.0f}},
-//                                    {{-0.5f, 0.5f, 0.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.0f, 0.0f}},
-//                            },
-//                            &textures.at(0)),
-//                obj2(std::vector<Vertex>{
-//                             {{-0.5f, -0.5f, -0.5f}, {1.0f, 0.0f, 0.0f, 1.0f}, {0.0f, 0.0f}},
-//                             {{0.5f, -0.5f, -0.5f}, {0.0f, 1.0f, 0.0f, 1.0f}, {1.0f, 0.0f}},
-//                             {{0.5f, 0.5f, -0.5f}, {0.0f, 0.0f, 1.0f, 1.0f}, {1.0f, 1.0f}},
-//                             {{-0.5f, 0.5f, -0.5f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.0f, 1.0f}}},
-//                     &textures.at(1));
-//
-//
-//        graphicsObjects.push_back(obj1);
-//        graphicsObjects.push_back(obj2);
-//
-//        engine.setGraphicsObjects(&graphicsObjects);
-    } catch (const std::exception &e) {
-        return EXIT_FAILURE;
+    VulkanApplication* appObj = VulkanApplication::GetInstance();
+    appObj->Initialize();
+    appObj->Prepare();
+    bool isWindowOpen = true;
+    while (isWindowOpen) {
+        appObj->Update();
+        isWindowOpen = appObj->Render();
     }
-    return EXIT_SUCCESS;
+    appObj->Release();
 }
