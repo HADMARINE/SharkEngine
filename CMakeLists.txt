@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.17)
-project(SharkEngine VERSION 1.0 LANGUAGES CXX)
+project(SharkEngine VERSION 1.0.0 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -37,9 +37,11 @@ add_executable(
         src/include/Engine/Scene/Manager/SignatureManager.h
         src/core/Engine/Scene/Components/Base/Component.cpp
         src/include/Engine/Scene/Components/Base/Component.h
-        src/core/Engine/Scene/Entity/Entity.cpp
-        src/include/Engine/Scene/Entity/Entity.h
-        src/include/Engine/Audio/SharkAudio.hpp)
+        src/include/Engine/Audio/SharkAudio.hpp
+)
+
+include_directories("lib/freealut/include")
+add_library(Alut OBJECT "./lib/freealut")
 
 find_package(glm CONFIG REQUIRED)
 target_link_libraries(main PRIVATE glm)
