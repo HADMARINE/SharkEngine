@@ -4,7 +4,9 @@
 [Vulkan](https://www.khronos.org/vulkan/) <br>
 [jsoncpp](https://github.com/open-source-parsers/jsoncpp) <br>
 [tinyobjloader](https://github.com/tinyobjloader/tinyobjloader) <br>
-[openal-soft](https://github.com/kcat/openal-soft)
+[openal-soft](https://github.com/kcat/openal-soft) <br>
+[gli](https://github.com/g-truc/gli) <br>
+[freealut](https://github.com/vancegroup/freealut) sub library <br>
 
 ___
 # How to?
