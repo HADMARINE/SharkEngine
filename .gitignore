@@ -39,3 +39,6 @@ build/
 
 #vs build file
 build/
+
+#ds_store
+*/**/.DS_Store
