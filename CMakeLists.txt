@@ -64,6 +64,7 @@ add_executable(
         src/core/Engine/Scene/Components/Base/Component.cpp
         src/include/Engine/Scene/Components/Base/Component.h
         src/include/Engine/Audio/SharkAudio.hpp
+        src/include/Engine/UniformBufferCamera/Camera.hpp
 )
 
 include_directories("lib/freealut/include")
