@@ -19,7 +19,7 @@ private:
     VulkanApplication();
 
     // Create the Vulkan instance object
-    VkResult CreateVulkanInstance(std::vector<const char *>& layers, std::vector<const char *>& extensionNames,  const char* applicationName);
+    VkResult CreateVulkanInstance(std::vector<const char *>& layers);
     VkResult HandShakeWithDevice(VkPhysicalDevice* gpu, std::vector<const char *>& layers, std::vector<const char *>& extensions);
     VkResult EnumeratePhysicalDevices(std::vector<VkPhysicalDevice>& gpus);
 

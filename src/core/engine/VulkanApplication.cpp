@@ -3,13 +3,13 @@
 //
 
 #include "../../stdafx.hpp"
+#include "../../Assets.hpp"
 #include "../../include/Graphic/VulkanApplication.h"
 #include "../../include/Graphic/VulkanDrawable.h"
 
 std::unique_ptr<VulkanApplication> VulkanApplication::instance;
 std::once_flag VulkanApplication::onlyOnce;
 
-extern std::vector<const char *> instanceExtensionNames;
 extern std::vector<const char *> layerNames;
 extern std::vector<const char *> deviceExtensionNames;
 
@@ -22,11 +22,12 @@ VulkanApplication::VulkanApplication() {
     isPrepared = false;
     isResizing = false;
 }
-VkResult VulkanApplication::CreateVulkanInstance(std::vector<const char *> &layers, std::vector<const char *> &extensionNames, const char *applicationName) {
-    return instanceObj.CreateInstance(layers, extensionNames, applicationName);
+VkResult VulkanApplication::CreateVulkanInstance(std::vector<const char *>& layers) {
+    return instanceObj.CreateInstance(layers);
 }
 VkResult VulkanApplication::HandShakeWithDevice(VkPhysicalDevice *gpu, std::vector<const char *> &layers, std::vector<const char *> &extensions) {
     deviceObj = new VulkanDevice(gpu);
+
     if (!deviceObj){
         return VK_ERROR_OUT_OF_HOST_MEMORY;
     }
@@ -63,10 +64,12 @@ VulkanApplication *VulkanApplication::GetInstance() {
     return instance.get();
 }
 void VulkanApplication::Initialize() {
-    const char * title = GlobalPreferences::ENGINE_NAME;
+    glfwInit();
+    glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
+    glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
 
     instanceObj.layerExtension.AreLayersSupported(layerNames);
-    CreateVulkanInstance(layerNames, instanceExtensionNames, title);
+    CreateVulkanInstance(layerNames);
 
     // Create the debugging report if debugging is enabled
     if (debugFlag) {
@@ -78,7 +81,7 @@ void VulkanApplication::Initialize() {
     if (gpuList.size() > 0) {
         HandShakeWithDevice(&gpuList[0], layerNames, deviceExtensionNames);
     }
-
+    //Initialize GLFW
     if (!rendererObj) {
         rendererObj = new VulkanRenderer(this, deviceObj);
         rendererObj->CreatePresentationWindow();

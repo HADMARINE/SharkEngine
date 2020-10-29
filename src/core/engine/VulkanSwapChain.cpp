@@ -16,6 +16,7 @@
     fp##entrypoint = (PFN_vk##entrypoint) vkGetInstanceProcAddr(instance, "vk"#entrypoint); \
     if (fp##entrypoint == NULL) {															\
         CLogger::Error("Unable to locate the vkGetDeviceProcAddr: vk"#entrypoint);			\
+        throw std::runtime_error("Some Errors");                                                   \
         exit(-1);																			\
     }																						\
 }
@@ -24,6 +25,7 @@
     fp##entrypoint = (PFN_vk##entrypoint) vkGetDeviceProcAddr(dev, "vk"#entrypoint);		\
     if (fp##entrypoint == NULL) {															\
         CLogger::Error("Unable to locate the vkGetDeviceProcAddr: vk"#entrypoint);			 \
+        throw std::runtime_error("Some Errors");                                              \
         exit(-1);																			\
     }																						\
 }
@@ -121,7 +123,7 @@ void VulkanSwapChain::GetSupportedFormats() {
 VkResult VulkanSwapChain::CreateSurface() {
     VkResult  result;
 
-    VkInstance& instance = appObj->instanceObj.instance;
+    VkInstance instance = appObj->instanceObj.instance;
     GLFWwindow* window = appObj->rendererObj->window;
 
     result = glfwCreateWindowSurface(instance, window, nullptr, &scPublicVars.surface);

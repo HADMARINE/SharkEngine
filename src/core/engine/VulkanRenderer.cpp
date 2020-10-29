@@ -15,8 +15,8 @@ VulkanRenderer::VulkanRenderer(VulkanApplication *app, VulkanDevice *deviceObjec
     deviceObj	= deviceObject;
 
     swapChainObj = new VulkanSwapChain(this);
-    VulkanDrawable* drawableObj = new VulkanDrawable(this);
-    drawableList.push_back(drawableObj);
+    //VulkanDrawable* drawableObj = new VulkanDrawable(this);
+    //drawableList.push_back(drawableObj);
 }
 VulkanRenderer::~VulkanRenderer() {
     delete swapChainObj;
@@ -27,7 +27,7 @@ VulkanRenderer::~VulkanRenderer() {
     }
     drawableList.clear();
 }
-void VulkanRenderer::Initialize() {
+void VulkanRenderer::   Initialize() {
     CreateCommandPool();
 
     BuildSwapChainAndDepthImage();
@@ -43,8 +43,8 @@ void VulkanRenderer::Initialize() {
 
     CreateShaders();
 
-    CreateTextureLinear("../../source/texture.jpg", VK_IMAGE_USAGE_SAMPLED_BIT);
-    CreateTextureLinear("../../source/texture2.jpg", VK_IMAGE_USAGE_SAMPLED_BIT);
+    //CreateTextureLinear("../../source/texture.jpg", VK_IMAGE_USAGE_SAMPLED_BIT);
+    //CreateTextureLinear("../../source/texture2.jpg", VK_IMAGE_USAGE_SAMPLED_BIT);
 
     CreateDescriptors();
     CreatePipelineStateManagement();
@@ -79,11 +79,6 @@ bool VulkanRenderer::Render() {
 void VulkanRenderer::CreatePresentationWindow() {
     width	= GlobalPreferences::SCREEN_WIDTH;
     height	= GlobalPreferences::SCREEN_HEIGHT;
-
-    glfwInit();
-
-    glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
-    glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
 
     window = glfwCreateWindow(
             GlobalPreferences::SCREEN_WIDTH,

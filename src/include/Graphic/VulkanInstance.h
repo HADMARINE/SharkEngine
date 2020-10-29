@@ -22,8 +22,15 @@ public:
 
 public:
     // VulkanInstance public functions
-    VkResult CreateInstance(std::vector<const char *>& layers, std::vector<const char *>& extensions, const char* applicationName);
+    VkResult CreateInstance(std::vector<const char *>& layers);
     void DestroyInstance();
+
+    // VulkanInstance Debug functions
+    static VKAPI_ATTR VkBool32 VKAPI_CALL debugCallback(VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity,
+                                                        VkDebugUtilsMessageTypeFlagsEXT messageType,
+                                                        const VkDebugUtilsMessengerCallbackDataEXT
+                                                        *pCallbackData,
+                                                        void *pUserData);
 };
 
 

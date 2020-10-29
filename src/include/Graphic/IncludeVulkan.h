@@ -10,18 +10,17 @@
 
 /*********** C/C++ HEADER FILES ***********/
 /*********** COMPILER SPECIFIC PREPROCESSORS ***********/
-#ifdef _WIN32
-#pragma comment(linker, "/subsystem:console")
-#define WIN32_LEAN_AND_MEAN
-#define NOMINMAX
-#define APP_NAME_STR_LEN 80
-#define _CRT_SECURE_NO_WARNINGS
-
-#else  // _WIN32
-
-#define VK_USE_PLATFORM_XCB_KHR
-#include <unistd.h>
-#endif // _WIN32
+//#ifdef _WIN32
+//#pragma comment(linker, "/subsystem:console")
+//#define WIN32_LEAN_AND_MEAN
+//#define NOMINMAX
+//#define APP_NAME_STR_LEN 80
+//#define _CRT_SECURE_NO_WARNINGS
+//
+//#else  // _WIN32
+//
+//#include <unistd.h>
+//#endif // _WIN32
 /*********** GLM HEADER FILES ***********/
 #define GLM_FORCE_RADIANS
 #include <glm/glm.hpp>
@@ -33,6 +32,8 @@
 
 /*********** VULKAN HEADER FILES ***********/
 #include <vulkan/vulkan.h>
+#include <GLFW/glfw3.h>
+
 #ifdef AUTO_COMPILE_GLSL_TO_SPV
 #include "SPIRV/GlslangToSpv.h"
 #endif
