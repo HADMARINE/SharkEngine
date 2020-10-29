@@ -1,9 +1,11 @@
 cmake_minimum_required(VERSION 3.17)
-project(SharkEngine VERSION 1.0 LANGUAGES CXX)
+project(SharkEngine VERSION 1.0.0 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
+
+set(ROOTSRC ${CMAKE_CURRENT_SOURCE_DIR}/src)
 
 add_executable(
         main
@@ -32,7 +34,40 @@ add_executable(
         src/include/Graphic/VulkanShader.h
         src/core/engine/VulkanSwapChain.cpp
         src/include/Graphic/VulkanSwapChain.h
-        src/core/engine/VulkanLayer.cpp src/include/Graphic/VulkanLayer.h src/include/Graphic/IncludeVulkan.h src/core/engine/VulkanStructs.cpp src/include/Graphic/VulkanStructs.h src/core/engine/VulkanMeshStruct.cpp src/include/Graphic/VulkanMeshStruct.h)
+        src/core/engine/VulkanLayer.cpp
+        src/include/Graphic/VulkanLayer.h
+        src/include/Graphic/IncludeVulkan.h
+        src/core/engine/VulkanStructs.cpp
+        src/include/Graphic/VulkanStructs.h
+        src/core/engine/VulkanMeshStruct.cpp
+        src/include/Graphic/VulkanMeshStruct.h
+        src/include/Engine/CoreDefine.h
+        src/core/Engine/Transfrom.cpp
+        src/Transfrom.h
+        src/core/Engine/Scene/Manager/EntityIDManager.cpp
+        src/include/Engine/Scene/Manager/EntityIDManager.h
+        src/include/Engine/CoreTypes.h
+        src/include/Engine/ComponentArray.hpp
+        src/core/Engine/Scene/Manager/ComponentManager.cpp
+        src/include/Engine/Scene/Manager/ComponentManager.h
+        src/core/Engine/SystemManager/SceneManager.cpp
+        src/include/Engine/SystemManager/SceneManager.h
+        src/core/Engine/Scene/Entity/Entity.cpp
+        src/include/Engine/Scene/Entity/Entity.h
+        src/include/Engine/SharkSystem.hpp
+        src/include/Engine/SystemManager/InputManager.hpp
+        src/core/Engine/Scene/Scene.cpp
+        src/include/Engine/Scene/Scene.h
+        src/core/Engine/Scene/Manager/SignatureManager.cpp
+        src/include/Engine/Scene/Manager/SignatureManager.h
+        src/core/Engine/Scene/Components/Base/Component.cpp
+        src/include/Engine/Scene/Components/Base/Component.h
+        src/include/Engine/Audio/SharkAudio.hpp
+        src/include/Engine/UniformBufferCamera/Camera.hpp
+)
+
+include_directories("lib/freealut/include")
+add_library(Alut OBJECT "./lib/freealut")
 
 find_package(glm CONFIG REQUIRED)
 target_link_libraries(main PRIVATE glm)
@@ -57,3 +92,6 @@ target_link_libraries(main PRIVATE tinyobjloader::tinyobjloader)
 
 find_package(OpenAL CONFIG REQUIRED)
 target_link_libraries(main PRIVATE OpenAL::OpenAL)
+
+find_package(gli CONFIG REQUIRED)
+target_link_libraries(main PRIVATE gli)

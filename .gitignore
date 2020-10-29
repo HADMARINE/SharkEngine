@@ -32,9 +32,13 @@
 
 #cmake-build
 cmake-build-debug/
+build/
 
 #idea
 .idea/
 
 #vs build file
 build/
+
+#ds_store
+.DS_Store

@@ -10,6 +10,7 @@
 #include "VulkanDrawable.h"
 #include "VulkanShader.h"
 #include "VulkanPipeline.h"
+#include "../../stdafx.hpp"
 
 #include <GLFW/glfw3.h>
 
