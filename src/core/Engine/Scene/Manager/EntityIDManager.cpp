@@ -3,6 +3,7 @@
 //
 
 #include "../../../../include/Engine/Scene/Manager/EntityIDManager.h"
+
 using namespace SharkEngine::Core;
 EntityIDManager::EntityIDManager() {
     for (EntityID entity = 0; entity < MAX_ENTITIES; ++entity)

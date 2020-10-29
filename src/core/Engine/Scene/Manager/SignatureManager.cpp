@@ -13,7 +13,7 @@ shared_ptr<T> SignatureManager::RegisterScene() {
 
     // Create a pointer to the system and return it so it can be used externally
     auto scene = std::make_shared<T>();
-    m_Systems.insert({typeName, system});
+    m_Scenes.insert({typeName, scene});
     return scene;
 }
 

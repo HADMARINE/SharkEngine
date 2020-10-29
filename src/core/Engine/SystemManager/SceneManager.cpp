@@ -4,6 +4,7 @@
 
 #include "../../../include/Engine/SystemManager/SceneManager.h"
 #include "../../../include/Engine/Scene/Scene.h"
+#include "../../../include/Graphic/IncludeVulkan.h"
 
 using namespace SharkEngine::Core;
 void SceneManager::Update() {

@@ -50,7 +50,7 @@ void SharkEngine::Core::Scene::AddComponent(EntityID _id, Component* _compo) {
 
     auto signature = m_EntityIDManager->GetSignature(_id);
     signature.set(m_ComponentManager->GetComponentID<T>(), true);
-    m_EntityIDManager->SetSignature(entity, signature);
+    m_EntityIDManager->SetSignature(_id, signature);
 
     m_SignatureManager->EntitySignatureChanged(_id, signature);
 }

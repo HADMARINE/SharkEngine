@@ -4,6 +4,8 @@
 
 #include "../../include/Graphic/VulkanDrawable.h"
 #include "../../include/Graphic/VulkanApplication.h"
+#include "../../include/Engine/UniformBufferCamera/Camera.hpp"
+
 VulkanDrawable::VulkanDrawable(VulkanRenderer *parent) {
     memset(&UniformData, 0, sizeof(UniformData));
     memset(&VertexBuffer, 0, sizeof(VertexBuffer));
@@ -114,13 +116,16 @@ void VulkanDrawable::Prepare() {
 }
 void VulkanDrawable::Update() {
     VulkanDevice* deviceObj = rendererObj->GetDevice();
-    Projection = glm::perspective(glm::radians(45.0f), 1.0f, 0.1f, 100.0f);
+
+    auto camProp = SharkEngine::Camera::getCurrentCamera()->getCameraProperties();
+
+    Projection = glm::perspective(glm::radians(camProp->fieldOfView), 1.0f, 0.1f, 100.0f);
     View = glm::lookAt(
-            glm::vec3(0, 0, 5),		    // Camera is in World Space
-            glm::vec3(0, 0, 0),		// and looks at the origin
-            glm::vec3(0, 1, 0)		    // Head is up
+            camProp->eye,		    // Camera is in World Space
+            camProp->center,		// and looks at the origin
+            camProp->upVector		    // Head is up
     );
-    Model = glm::mat4(1.0f);
+    Model = camProp->model;
     static float rot = 0;
     rot += .0005f;
     Model = glm::rotate(Model, rot, glm::vec3(0.0, 1.0, 0.0))
