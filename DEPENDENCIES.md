@@ -6,7 +6,7 @@
 [tinyobjloader](https://github.com/tinyobjloader/tinyobjloader) <br>
 [openal-soft](https://github.com/kcat/openal-soft) <br>
 [gli](https://github.com/g-truc/gli) <br>
-[freealut](https://github.com/vancegroup/freealut) sub library <br>
+[freealut](https://github.com/vancegroup/freealut) submodule <br>
 
 ___
 # How to?
