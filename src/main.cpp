@@ -4,11 +4,6 @@
 
 #include "include/Graphic/VulkanApplication.h"
 
-std::vector<const char *> instanceExtensionNames = {
-        VK_KHR_SURFACE_EXTENSION_NAME,
-        VK_EXT_DEBUG_REPORT_EXTENSION_NAME,
-};
-
 std::vector<const char *> layerNames = {
         "VK_LAYER_LUNARG_standard_validation"
 };

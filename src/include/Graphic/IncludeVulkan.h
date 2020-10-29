@@ -32,6 +32,8 @@
 
 /*********** VULKAN HEADER FILES ***********/
 #include <vulkan/vulkan.h>
+#include <GLFW/glfw3.h>
+
 #ifdef AUTO_COMPILE_GLSL_TO_SPV
 #include "SPIRV/GlslangToSpv.h"
 #endif

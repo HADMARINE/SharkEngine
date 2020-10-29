@@ -46,7 +46,6 @@ public:
     uint32_t GetGraphicsQueueHandle();
 
     void GetDeviceQueue();
-
 };
 
 #endif//SHARKENGINE_VULKANDEVICE_H
