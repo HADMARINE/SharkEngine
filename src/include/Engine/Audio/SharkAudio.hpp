@@ -96,7 +96,6 @@ namespace SharkEngine {
 
             ALCenum error;
 
-
             enumeration = alcIsExtensionPresent(nullptr, "ALC_ENUMERATION_EXT");
             if (enumeration == AL_FALSE) {
                 CLogger::Error("[AUDIO] Enumeration extension is not available.");
@@ -104,9 +103,7 @@ namespace SharkEngine {
 
             listAudioDevices(alcGetString(nullptr, ALC_DEVICE_SPECIFIER));
 
-            if (!defaultDeviceName) {
-                defaultDeviceName = alcGetString(nullptr, ALC_DEFAULT_DEVICE_SPECIFIER);
-            }
+            defaultDeviceName = alcGetString(nullptr, ALC_DEFAULT_DEVICE_SPECIFIER);
 
             device = alcOpenDevice(defaultDeviceName);
 
@@ -131,6 +128,7 @@ namespace SharkEngine {
         }
 
         static void cleanupAll() {
+            //TODO : FIX THIS FUNCTION
             for (auto source : Audio::sources) {
                 alDeleteSources(1, reinterpret_cast<const ALuint *>(source.source));
                 alDeleteBuffers(1, reinterpret_cast<const ALuint *>(source.buffer));
