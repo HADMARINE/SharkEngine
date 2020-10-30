@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.17)
-project(SharkEngine VERSION 1.0.0 LANGUAGES CXX)
+project(SharkEngine VERSION 1.0.0 LANGUAGES CXX C)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -66,8 +66,12 @@ add_executable(
         src/include/Engine/UniformBufferCamera/Camera.hpp
 )
 
-include_directories("lib/freealut/include")
-add_library(Alut OBJECT "./lib/freealut")
+target_include_directories(main PRIVATE src)
+
+add_subdirectory(lib/freealut)
+target_include_directories(main PRIVATE lib/freealut/include)
+target_link_libraries(main PRIVATE alut)
+
 
 find_package(glm CONFIG REQUIRED)
 target_link_libraries(main PRIVATE glm)
