@@ -28,6 +28,17 @@ namespace SharkEngine {
         }                                                 \
     }
 
+#define checkAudioErrorVoid(_msg)                         \
+    if (GlobalPreferences::DEBUG) {                       \
+        error = alGetError();                             \
+        if (error != AL_NO_ERROR) {                       \
+            CLogger::Error("[AUDIO] %s", _msg);           \
+            return;                                       \
+        } else {                                          \
+            CLogger::Debug("[AUDIO] %s COMPLETED", _msg); \
+        }                                                 \
+    }
+
     public:
         struct SourcePreferences {
             SourcePreferences() {
@@ -55,11 +66,6 @@ namespace SharkEngine {
             ALuint *buffer;
         };
 
-
-        Audio() {
-                this->initialize();
-        };
-        ~Audio() = default;
 
         int setListenerPreferences(ListenerPreferences *pref) {
             ALenum error;
@@ -121,9 +127,10 @@ namespace SharkEngine {
             }
 
             checkAudioError("Make default context");
+            Audio::isInitialized = true;
         }
 
-        static void cleanup() {
+        static void cleanupAll() {
             for (auto source : Audio::sources) {
                 alDeleteSources(1, reinterpret_cast<const ALuint *>(source.source));
                 alDeleteBuffers(1, reinterpret_cast<const ALuint *>(source.buffer));
@@ -135,13 +142,27 @@ namespace SharkEngine {
             alcCloseDevice(device);
         }
 
+        void cleanup() {
+            return cleanup(this->currentMountedAudio);
+        }
+
+        void cleanup(unsigned int idx) {
+            auto src = Audio::sources.at(idx);
+            alDeleteSources(1, reinterpret_cast<const ALuint *>(src.source));
+            alDeleteBuffers(1, reinterpret_cast<const ALuint *>(src.buffer));
+        }
+
         struct AudioStruct {
             ALuint source;
             ALuint buffer;
         };
 
 
-        int load(const char *filename, SourcePreferences &pref) {
+        Audio(const char *filename, SourcePreferences &pref) {
+            if (!Audio::isInitialized) {
+                CLogger::Error("[AUDIO] audio is not initialized!");
+                throw std::runtime_error("[AUDIO] audio is not initialized");
+            }
             AudioStruct audStruct;
             ALCenum error, format;
             ALboolean loop = pref.loop ? AL_TRUE : AL_FALSE;
@@ -150,47 +171,62 @@ namespace SharkEngine {
 
 
             alGenSources((ALuint) 1, &audStruct.source);
-            checkAudioError("Source generation");
+            checkAudioErrorVoid("Source generation");
 
             alSourcef(audStruct.source, AL_PITCH, pref.pitch);
-            checkAudioError("Source Pitch");
+            checkAudioErrorVoid("Source Pitch");
 
             alSourcef(audStruct.source, AL_GAIN, pref.gain);
-            checkAudioError("Source Gain");
+            checkAudioErrorVoid("Source Gain");
 
             alSource3f(audStruct.source, AL_POSITION, pref.pos.x, pref.pos.y, pref.pos.z);
-            checkAudioError("Source Position");
+            checkAudioErrorVoid("Source Position");
 
             alSource3f(audStruct.source, AL_VELOCITY, pref.vel.x, pref.vel.y, pref.vel.z);
-            checkAudioError("Source Velocity");
+            checkAudioErrorVoid("Source Velocity");
 
             alSourcei(audStruct.source, AL_LOOPING, loop);
-            checkAudioError("Source Loop");
+            checkAudioErrorVoid("Source Loop");
 
             alGenBuffers(1, &audStruct.buffer);
-            checkAudioError("Buffer generation");
+            checkAudioErrorVoid("Buffer generation");
 
             alutLoadWAVFile((ALbyte *) ("../src/source/audio/" + std::string(filename)).c_str(), &format, &data, &size, &freq);
-            checkAudioError("Load wav file");
+            checkAudioErrorVoid("Load wav file");
 
             alBufferData(audStruct.buffer, format, data, size, freq);
-            checkAudioError("Buffer copy");
+            checkAudioErrorVoid("Buffer copy");
 
             alSourcei(audStruct.source, AL_BUFFER, audStruct.buffer);
-            checkAudioError("Buffer binding");
+            checkAudioErrorVoid("Buffer binding");
 
             sources.push_back(audStruct);
 
             this->currentMountedAudio = sources.size() - 1;
+        }
+
+        Audio(const Audio &audio) {
+            //TODO : constructor fix
+        }
+
+        ~Audio() {
+            cleanup();
+        }
+
+        unsigned int getCurrentMountedAudio() {
             return this->currentMountedAudio;
+        }
+
+        int play() {
+            return this->play(this->currentMountedAudio);
         }
 
         int play(unsigned int idx) {
             ALCenum error;
             auto src = sources.at(idx).source;
 
-            std::thread th([=](){
-              alSourcePlay(src);
+            std::thread th([=]() {
+                alSourcePlay(src);
             });
             th.join();
 
@@ -198,19 +234,8 @@ namespace SharkEngine {
             return 0;
         }
 
-        int play() {
-            ALCenum error;
-
-            auto src = sources.at(this->currentMountedAudio).source;
-            alSourcePlay(src);
-
-            std::thread th([=](){
-              alSourcePlay(src);
-            });
-            th.join();
-
-            checkAudioError("Play");
-            return 0;
+        int pause() {
+            this->pause(this->currentMountedAudio);
         }
 
         int pause(unsigned int idx) {
@@ -223,12 +248,7 @@ namespace SharkEngine {
         }
 
         int stop() {
-            ALCenum error;
-            auto src = sources.at(this->currentMountedAudio).source;
-
-            alSourceStop(src);
-            checkAudioError("Stop");
-            return 0;
+            return this->stop(this->currentMountedAudio);
         }
 
         int stop(unsigned int idx) {
@@ -240,6 +260,10 @@ namespace SharkEngine {
             return 0;
         }
 
+        int rewind() {
+            return this->rewind(this->currentMountedAudio);
+        }
+
         int rewind(unsigned int idx) {
             ALCenum error;
             auto src = sources.at(idx).source;
@@ -247,6 +271,10 @@ namespace SharkEngine {
             alSourceRewind(src);
             checkAudioError("Rewind");
             return 0;
+        }
+
+        ALint getState() {
+            return this->getState(this->currentMountedAudio);
         }
 
         ALint getState(unsigned int idx) {
@@ -264,6 +292,10 @@ namespace SharkEngine {
             }
 
             return sourceState;
+        }
+
+        int updateSourcePreferences(SourcePreferences &pref) {
+            return this->updateSourcePreferences(pref);
         }
 
         int updateSourcePreferences(unsigned int idx, SourcePreferences &pref) {
@@ -289,6 +321,9 @@ namespace SharkEngine {
             return 0;
         }
 
+        SourcePreferences getSourcePreferences() {
+            return this->getSourcePreferences(this->currentMountedAudio);
+        }
 
         SourcePreferences getSourcePreferences(unsigned int idx) {
             return reinterpret_cast<SourcePreferences &&>(sources.at(idx));
@@ -296,6 +331,7 @@ namespace SharkEngine {
 
     private:
         // Member Variable
+        static bool isInitialized;
         static std::vector<AudioStruct> sources;
         static ALCdevice *device;
         static ALCcontext *context;
@@ -338,10 +374,12 @@ namespace SharkEngine {
             }
         }
     };
+    
     std::vector<Audio::AudioStruct> Audio::sources{};
     ALCdevice *Audio::device = nullptr;
     ALCcontext *Audio::context = nullptr;
     Audio::ListenerPreferences *Audio::listenerPref = nullptr;
+    bool Audio::isInitialized = false;
 
 
 }// namespace SharkEngine
