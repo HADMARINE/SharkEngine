@@ -143,7 +143,7 @@ namespace SharkEngine {
         }
 
         void cleanup() {
-            return cleanup(this->currentMountedAudio);
+            return cleanup(this->currentAudioIndex);
         }
 
         void cleanup(unsigned int idx) {
@@ -202,11 +202,15 @@ namespace SharkEngine {
 
             sources.push_back(audStruct);
 
-            this->currentMountedAudio = sources.size() - 1;
+            this->currentAudioIndex = sources.size() - 1;
         }
 
         Audio(const Audio &audio) {
             //TODO : constructor fix
+//            Audio(audio.currentAudioFileName.c_str(), audio.currentAudioPreferences);
+            this->currentAudioIndex = audio.currentAudioIndex;
+            this->currentAudioFileName = audio.currentAudioFileName;
+            this->currentAudioPreferences = audio.currentAudioPreferences;
         }
 
         ~Audio() {
@@ -214,11 +218,11 @@ namespace SharkEngine {
         }
 
         unsigned int getCurrentMountedAudio() {
-            return this->currentMountedAudio;
+            return this->currentAudioIndex;
         }
 
         int play() {
-            return this->play(this->currentMountedAudio);
+            return this->play(this->currentAudioIndex);
         }
 
         int play(unsigned int idx) {
@@ -235,7 +239,7 @@ namespace SharkEngine {
         }
 
         int pause() {
-            this->pause(this->currentMountedAudio);
+            this->pause(this->currentAudioIndex);
         }
 
         int pause(unsigned int idx) {
@@ -248,7 +252,7 @@ namespace SharkEngine {
         }
 
         int stop() {
-            return this->stop(this->currentMountedAudio);
+            return this->stop(this->currentAudioIndex);
         }
 
         int stop(unsigned int idx) {
@@ -261,7 +265,7 @@ namespace SharkEngine {
         }
 
         int rewind() {
-            return this->rewind(this->currentMountedAudio);
+            return this->rewind(this->currentAudioIndex);
         }
 
         int rewind(unsigned int idx) {
@@ -274,7 +278,7 @@ namespace SharkEngine {
         }
 
         ALint getState() {
-            return this->getState(this->currentMountedAudio);
+            return this->getState(this->currentAudioIndex);
         }
 
         ALint getState(unsigned int idx) {
@@ -322,7 +326,7 @@ namespace SharkEngine {
         }
 
         SourcePreferences getSourcePreferences() {
-            return this->getSourcePreferences(this->currentMountedAudio);
+            return this->getSourcePreferences(this->currentAudioIndex);
         }
 
         SourcePreferences getSourcePreferences(unsigned int idx) {
@@ -337,7 +341,9 @@ namespace SharkEngine {
         static ALCcontext *context;
         static ListenerPreferences *listenerPref;
 
-        unsigned int currentMountedAudio;
+        unsigned int currentAudioIndex;
+        std::string currentAudioFileName;
+        SourcePreferences currentAudioPreferences;
 
 
         static void listAudioDevices(const ALCchar *devices) {
@@ -374,7 +380,7 @@ namespace SharkEngine {
             }
         }
     };
-    
+
     std::vector<Audio::AudioStruct> Audio::sources{};
     ALCdevice *Audio::device = nullptr;
     ALCcontext *Audio::context = nullptr;
