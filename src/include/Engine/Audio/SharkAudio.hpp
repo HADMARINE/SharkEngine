@@ -297,7 +297,7 @@ namespace SharkEngine {
         }
 
         int updateSourcePreferences(SourcePreferences &pref) {
-            return this->updateSourcePreferences(pref);
+            this->updateSourcePreferences(this->currentAudioIndex, pref);
         }
 
         int updateSourcePreferences(unsigned int idx, SourcePreferences &pref) {
