@@ -8,8 +8,6 @@
 #include "../../CoreDefine.h"
 #include "../../CoreTypes.h"
 
-using namespace std;
-
 namespace SharkEngine::Core {
     class EntityIDManager {
     public:
@@ -25,7 +23,7 @@ namespace SharkEngine::Core {
         Signature GetSignature(EntityID);
 
     private:
-        // Queue of unused entity IDs
+        // Queue of unu`sed entity IDs
         std::queue<EntityID> m_AvailableEntityIDs{};
         // Signature array granted to the entity ID
         std::array<Signature, MAX_ENTITIES> m_Signatures{};

@@ -45,7 +45,8 @@ void SignatureManager::EntitySignatureChanged(EntityID _ID, Signature _Signature
         {
             scene->m_EntityList.insert(_ID);
         }
-            // Entity signature does not match system signature - erase from set
+
+        // Entity signature does not match system signature - erase from set
         else
         {
             scene->m_EntityList.erase(_ID);

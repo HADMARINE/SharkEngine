@@ -23,7 +23,7 @@ ComponentID ComponentManager::GetComponentID() {
 }
 
 template<typename T>
-void ComponentManager::AddComponent(EntityID _id, T* component) {
+void ComponentManager::AddComponent(EntityID _id, Component* component) {
     GetComponentArray<T>()->AddComponent(_id, component);
 }
 template<typename T>

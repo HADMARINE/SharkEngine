@@ -12,9 +12,10 @@
 #include <shared_mutex>
 #include "../CoreTypes.h"
 
-using namespace std;
 
 namespace SharkEngine::Core {
+    using namespace std;
+
     class EntityIDManager;
     class ComponentManager;
     class SignatureManager;
@@ -58,7 +59,7 @@ namespace SharkEngine::Core {
         void RemoveComponent(EntityID);
 
         template <typename T>
-        void AddComponent(EntityID, Component*);
+        T* AddComponent(EntityID);
 
         template <typename T>
         T* GetComponent(EntityID);

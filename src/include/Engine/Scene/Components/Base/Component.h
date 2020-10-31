@@ -42,7 +42,12 @@ namespace SharkEngine::Core {
 
         //Component Listeners
     public:
-        //void OnCollisionEnter(Collision*);
+        virtual void OnCollisionEnter(Collision*){};
+        virtual void OnCollisionStay(Collision*){};
+        virtual void OnCollisionExit(Collision*){};
+        virtual void OnTriggerEnter(Collision*){};
+        virtual void OnTriggerStay(Collision*){};
+        virtual void OnTriggerExit(Collision*){};
     };
 }
 

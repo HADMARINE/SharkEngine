@@ -5,14 +5,16 @@
 #ifndef SHARKENGINE_INCLUDEVULKAN_H
 #define SHARKENGINE_INCLUDEVULKAN_H
 
+
+#pragma warning(disable : 4819)
+
 #include "../Engine/CoreDefine.h"
 /*********** C/C++ HEADER FILES ***********/
-//#include <unistd.h>
 
 /*********** COMPILER SPECIFIC PREPROCESSORS ***********/
 #if defined(_WIN32) || defined(_WIN64)
-#define WIN32_LEAN_AND_MEAN
-#define NOMINMAX
+//#define WIN32_LEAN_AND_MEAN
+//#define NOMINMAX
 //#define VK_USE_PLATFORM_XCB_KHR
 #elif defined(__APPLE__)
 #define VK_USE_PLATFORM_MACOS_MVK
@@ -32,7 +34,7 @@
 #include <GLFW/glfw3.h>
 
 #ifdef AUTO_COMPILE_GLSL_TO_SPV
-#include "SPIRV/GlslangToSpv.h"
+//#include "SPIRV/GlslangToSpv.h"
 #endif
 
 #endif//SHARKENGINE_INCLUDEVULKAN_H

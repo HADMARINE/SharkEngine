@@ -23,7 +23,7 @@ namespace SharkEngine::Core {
     class ComponentArray : public IComponentArray
     {
     public:
-        void AddComponent (EntityID _id, T* component)
+        void AddComponent (EntityID _id, Component* component)
         {
             // Put new entry at end and update the maps
             size_t newIndex = m_Size;
@@ -54,10 +54,6 @@ namespace SharkEngine::Core {
 
         T* GetComponent(EntityID _id = -1)
         {
-            if(_id != -1) {
-                return dynamic_cast<T>(m_ComponentArray[m_EntityToIndexMap[_id]]);
-            }
-
             for(auto iter : m_ComponentArray) {
                 T* p_tmp = dynamic_cast<T*>(iter);
 

@@ -50,13 +50,12 @@ void SharkEngine::Core::Scene::RegisterComponent() {
 }
 
 template<typename T>
-void SharkEngine::Core::Scene::AddComponent(EntityID _id, Component* _compo) {
-    m_ComponentManager->AddComponent<T>(_id, _compo);
+T* SharkEngine::Core::Scene::AddComponent(EntityID _id) {
+    m_ComponentManager->AddComponent<T>(_id);
 
     auto signature = m_EntityIDManager->GetSignature(_id);
     signature.set(m_ComponentManager->GetComponentID<T>(), true);
     m_EntityIDManager->SetSignature(_id, signature);
-
     m_SignatureManager->EntitySignatureChanged(_id, signature);
 }
 

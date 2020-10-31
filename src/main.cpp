@@ -4,6 +4,7 @@
 
 #include "include/Graphic/VulkanApplication.h"
 #include "include/Engine/SharkSystem.hpp"
+#include "InGame/Scenes/TestScene.h"
 
 using namespace SharkEngine::Core;
 
@@ -21,6 +22,7 @@ int main() {
     appObj->Initialize();
     appObj->Prepare();
     SHARK_ENGINE->InitializeEngine();
+    SHARK_ENGINE->SetStartScene(new TestScene());
 
     bool isWindowOpen = true;
     while (isWindowOpen) {

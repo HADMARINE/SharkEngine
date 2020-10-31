@@ -9,8 +9,6 @@
 #include <shared_mutex>
 #include <unordered_map>
 
-using namespace std;
-
 namespace SharkEngine::Core {
     class Scene;
 
@@ -25,7 +23,7 @@ namespace SharkEngine::Core {
     class SignatureManager {
     public:
         template<typename T>
-        shared_ptr<T> RegisterScene();
+        std::shared_ptr<T> RegisterScene();
 
         template<typename T>
         void SetSignature(Signature signature);
@@ -34,11 +32,9 @@ namespace SharkEngine::Core {
         void EntitySignatureChanged(EntityID _ID, Signature _Signature);
 
     private:
-        unordered_map<const char*, Signature> m_Signatures{};
-
+        std::unordered_map<const char*, Signature> m_Signatures{};
         //Scene의 서명을 관리
-        unordered_map<const char*, shared_ptr<Scene>> m_Scenes{};
-
+        std::unordered_map<const char*, std::shared_ptr<Scene>> m_Scenes{};
     };
 }
 

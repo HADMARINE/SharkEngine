@@ -48,7 +48,7 @@ void VulkanRenderer::Initialize() {
     CreateShaders();
 
     //CreateTextureLinear("../../source/texture.jpg", VK_IMAGE_USAGE_SAMPLED_BIT);
-    CreateTextureLinear("../src/source/texture2.jpg", VK_IMAGE_USAGE_SAMPLED_BIT);
+    //CreateTextureLinear("../src/source/texture2.jpg", VK_IMAGE_USAGE_SAMPLED_BIT);
 
     CreateDescriptors();
     CreatePipelineStateManagement();

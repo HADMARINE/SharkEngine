@@ -4,13 +4,16 @@
 
 #ifndef VULKAN_ENGINE_SCENEMANAGER_H
 #define VULKAN_ENGINE_SCENEMANAGER_H
+#include "../../../include/Engine/CoreDefine.h"
+#include "../../../CLogger.hpp"
+#include "../Scene/Scene.h"
 
 namespace SharkEngine::Core {
     class Scene;
 
     class SceneManager {
     public:
-        SceneManager() {};
+        SceneManager() : currentScene(nullptr) {};
         ~SceneManager() {};
 
         const Scene* GetCurrentScene();
@@ -21,8 +24,15 @@ namespace SharkEngine::Core {
         void Render();
         void EndScene();
 
-        template <typename T>
-        void ChangeScene();
+        void ChangeScene(Scene* scene) {
+            if(!scene) {
+                throw std::runtime_error("This is not supported type(Scene Manager)");
+            }
+
+            if(this->currentScene) SAFE_DELETE(this->currentScene);
+            this->currentScene = scene;
+            currentScene->Init();
+        }
 
     private:
         Scene* currentScene;

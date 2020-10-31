@@ -13,9 +13,10 @@
 #include <unordered_map>
 #include <glm/glm.hpp>
 
-using namespace std;
 
 namespace SharkEngine::Core {
+    using namespace std;
+
     class ComponentManager {
     public:
         ~ComponentManager();
@@ -26,7 +27,7 @@ namespace SharkEngine::Core {
         ComponentID GetComponentID();
 
         template<typename T>
-        void AddComponent(EntityID, T*);
+        void AddComponent(EntityID, Component* component);
 
         template<typename T>
         T* GetComponent(EntityID);

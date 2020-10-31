@@ -11,9 +11,9 @@ using namespace SharkEngine::Core;
 
 class TestScene : public Scene {
 public:
-    TestScene();
-    ~TestScene();
-
+    TestScene(){};
+    ~TestScene(){};
+    void Init(){ Scene::Init(); };
 };
 
 

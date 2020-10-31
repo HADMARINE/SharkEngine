@@ -6,7 +6,6 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
 set(ROOTSRC ${CMAKE_CURRENT_SOURCE_DIR}/src)
-
 add_executable(
         main
         src/main.cpp
@@ -64,10 +63,12 @@ add_executable(
         src/include/Engine/Scene/Components/Base/Component.h
         src/include/Engine/Audio/SharkAudio.hpp
         src/include/Engine/UniformBufferCamera/Camera.hpp
+        src/core/Engine/Scene/Components/Base/CoreStructs.cpp
+        src/include/Engine/CoreStructs.h src/InGame/Scenes/TestScene.cpp
+        src/InGame/Scenes/TestScene.h
+        src/core/Engine/SystemManager/TimeManager.cpp
+        src/include/Engine/SystemManager/TimeManager.h
 )
-
-include_directories("lib/freealut/include")
-add_library(Alut OBJECT "./lib/freealut" src/core/Engine/Scene/Components/Base/CoreStructs.cpp src/include/Engine/CoreStructs.h src/InGame/Scenes/TestScene.cpp src/InGame/Scenes/TestScene.h)
 
 find_package(glm CONFIG REQUIRED)
 target_link_libraries(main PRIVATE glm)

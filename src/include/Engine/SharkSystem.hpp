@@ -7,10 +7,10 @@
 
 #include "../../stdafx.hpp"
 #include "SystemManager/SceneManager.h"
+#include "SystemManager/TimeManager.h"
+#include "Scene/Scene.h"
 
 #define SHARK_ENGINE SharkSystem::Instance()
-//#define SHARK_SCENE_MGR SharkSystem::sceneMgr
-//#define SHARK_INPUT_MGR SharkSystem::sceneMgr
 
 class SharkSystem {
 public:
@@ -28,23 +28,25 @@ public:
 
     void InitializeEngine() {
         sceneMgr = new SharkEngine::Core::SceneManager();
+        timeMgr = new SharkEngine::Core::TimeManager();
         //inputMgr = new InputManager();
     }
 
-    template <typename T>
-    void SetStartScene() {
-        sceneMgr->ChangeScene<T>();
+    void SetStartScene(SharkEngine::Core::Scene* startScene) {
+        sceneMgr->ChangeScene(startScene);
     }
 
     void Start()        { sceneMgr->Start(); }
-    void Update()       { sceneMgr->Update(); }
+    void Update()       { timeMgr->Update(); sceneMgr->Update(); }
     void LateUpdate()   { sceneMgr->LateUpdate(); }
     void Render()       { sceneMgr->Render(); }
     void EndScene()     { sceneMgr->EndScene(); }
 
+    SharkEngine::Core::SceneManager* GetSceneManager() {return sceneMgr;}
+    SharkEngine::Core::TimeManager* GetTimeManager() {return timeMgr;}
 public:
     SharkEngine::Core::SceneManager* sceneMgr;
-    //static InputManager* inputMgr;
+    SharkEngine::Core::TimeManager* timeMgr;
 };
 
 std::unique_ptr<SharkSystem> SharkSystem::instance;
