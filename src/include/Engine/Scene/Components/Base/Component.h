@@ -6,16 +6,22 @@
 #define VULKAN_ENGINE_COMPONENT_H
 
 #include "../../../CoreTypes.h"
+#include "../../../CoreStructs.h"
 
 namespace SharkEngine::Core {
+    class ComponentManager;
+
     class Component {
     public:
-        Component(){};
+        Component() : isDestroy(false), isActive(true), isStarted(false){};
         ~Component(){};
-        virtual void Update(){}
-        virtual void LateUpdate(){}
-        virtual void Render(){}
-        virtual void EndScene(){}
+        virtual void Start()        {}
+        virtual void Update()       {}
+        virtual void LateUpdate()   {}
+        virtual void Render()       {}
+        virtual void EndScene()     {}
+
+        friend ComponentManager;
 
         void Destroy() { isDestroy = true; }
         static void Destroy(Component* compo) { compo->Destroy(); }
@@ -30,8 +36,13 @@ namespace SharkEngine::Core {
     protected:
         EntityID m_EntityID;
         ComponentID m_ComponentID;
-        bool isDestroy = false;
-        bool isActive = true;
+        bool isDestroy;
+        bool isActive;
+        bool isStarted;
+
+        //Component Listeners
+    public:
+        //void OnCollisionEnter(Collision*);
     };
 }
 

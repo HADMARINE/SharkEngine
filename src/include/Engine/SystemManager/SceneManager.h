@@ -15,17 +15,16 @@ namespace SharkEngine::Core {
 
         const Scene* GetCurrentScene();
 
-        void MainLoop();
-
-        template<typename T>
-        void ChangeScene();
-
-    private:
+        void Start();
         void Update();
         void LateUpdate();
         void Render();
         void EndScene();
 
+        template <typename T>
+        void ChangeScene();
+
+    private:
         Scene* currentScene;
     };
 }

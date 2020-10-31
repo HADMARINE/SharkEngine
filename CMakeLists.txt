@@ -16,33 +16,33 @@ add_executable(
         src/CLogger.hpp
         src/util/Assets.cpp
         src/Assets.hpp
-        src/core/engine/VulkanApplication.cpp
+        src/core/Graphic/VulkanApplication.cpp
         src/include/Graphic/VulkanApplication.h
-        src/core/engine/VulkanDevice.cpp
+        src/core/Graphic/VulkanDevice.cpp
         src/include/Graphic/VulkanDevice.h
-        src/core/engine/VulkanDescriptor.cpp
+        src/core/Graphic/VulkanDescriptor.cpp
         src/include/Graphic/VulkanDescriptor.h
-        src/core/engine/VulkanDrawable.cpp
+        src/core/Graphic/VulkanDrawable.cpp
         src/include/Graphic/VulkanDrawable.h
-        src/core/engine/VulkanInstance.cpp
+        src/core/Graphic/VulkanInstance.cpp
         src/include/Graphic/VulkanInstance.h
-        src/core/engine/VulkanPipeline.cpp
+        src/core/Graphic/VulkanPipeline.cpp
         src/include/Graphic/VulkanPipeline.h
-        src/core/engine/VulkanRenderer.cpp
+        src/core/Graphic/VulkanRenderer.cpp
         src/include/Graphic/VulkanRenderer.h
-        src/core/engine/VulkanShader.cpp
+        src/core/Graphic/VulkanShader.cpp
         src/include/Graphic/VulkanShader.h
-        src/core/engine/VulkanSwapChain.cpp
+        src/core/Graphic/VulkanSwapChain.cpp
         src/include/Graphic/VulkanSwapChain.h
-        src/core/engine/VulkanLayer.cpp
+        src/core/Graphic/VulkanLayer.cpp
         src/include/Graphic/VulkanLayer.h
         src/include/Graphic/IncludeVulkan.h
-        src/core/engine/VulkanStructs.cpp
+        src/core/Graphic/VulkanStructs.cpp
         src/include/Graphic/VulkanStructs.h
-        src/core/engine/VulkanMeshStruct.cpp
+        src/core/Graphic/VulkanMeshStruct.cpp
         src/include/Graphic/VulkanMeshStruct.h
         src/include/Engine/CoreDefine.h
-        src/core/Engine/Transfrom.cpp
+        src/core/Graphic/Transfrom.cpp
         src/Transfrom.h
         src/core/Engine/Scene/Manager/EntityIDManager.cpp
         src/include/Engine/Scene/Manager/EntityIDManager.h
@@ -67,7 +67,7 @@ add_executable(
 )
 
 include_directories("lib/freealut/include")
-add_library(Alut OBJECT "./lib/freealut")
+add_library(Alut OBJECT "./lib/freealut" src/core/Engine/Scene/Components/Base/CoreStructs.cpp src/include/Engine/CoreStructs.h src/InGame/Scenes/TestScene.cpp src/InGame/Scenes/TestScene.h)
 
 find_package(glm CONFIG REQUIRED)
 target_link_libraries(main PRIVATE glm)

@@ -46,6 +46,8 @@ public:
     uint32_t GetGraphicsQueueHandle();
 
     void GetDeviceQueue();
+
+    uint32_t FindMemoryType(uint32_t typeFilter, VkMemoryPropertyFlags properties);
 };
 
 #endif//SHARKENGINE_VULKANDEVICE_H

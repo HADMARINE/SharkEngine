@@ -48,6 +48,18 @@ template<typename T>
 shared_ptr<ComponentArray<T>> ComponentManager::GetComponentArray() {
     return shared_ptr<ComponentArray<T>>();
 }
+void ComponentManager::Start() {
+    for(auto const& pair : m_ComponentArrays) {
+        auto const& components = pair.second;
+
+        auto const& componentArray = components->GetComponentArray();
+
+        for (auto compoIter : *componentArray) {
+            if(!compoIter->isStarted)
+                compoIter->Start();
+        }
+    }
+}
 void ComponentManager::Update() {
     for(auto const& pair : m_ComponentArrays) {
         auto const& components = pair.second;

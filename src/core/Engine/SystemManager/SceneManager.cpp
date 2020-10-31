@@ -7,17 +7,20 @@
 #include "../../../include/Graphic/IncludeVulkan.h"
 
 using namespace SharkEngine::Core;
+void SceneManager::Start() {
+    if(currentScene) currentScene->Start();
+}
 void SceneManager::Update() {
-    currentScene->Update();
+    if(currentScene) currentScene->Update();
 }
 void SceneManager::LateUpdate() {
-    currentScene->LateUpdate();
+    if(currentScene) currentScene->LateUpdate();
 }
 void SceneManager::Render() {
-    currentScene->Render();
+    if(currentScene) currentScene->Render();
 }
 void SceneManager::EndScene() {
-    currentScene->EndScene();
+    if(currentScene) currentScene->EndScene();
 }
 const Scene *SceneManager::GetCurrentScene() {
     return currentScene;
@@ -28,10 +31,4 @@ void SceneManager::ChangeScene() {
 
     SAFE_DELETE(this->currentScene);
     this->currentScene = dynamic_cast<Scene*>(currentScene);
-}
-void SceneManager::MainLoop() {
-    Update();
-    LateUpdate();
-    Render();
-    EndScene();
 }

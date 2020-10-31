@@ -55,8 +55,14 @@ public:
     void CreateShaders();
     void CreatePipelineStateManagement();
     void CreateDescriptors();
-    void CreateTextureLinear (const char* filename, VkImageUsageFlags imageUsageFlags = VK_IMAGE_USAGE_SAMPLED_BIT, VkFormat format = VK_FORMAT_R8G8B8A8_UNORM);
-    void CreateTextureOptimal(const char* filename, VkImageUsageFlags imageUsageFlags = VK_IMAGE_USAGE_SAMPLED_BIT, VkFormat format = VK_FORMAT_R8G8B8A8_UNORM);
+
+    void CreateStagingBuffer(VkDeviceSize size,
+                             VkBufferUsageFlags usage,
+                             VkMemoryPropertyFlags properties,
+                             VkBuffer &buffer,
+                             VkDeviceMemory &bufferMemory);
+    void CreateTextureLinear (const char* filename, VkImageUsageFlags imageUsageFlags = VK_IMAGE_USAGE_SAMPLED_BIT, VkFormat format = VK_FORMAT_R8G8B8A8_SRGB);
+    void CreateTextureOptimal(const char* filename, VkImageUsageFlags imageUsageFlags = VK_IMAGE_USAGE_SAMPLED_BIT, VkFormat format = VK_FORMAT_R8G8B8A8_SRGB);
 
     void DestroyCommandBuffer();
     void DestroyCommandPool();
@@ -85,14 +91,13 @@ public:
     VkCommandBuffer		cmdTexture;				// Command buffer for creating the texture
 
     VkRenderPass		renderPass;				// Render pass created object
-    std::vector<VkFramebuffer> framebuffers;	// Number of frame buffer corresponding to each swap chain
-    std::vector<VkPipeline*> pipelineList;		// List of pipelines
+    std::vector<VkFramebuffer>  framebuffers;	// Number of frame buffer corresponding to each swap chain
+    std::vector<VkPipeline*>    pipelineList;		// List of pipelines
+
+    int					width, height;
 
     //임시 텍스쳐 메니저
-    int					width, height;
     std::map<const char*, TextureData*> texturesData;
-
-
 
 private:
     VulkanApplication* application;

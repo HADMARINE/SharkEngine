@@ -7,16 +7,13 @@
 
 #include "../Engine/CoreDefine.h"
 /*********** C/C++ HEADER FILES ***********/
-#include <unistd.h>
+//#include <unistd.h>
 
 /*********** COMPILER SPECIFIC PREPROCESSORS ***********/
 #if defined(_WIN32) || defined(_WIN64)
-#pragma comment(linker, "/subsystem:console")
 #define WIN32_LEAN_AND_MEAN
 #define NOMINMAX
-#define APP_NAME_STR_LEN 80
-#define _CRT_SECURE_NO_WARNINGS
-#define VK_USE_PLATFORM_XCB_KHR
+//#define VK_USE_PLATFORM_XCB_KHR
 #elif defined(__APPLE__)
 #define VK_USE_PLATFORM_MACOS_MVK
 #endif

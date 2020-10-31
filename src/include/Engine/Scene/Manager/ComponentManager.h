@@ -11,6 +11,7 @@
 #include "../Components/Base/Component.h"
 #include <shared_mutex>
 #include <unordered_map>
+#include <glm/glm.hpp>
 
 using namespace std;
 
@@ -35,6 +36,7 @@ namespace SharkEngine::Core {
 
         void EntityDestroyed(EntityID);
 
+        void Start();
         void Update();
         void LateUpdate();
         void Render();

@@ -5,37 +5,49 @@
 #ifndef VULKAN_ENGINE_SHARKSYSTEM_H
 #define VULKAN_ENGINE_SHARKSYSTEM_H
 
-#define SHARK_ENGINE SharkSystem::Initialize()
-#define SHARK_SCENE_MGR SharkSystem::sceneMgr
-#define SHARK_INPUT_MGR SharkSystem::sceneMgr
-
-#include "SystemManager/InputManager.hpp"
+#include "../../stdafx.hpp"
 #include "SystemManager/SceneManager.h"
 
-using namespace SharkEngine::Core;
+#define SHARK_ENGINE SharkSystem::Instance()
+//#define SHARK_SCENE_MGR SharkSystem::sceneMgr
+//#define SHARK_INPUT_MGR SharkSystem::sceneMgr
 
 class SharkSystem {
 public:
+    static std::unique_ptr<SharkSystem> instance;
+    static std::once_flag onlyOnce;
+
     SharkSystem() = default;
     ~SharkSystem() = default;
 
-    static SharkSystem* Initialize() {
-        static SharkSystem* sys = new SharkSystem();
-        return sys;
+    static SharkSystem* Instance() {
+        std::call_once(onlyOnce, [](){instance.reset(new SharkSystem()); });
+
+        return instance.get();
     };
 
     void InitializeEngine() {
-        sceneMgr = new SceneManager();
-        inputMgr = new InputManager();
+        sceneMgr = new SharkEngine::Core::SceneManager();
+        //inputMgr = new InputManager();
     }
 
-    void MainLoop() {
-        sceneMgr->MainLoop();
+    template <typename T>
+    void SetStartScene() {
+        sceneMgr->ChangeScene<T>();
     }
+
+    void Start()        { sceneMgr->Start(); }
+    void Update()       { sceneMgr->Update(); }
+    void LateUpdate()   { sceneMgr->LateUpdate(); }
+    void Render()       { sceneMgr->Render(); }
+    void EndScene()     { sceneMgr->EndScene(); }
 
 public:
-    static SceneManager* sceneMgr;
-    static InputManager* inputMgr;
+    SharkEngine::Core::SceneManager* sceneMgr;
+    //static InputManager* inputMgr;
 };
+
+std::unique_ptr<SharkSystem> SharkSystem::instance;
+std::once_flag SharkSystem::onlyOnce;
 
 #endif//VULKAN_ENGINE_SHARKSYSTEM_H

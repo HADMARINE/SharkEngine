@@ -5,15 +5,15 @@
 #ifndef VULKAN_ENGINE_INPUTMANAGER_HPP
 #define VULKAN_ENGINE_INPUTMANAGER_HPP
 
-#include "../../../SharkEngine.hpp"
-
-
-class InputManager {
-public:
-    int GetKeyState(int vk) {
-        return glfwGetKey();
-    }
-};
+//#include "../../../SharkEngine.hpp"
+//
+//
+//class InputManager {
+//public:
+//    int GetKeyState(int vk) {
+//        return glfwGetKey();
+//    }
+//};
 
 
 #endif//VULKAN_ENGINE_INPUTMANAGER_HPP

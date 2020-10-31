@@ -39,7 +39,10 @@ namespace SharkEngine::Core {
         Scene();
         ~Scene();
 
-        virtual void Init();
+        //Hierarchy, Initialize gameObject
+        //Ex, Player* player = new Player();
+        virtual void Init() = 0;
+        void Start();
         void Update();
         void LateUpdate();
         void Render();

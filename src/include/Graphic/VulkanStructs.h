@@ -6,6 +6,7 @@
 #define SHARKENGINE_WRAPPER_H
 
 #include "IncludeVulkan.h"
+
 /***************COMMAND BUFFER WRAPPERS***************/
 class CommandBufferMgr
 {
@@ -31,8 +32,6 @@ struct TextureData{
     uint32_t				textureWidth, textureHeight;
     VkDescriptorImageInfo	descsImgInfo;
 };
-
-
 
 /***************PPM PARSER CLASS***************/
 class PpmParser

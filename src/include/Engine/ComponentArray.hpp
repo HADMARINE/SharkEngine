@@ -16,7 +16,7 @@ namespace SharkEngine::Core {
     public:
         virtual ~IComponentArray() = default;
         virtual void EntityDestroyed(EntityID _id) = 0;
-        virtual std::array<Component*, MAX_ENTITIES>* GetComponentArray() = 0;
+        virtual std::array<Component*, MAX_COMPONENTS>* GetComponentArray() = 0;
     };
 
     template <typename T>
@@ -30,6 +30,7 @@ namespace SharkEngine::Core {
             m_EntityToIndexMap[_id] = newIndex;
             m_IndexToEntityMap[newIndex] = _id;
             m_ComponentArray[newIndex] = component;
+
             m_Size++;
         }
 
@@ -77,17 +78,8 @@ namespace SharkEngine::Core {
             }
         }
 
-        std::array<Component*, MAX_ENTITIES>* GetComponentArray() {
-            std::array<Component*, MAX_ENTITIES> cmp_array;
-            int count = 0;
-
-            for(EntityID i = 0; i < MAX_COMPONENTS; i++) {
-                Component * tmp = dynamic_cast<Component*>(m_ComponentArray[i]);
-                if(tmp != nullptr)
-                    cmp_array[count++] = tmp;
-            }
-
-            return &cmp_array;
+        std::array<Component*, MAX_COMPONENTS>* GetComponentArray() {
+            return &m_ComponentArray;
         }
 
     private:

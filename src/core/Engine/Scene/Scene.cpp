@@ -16,6 +16,11 @@ void SharkEngine::Core::Scene::Init() {
     m_ComponentManager = make_unique<ComponentManager>();
     m_EntityIDManager = make_unique<EntityIDManager>();
     m_SignatureManager = make_unique<SignatureManager>();
+
+    //Register Component(Transform, RigidBody, 2D Renderer, Collider . . .)
+}
+void Scene::Start() {
+    m_ComponentManager->Start();
 }
 void SharkEngine::Core::Scene::Update() {
     m_ComponentManager->Update();
@@ -82,4 +87,3 @@ template<typename T>
 void SharkEngine::Core::Scene::SetSystemSignature(SharkEngine::Core::Signature signature) {
     m_SignatureManager->SetSignature<T>(signature);
 }
-

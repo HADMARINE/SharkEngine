@@ -19,6 +19,8 @@
 #include <vector>
 #include <chrono>
 #include <mutex>
+#include <optional>
+#include <fstream>
 
 #if defined(_WIN32) || defined(_WIN64)
 #define NOMINMAX
