@@ -14,9 +14,21 @@ std::vector<const char *> deviceExtensionNames = {
 int main() {
     SharkEngine::Audio::initialize();
     SharkEngine::Audio::SourcePreferences audioPref;
-    SharkEngine::Audio audio("wavTester1.wav", audioPref);
+    float xPos = 1.0f;
+    audioPref.pos = glm::vec3(xPos, 0.0f, 0.0f);
+    audioPref.loop = true;
 
+    SharkEngine::Audio audio("helloworld.wav", audioPref);
     audio.play();
+
+
+    for (int i = 0; i < 20; i++) {
+        sleep(1);
+        xPos -= 0.1f;
+        audioPref.pos = glm::vec3(xPos, 0.0f, 0.0f);
+        audio.updateSourcePreferences(audioPref);
+    }
+
     VulkanApplication *appObj = VulkanApplication::GetInstance();
     appObj->Initialize();
     appObj->Prepare();
