@@ -41,8 +41,6 @@ add_executable(
         src/core/Graphic/VulkanMeshStruct.cpp
         src/include/Graphic/VulkanMeshStruct.h
         src/include/Engine/CoreDefine.h
-        src/core/Graphic/Transfrom.cpp
-        src/Transfrom.h
         src/core/Engine/Scene/Manager/EntityIDManager.cpp
         src/include/Engine/Scene/Manager/EntityIDManager.h
         src/include/Engine/CoreTypes.h
@@ -63,12 +61,12 @@ add_executable(
         src/include/Engine/Scene/Components/Base/Component.h
         src/include/Engine/Audio/SharkAudio.hpp
         src/include/Engine/UniformBufferCamera/Camera.hpp
-        src/core/Engine/Scene/Components/Base/CoreStructs.cpp
+        src/core/Engine/Scene/CoreStructs.cpp
         src/include/Engine/CoreStructs.h src/InGame/Scenes/TestScene.cpp
         src/InGame/Scenes/TestScene.h
         src/core/Engine/SystemManager/TimeManager.cpp
         src/include/Engine/SystemManager/TimeManager.h
-)
+        src/core/Engine/Scene/Components/Transform.cpp src/include/Engine/Scene/Components/Transform.h)
 
 find_package(glm CONFIG REQUIRED)
 target_link_libraries(main PRIVATE glm)

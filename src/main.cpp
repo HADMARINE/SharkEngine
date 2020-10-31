@@ -27,8 +27,8 @@ int main() {
     bool isWindowOpen = true;
     while (isWindowOpen) {
         SHARK_ENGINE->Start();
-        SHARK_ENGINE->Update();
         appObj->Update();
+        SHARK_ENGINE->Update();
         SHARK_ENGINE->LateUpdate();
         SHARK_ENGINE->Render();
         isWindowOpen = appObj->Render();
