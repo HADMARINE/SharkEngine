@@ -1,4 +1,6 @@
-# Vulkan Engine
-### Powered by vulkan 1.2.148.1
+# Shark Engine
+#### Powered by vulkan 1.2.148.1
+![SharkImage](https://github.com/HADMARINE/SharkEngine/doc/assets/shark_engine_logo.png)
 ___
-Work In Progress!
+WORK IN PROGRESS!!
+===
