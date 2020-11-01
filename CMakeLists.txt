@@ -68,7 +68,7 @@ add_executable(
         src/InGame/Scenes/TestScene.h
         src/core/Engine/SystemManager/TimeManager.cpp
         src/include/Engine/SystemManager/TimeManager.h
-)
+        src/include/Physics/Physics.hpp)
 
 find_package(glm CONFIG REQUIRED)
 target_link_libraries(main PRIVATE glm)
