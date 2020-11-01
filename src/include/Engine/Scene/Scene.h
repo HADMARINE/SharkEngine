@@ -41,6 +41,7 @@ namespace SharkEngine::Core {
 
         EntityID CreateEntity(Entity* iter){
             m_EntityList.push_back(iter);
+            iter->Init();
             return m_EntityIDManager->CreateEntityID();
         }
 

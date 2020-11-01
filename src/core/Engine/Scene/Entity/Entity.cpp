@@ -4,11 +4,15 @@
 
 #include "../../../../include/Engine/SharkSystem.hpp"
 
-SharkEngine::Core::Entity::Entity() {
+SharkEngine::Core::Entity::Entity() : m_id(-1), m_Scene(nullptr), isDestroy(false), isActive(true) {
     m_Scene = SHARK_ENGINE->GetSceneManager()->GetCurrentScene();
     m_id = m_Scene->CreateEntity(this);
+
+    Init();
 }
 SharkEngine::Core::Entity::~Entity() {
+}
+void SharkEngine::Core::Entity::Init() {
 }
 bool SharkEngine::Core::Entity::GetIsDestroy() {
     return isDestroy;
@@ -25,11 +29,3 @@ void SharkEngine::Core::Entity::SetIsActive(bool isActive) {
 SharkEngine::Core::EntityID SharkEngine::Core::Entity::GetEntityID() {
     return m_id;
 }
-//template<typename T>
-//void SharkEngine::Core::Entity::DestroyComponent() {
-//    SHARK_ENGINE->GetSceneManager()->GetCurrentScene()->DestroyComponent<T>(m_id);
-//}
-//template<typename T>
-//T *SharkEngine::Core::Entity::GetComponent() {
-//    SHARK_ENGINE->GetSceneManager()->GetCurrentScene()->GetComponent<T>(m_id);
-//}

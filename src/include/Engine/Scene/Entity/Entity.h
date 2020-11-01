@@ -6,9 +6,9 @@
 
 #include "../../CoreTypes.h"
 #include <vector>
+#include "../../Scene/Scene.h"
 
 namespace SharkEngine::Core {
-    class Scene;
     class Component;
 
     class Entity {
@@ -16,7 +16,7 @@ namespace SharkEngine::Core {
         Entity();
         ~Entity();
 
-        virtual void Init() = 0;
+        virtual void Init();
 
         bool GetIsDestroy();
         void SetIsDestroy(bool);

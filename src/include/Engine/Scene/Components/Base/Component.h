@@ -2,8 +2,6 @@
 // Created by EunwooSong on 2020-10-25.
 //
 
-
-<<<<<<< Updated upstream
 #pragma once
 
 #include "../../../CoreStructs.h"
@@ -11,15 +9,9 @@
 #include "../../Entity/Entity.h"
 
 namespace SharkEngine::Core {
-=======
-#include "../../../CoreTypes.h"
-#include "../../../CoreStructs.h"*
-
-namespace SharkEngine::Core {
     class ComponentManager;
     class Collision;
 
->>>>>>> Stashed changes
     class Component {
     public:
         Component() : isDestroy(false), isActive(true), isStarted(false){};

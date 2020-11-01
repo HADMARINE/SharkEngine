@@ -13,11 +13,13 @@ public:
     TestComponent(){};
     ~TestComponent(){};
 
-    void Start() override {
+    virtual void Start() override {
+        Component::Start();
         CLogger::Debug("%d Test Start", (int)m_Owner->GetEntityID());
     }
 
-    void Update() override {
+    virtual void Update() override {
+        Component::Update();
         CLogger::Debug("%d Test Update", (int)m_Owner->GetEntityID());
     }
 };

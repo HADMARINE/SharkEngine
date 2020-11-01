@@ -11,5 +11,8 @@ using namespace SharkEngine;
 void TestScene::Init() {
     Scene::Init();
     this->RegisterComponent<TestComponent>();
+
     TestObject* tmp = new TestObject();
+
+    tmp->Init();
 }

@@ -35,6 +35,7 @@ public:
     void LateUpdate()   { sceneMgr->LateUpdate(); };
     void Render()       { sceneMgr->Render(); };
     void EndScene()     { sceneMgr->EndScene(); };
+    void Release()      { }
 
     SharkEngine::Core::SceneManager* GetSceneManager() {return sceneMgr;};
     SharkEngine::Core::TimeManager* GetTimeManager() {return timeMgr;};

@@ -5,10 +5,14 @@
 #include "TestObject.h"
 #include "../Scripts/TestComponent.h"
 #include "../../include/Engine/Scene/Scene.h"
-
+#include "../../CLogger.hpp"
 using namespace SharkEngine::Core;
 
 void TestObject::Init() {
+    Entity::Init();
+
+    CLogger::Info("Test Object Initialize");
+
     testComponent = new TestComponent();
     m_Scene->AddComponent<TestComponent>(this, testComponent);
 };

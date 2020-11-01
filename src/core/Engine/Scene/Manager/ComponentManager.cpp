@@ -5,6 +5,7 @@
 #include "../../../../include/Engine/Scene/Manager/ComponentManager.h"
 #include "../../../../include/Engine/CoreDefine.h"
 #include "../../../../include/Engine/Scene/Components/Base/Component.h"
+#include "../../../../CLogger.hpp"
 
 using namespace SharkEngine::Core;
 
@@ -15,7 +16,7 @@ void ComponentManager::Start()
 
         for (auto compoIter : *components->GetComponentArray()) {
             if (compoIter)
-                if (!compoIter->GetIsDestroy())
+                if (!compoIter->GetIsStarted())
                     compoIter->Start();
         }
     }

@@ -5,6 +5,7 @@
 #include "../../../include/Engine/SystemManager/SceneManager.h"
 #include "../../../include/Engine/Scene/Scene.h"
 #include "../../../stdafx.hpp"
+#include "../../../CLogger.hpp"
 
 using namespace SharkEngine::Core;
 void SceneManager::Start() {
