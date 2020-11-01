@@ -2,8 +2,7 @@
 // Created by EunwooSong on 2020-10-30.
 //
 
-#ifndef SHARKENGINE_CORESTRUCTS_H
-#define SHARKENGINE_CORESTRUCTS_H
+#pragma once
 
 #include "Scene/Entity/Entity.h"
 #include <vector>

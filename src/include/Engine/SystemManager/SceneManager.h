@@ -2,21 +2,19 @@
 // Created by EunwooSong on 2020-10-13.
 //
 
-#ifndef VULKAN_ENGINE_SCENEMANAGER_H
-#define VULKAN_ENGINE_SCENEMANAGER_H
+#pragma once
+
 #include "../../../include/Engine/CoreDefine.h"
 #include "../../../CLogger.hpp"
 #include "../Scene/Scene.h"
 
 namespace SharkEngine::Core {
-    class Scene;
-
     class SceneManager {
     public:
         SceneManager() : currentScene(nullptr) {};
         ~SceneManager() {};
 
-        const Scene* GetCurrentScene();
+        Scene* GetCurrentScene();
 
         void Start();
         void Update();
@@ -38,5 +36,3 @@ namespace SharkEngine::Core {
         Scene* currentScene;
     };
 }
-
-#endif//VULKAN_ENGINE_SCENEMANAGER_H

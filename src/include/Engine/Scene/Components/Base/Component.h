@@ -2,54 +2,54 @@
 // Created by EunwooSong on 2020-10-25.
 //
 
-#ifndef VULKAN_ENGINE_COMPONENT_H
-#define VULKAN_ENGINE_COMPONENT_H
+#pragma once
 
-#include "../../../CoreTypes.h"
 #include "../../../CoreStructs.h"
+#include "../../../CoreTypes.h"
+#include "../../Entity/Entity.h"
 
 namespace SharkEngine::Core {
     class ComponentManager;
+    class Collision;
 
     class Component {
     public:
         Component() : isDestroy(false), isActive(true), isStarted(false){};
         ~Component(){};
-        virtual void Start()        {}
-        virtual void Update()       {}
-        virtual void LateUpdate()   {}
-        virtual void Render()       {}
-        virtual void EndScene()     {}
-
-        friend ComponentManager;
+        virtual void Start() { isStarted = true; }
+        virtual void Update() {}
+        virtual void LateUpdate() {}
+        virtual void Render() {}
+        virtual void EndScene() {}
 
         void Destroy() { isDestroy = true; }
-        static void Destroy(Component* compo) { compo->Destroy(); }
+        static void Destroy(Component *compo) { compo->Destroy(); }
         bool GetIsDestroy() const { return isDestroy; }
 
-        ComponentID GetComponentID() { return m_ComponentID; }
         EntityID GetEntityID() const { return m_EntityID; }
-  
-        void SetActive(bool isActive) {this->isActive = isActive;}
-        bool GetActive() const {return isActive;}
+
+        void SetActive(bool isActive) { this->isActive = isActive; }
+        bool GetActive() const { return isActive; }
+
+        Entity *GetOwner() const { return m_Owner; }
+        void SetOwner(Entity *owner) { m_Owner = owner; }
+
+        bool GetIsStarted() { return isStarted; }
 
     protected:
         EntityID m_EntityID;
-        ComponentID m_ComponentID;
+        Entity *m_Owner;
         bool isDestroy;
         bool isActive;
         bool isStarted;
 
         //Component Listeners
     public:
-        virtual void OnCollisionEnter(Collision*){};
-        virtual void OnCollisionStay(Collision*){};
-        virtual void OnCollisionExit(Collision*){};
-        virtual void OnTriggerEnter(Collision*){};
-        virtual void OnTriggerStay(Collision*){};
-        virtual void OnTriggerExit(Collision*){};
+        virtual void OnCollisionEnter(Collision *){};
+        virtual void OnCollisionStay(Collision *){};
+        virtual void OnCollisionExit(Collision *){};
+        virtual void OnTriggerEnter(Collision *){};
+        virtual void OnTriggerStay(Collision *){};
+        virtual void OnTriggerExit(Collision *){};
     };
-}
-
-
-#endif//VULKAN_ENGINE_COMPONENT_H
+}// namespace SharkEngine::Core

@@ -2,15 +2,21 @@
 // Created by EunwooSong on 2020-10-26.
 //
 
-#ifndef VULKAN_ENGINE_ENTITY_H
-#define VULKAN_ENGINE_ENTITY_H
+#pragma once
+
 #include "../../CoreTypes.h"
+#include <vector>
+#include "../../Scene/Scene.h"
 
 namespace SharkEngine::Core {
+    class Component;
+
     class Entity {
     public:
         Entity();
         ~Entity();
+
+        virtual void Init();
 
         bool GetIsDestroy();
         void SetIsDestroy(bool);
@@ -19,8 +25,12 @@ namespace SharkEngine::Core {
         void SetIsActive(bool);
 
         EntityID GetEntityID();
-        void AddComponent();
-    };
-}
 
-#endif//VULKAN_ENGINE_ENTITY_H
+    protected:
+        EntityID m_id;
+        Scene *m_Scene;
+        std::vector<Component *> m_components;
+        bool isDestroy;
+        bool isActive;
+    };
+}// namespace SharkEngine::Core

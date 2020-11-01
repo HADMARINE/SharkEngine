@@ -41,12 +41,10 @@ add_executable(
         src/core/Graphic/VulkanMeshStruct.cpp
         src/include/Graphic/VulkanMeshStruct.h
         src/include/Engine/CoreDefine.h
-        src/core/Graphic/Transfrom.cpp
-        src/Transfrom.h
         src/core/Engine/Scene/Manager/EntityIDManager.cpp
         src/include/Engine/Scene/Manager/EntityIDManager.h
         src/include/Engine/CoreTypes.h
-        src/include/Engine/ComponentArray.hpp
+        src/include/Engine/Scene/Manager/ComponentArray.hpp
         src/core/Engine/Scene/Manager/ComponentManager.cpp
         src/include/Engine/Scene/Manager/ComponentManager.h
         src/core/Engine/SystemManager/SceneManager.cpp
@@ -57,17 +55,16 @@ add_executable(
         src/include/Engine/SystemManager/InputManager.hpp
         src/core/Engine/Scene/Scene.cpp
         src/include/Engine/Scene/Scene.h
-        src/core/Engine/Scene/Manager/SignatureManager.cpp
-        src/include/Engine/Scene/Manager/SignatureManager.h
         src/core/Engine/Scene/Components/Base/Component.cpp
         src/include/Engine/Scene/Components/Base/Component.h
         src/include/Engine/Audio/SharkAudio.hpp
         src/include/Engine/UniformBufferCamera/Camera.hpp
-        src/core/Engine/Scene/Components/Base/CoreStructs.cpp
+        src/core/Engine/Scene/CoreStructs.cpp
         src/include/Engine/CoreStructs.h src/InGame/Scenes/TestScene.cpp
         src/InGame/Scenes/TestScene.h
         src/core/Engine/SystemManager/TimeManager.cpp
         src/include/Engine/SystemManager/TimeManager.h
+        src/core/Engine/Scene/Components/Transform.cpp src/include/Engine/Scene/Components/Transform.h src/InGame/GameObjects/TestObject.cpp src/InGame/GameObjects/TestObject.h src/InGame/Scripts/TestComponent.cpp src/InGame/Scripts/TestComponent.h)
         src/include/Physics/Physics.hpp)
 
 find_package(glm CONFIG REQUIRED)
