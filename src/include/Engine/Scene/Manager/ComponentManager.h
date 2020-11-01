@@ -12,7 +12,6 @@
 #include <unordered_map>
 #include <glm/glm.hpp>
 
-
 namespace SharkEngine::Core {
     class ComponentManager {
     public:

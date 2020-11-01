@@ -52,8 +52,8 @@ namespace SharkEngine::Core {
 
         void DestroyEntity(EntityID _id){
             m_EntityIDManager->DestroyEntityID(_id);
-            m_SignatureManager->EntityDestroyed(_id);
             m_ComponentManager->EntityDestroyed(_id);
+            m_SignatureManager->EntityDestroyed(_id);
         }
 
         template <typename T>
