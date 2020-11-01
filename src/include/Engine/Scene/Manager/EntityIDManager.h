@@ -5,8 +5,10 @@
 #ifndef VULKAN_ENGINE_ENTITYIDMANAGER_H
 #define VULKAN_ENGINE_ENTITYIDMANAGER_H
 
-#include "../../CoreDefine.h"
 #include "../../CoreTypes.h"
+#include <array>
+#include <cassert>
+#include <queue>
 
 namespace SharkEngine::Core {
     class EntityIDManager {
@@ -15,12 +17,36 @@ namespace SharkEngine::Core {
         ~EntityIDManager() {};
 
         //When you create some game object, get the EntityID from the current Scenes EntityIDManager.
-        EntityID CreateEntityID();
-        // When some game objects are destroyed, return the EntityID and add the AvailableEntityID.
-        void DestroyEntityID(EntityID);
+        EntityID CreateEntityID() {
+            assert(m_LivingEntityIDCount < MAX_ENTITIES && "Entity out of range.");
 
-        void SetSignature(EntityID, Signature);
-        Signature GetSignature(EntityID);
+            EntityID id = m_AvailableEntityIDs.front();
+            m_AvailableEntityIDs.pop();
+            ++m_LivingEntityIDCount;
+
+            return id;
+        }
+        // When some game objects are destroyed, return the EntityID and add the AvailableEntityID.
+        void DestroyEntityID(EntityID _id) {
+            assert(_id < MAX_ENTITIES && "Entity out of range.");
+            m_Signatures[_id].reset();
+
+            m_AvailableEntityIDs.push(_id);
+            --m_LivingEntityIDCount;
+        }
+
+
+        void SetSignature(EntityID _id, Signature signature){
+            assert(_id < MAX_ENTITIES && "Entity out of range.");
+
+            m_Signatures[_id] = signature;
+        }
+
+        Signature GetSignature(EntityID _id) {
+            assert(_id < MAX_ENTITIES && "Entity out of range.");
+
+            return m_Signatures[_id];
+        }
 
     private:
         // Queue of unu`sed entity IDs

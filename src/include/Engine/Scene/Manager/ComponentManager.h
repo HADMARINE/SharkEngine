@@ -7,8 +7,10 @@
 
 #pragma once
 
-#include "../../ComponentArray.hpp"
-#include <shared_mutex>
+#include "ComponentArray.hpp"
+#include "../../CoreTypes.h"
+#include <any>
+#include <memory>
 #include <unordered_map>
 #include <glm/glm.hpp>
 
@@ -21,8 +23,10 @@ namespace SharkEngine::Core {
         void RegisterComponent(){
             const char* typeName = typeid(T).name();
 
+            assert(m_ComponentIDs.find(typeName) == m_ComponentIDs.end() && "Registering Component type more than once.");
+
             m_ComponentIDs.insert(std::pair<const char*, ComponentID>(typeName, m_nextComponentID));
-            m_ComponentArrays.insert(pair<const char*, std::shared_ptr<IComponentArray>>(typeName, std::make_shared<ComponentArray<T>>()));
+            m_ComponentArrays.insert(std::pair<const char*, std::shared_ptr<IComponentArray>>(typeName, std::make_shared<ComponentArray<T>>()));
             ++m_nextComponentID;
         }
 

@@ -4,13 +4,13 @@
 
 #pragma once
 
-#include "../../../../include/Engine/SharkSystem.hpp"
 #include "../../CoreTypes.h"
-#include "../Components/Base/Component.h"
-#include "../Scene.h"
 #include <vector>
 
 namespace SharkEngine::Core {
+    class Scene;
+    class Component;
+
     class Entity {
     public:
         Entity();
@@ -25,22 +25,6 @@ namespace SharkEngine::Core {
         void SetIsActive(bool);
 
         EntityID GetEntityID();
-
-        template<typename T>
-        void AddComponent(SharkEngine::Core::Component *iter) {
-            m_Scene->AddComponent<T>(m_id, iter);
-            iter->SetOwner(reinterpret_cast<EntityID *>(this));
-        };
-
-        template<typename T>
-        void DestroyComponent() {
-            SHARK_ENGINE->GetSceneManager()->GetCurrentScene()->DestroyComponent<T>(m_id);
-        };
-
-        template<typename T>
-        T *GetComponent() {
-            SHARK_ENGINE->GetSceneManager()->GetCurrentScene()->GetComponent<T>(m_id);
-        };
 
     protected:
         EntityID m_id;

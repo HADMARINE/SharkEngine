@@ -2,9 +2,6 @@
 // Created by EunwooSong on 2020-10-26.
 //
 
-#include "../../../../include/Engine/Scene/Entity/Entity.h"
-#include "../../../../include/Engine/SystemManager/SceneManager.h"
-#include "../../../../include/Engine/Scene/Scene.h"
 #include "../../../../include/Engine/SharkSystem.hpp"
 
 SharkEngine::Core::Entity::Entity() {
