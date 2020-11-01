@@ -4,17 +4,11 @@
 
 #pragma once
 
+#include "Manager/ComponentManager.h"
+#include "Manager/EntityIDManager.h"
 #include "../CoreTypes.h"
-#include <iostream>
-#include <list>
-#include <map>
 #include <set>
-#include <shared_mutex>
 #include <vector>
-#include "../../../stdafx.hpp"
-#include "../../../include/Engine/Scene/Manager/ComponentManager.h"
-#include "../../../include/Engine/Scene/Manager/EntityIDManager.h"
-#include "../../../include/Engine/Scene/Manager/SignatureManager.h"
 
 namespace SharkEngine::Core {
     //--------------------------------------------------------------------------------------
@@ -53,7 +47,6 @@ namespace SharkEngine::Core {
         void DestroyEntity(EntityID _id){
             m_EntityIDManager->DestroyEntityID(_id);
             m_ComponentManager->EntityDestroyed(_id);
-            m_SignatureManager->EntityDestroyed(_id);
         }
 
         template <typename T>
@@ -70,13 +63,12 @@ namespace SharkEngine::Core {
         }
 
         template <typename T>
-        void AddComponent(EntityID _id, Component* iter) {
-            m_ComponentManager->AddComponent<T>(_id, iter);
-
-            auto signature = m_EntityIDManager->GetSignature(_id);
+        void AddComponent(Entity* _id, Component* iter) {
+            m_ComponentManager->AddComponent<T>(_id->GetEntityID(), iter);
+            iter->SetOwner(_id);
+            auto signature = m_EntityIDManager->GetSignature(_id->GetEntityID());
             signature.set(m_ComponentManager->GetComponentID<T>(), true);
-            m_EntityIDManager->SetSignature(_id, signature);
-            m_SignatureManager->EntitySignatureChanged(_id, signature);
+            m_EntityIDManager->SetSignature(_id->GetEntityID(), signature);
         };
 
         template <typename T>
@@ -90,16 +82,6 @@ namespace SharkEngine::Core {
         }
 
         template <typename T>
-        std::shared_ptr<T> RegisterSystem() {
-            return m_SignatureManager->RegisterScene<T>();
-        }
-
-        template <typename T>
-        void SetSystemSignature(Signature signature){
-            m_SignatureManager->SetSignature<T>(signature);
-        }
-
-        template <typename T>
         std::array<Component*, MAX_COMPONENTS>* GetComponentArray(){
             return m_ComponentManager->GetComponentArray<T>().GetComponentArray();
         }
@@ -110,7 +92,6 @@ namespace SharkEngine::Core {
     private:
         std::unique_ptr<ComponentManager> m_ComponentManager;
         std::unique_ptr<EntityIDManager> m_EntityIDManager;
-        std::unique_ptr<SignatureManager> m_SignatureManager;
     };
 }
 

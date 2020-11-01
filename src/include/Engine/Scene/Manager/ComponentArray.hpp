@@ -5,10 +5,12 @@
 #ifndef VULKAN_ENGINE_COMPONENTARRAY_HPP
 #define VULKAN_ENGINE_COMPONENTARRAY_HPP
 
+#include "../../CoreDefine.h"
+#include "../../CoreTypes.h"
+#include "../Components/Base/Component.h"
 #include <unordered_map>
-#include "CoreDefine.h"
-#include "CoreTypes.h"
-#include "Scene/Components/Base/Component.h"
+#include <array>
+#include <cassert>
 
 namespace SharkEngine::Core {
     class IComponentArray {
@@ -22,6 +24,8 @@ namespace SharkEngine::Core {
     class ComponentArray : public IComponentArray {
     public:
         void AddComponent(EntityID _id, Component *component) {
+            assert(m_EntityToIndexMap.find(_id) == m_EntityToIndexMap.end() && "Component added to same entity more than once.");
+
             // Put new entry at end and update the maps
             size_t newIndex = m_Size;
             m_EntityToIndexMap[_id] = newIndex;
@@ -32,6 +36,8 @@ namespace SharkEngine::Core {
         }
 
         void DestroyComponent(EntityID _id) {
+            assert(m_EntityToIndexMap.find(_id) == m_EntityToIndexMap.end() && "Removing non-existent component");
+
             size_t indexOfRemovedEntity = m_EntityToIndexMap[_id];
             size_t indexOfLastElement = m_Size - 1;
             SAFE_DELETE(
@@ -49,15 +55,9 @@ namespace SharkEngine::Core {
         }
 
         T *GetComponent(EntityID _id = -1) {
-            for (auto iter : m_ComponentArray) {
-                T *p_tmp = dynamic_cast<T *>(iter);
+            assert(m_EntityToIndexMap.find(_id) != m_EntityToIndexMap.end() && "Retrieving non-existent component");
 
-                if (p_tmp != nullptr) {
-                    return p_tmp;
-                }
-            }
-
-            return nullptr;
+            return m_ComponentArray[m_EntityToIndexMap[_id]];
         }
 
         void EntityDestroyed(EntityID _id) override {

@@ -7,7 +7,7 @@
 
 #include "../../../CoreStructs.h"
 #include "../../../CoreTypes.h"
-#include "../../../Scene/Entity/Entity.h"
+#include "../../Entity/Entity.h"
 
 namespace SharkEngine::Core {
     class Component {

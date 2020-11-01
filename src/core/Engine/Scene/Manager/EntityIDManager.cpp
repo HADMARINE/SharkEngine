@@ -11,26 +11,3 @@ EntityIDManager::EntityIDManager() {
         m_AvailableEntityIDs.push(entity);
     }
 }
-
-EntityID EntityIDManager::CreateEntityID() {
-    EntityID id = m_AvailableEntityIDs.front();
-    m_AvailableEntityIDs.pop();
-    ++m_LivingEntityIDCount;
-
-    return id;
-}
-
-void EntityIDManager::DestroyEntityID(EntityID _id) {
-    m_Signatures[_id].reset();
-
-    m_AvailableEntityIDs.push(_id);
-    --m_LivingEntityIDCount;
-}
-
-void EntityIDManager::SetSignature(EntityID _id, Signature signature) {
-    m_Signatures[_id] = signature;
-}
-
-Signature EntityIDManager::GetSignature(EntityID _id) {
-    return m_Signatures[_id];
-}

@@ -4,10 +4,11 @@
 
 #include "TestObject.h"
 #include "../Scripts/TestComponent.h"
+#include "../../include/Engine/Scene/Scene.h"
 
 using namespace SharkEngine::Core;
 
 void TestObject::Init() {
     testComponent = new TestComponent();
-    AddComponent<TestComponent>(testComponent);
+    m_Scene->AddComponent<TestComponent>(this, testComponent);
 };

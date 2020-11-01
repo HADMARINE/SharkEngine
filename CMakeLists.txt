@@ -44,7 +44,7 @@ add_executable(
         src/core/Engine/Scene/Manager/EntityIDManager.cpp
         src/include/Engine/Scene/Manager/EntityIDManager.h
         src/include/Engine/CoreTypes.h
-        src/include/Engine/ComponentArray.hpp
+        src/include/Engine/Scene/Manager/ComponentArray.hpp
         src/core/Engine/Scene/Manager/ComponentManager.cpp
         src/include/Engine/Scene/Manager/ComponentManager.h
         src/core/Engine/SystemManager/SceneManager.cpp
@@ -55,8 +55,6 @@ add_executable(
         src/include/Engine/SystemManager/InputManager.hpp
         src/core/Engine/Scene/Scene.cpp
         src/include/Engine/Scene/Scene.h
-        src/core/Engine/Scene/Manager/SignatureManager.cpp
-        src/include/Engine/Scene/Manager/SignatureManager.h
         src/core/Engine/Scene/Components/Base/Component.cpp
         src/include/Engine/Scene/Components/Base/Component.h
         src/include/Engine/Audio/SharkAudio.hpp

@@ -12,8 +12,6 @@ SharkEngine::Core::Scene::~Scene() {
 void SharkEngine::Core::Scene::Init() {
     m_ComponentManager = std::make_unique<ComponentManager>();
     m_EntityIDManager = std::make_unique<EntityIDManager>();
-    m_SignatureManager = std::make_unique<SignatureManager>();
-
     //Register Component(Transform, RigidBody, 2D Renderer, Collider . . .)
 }
 void SharkEngine::Core::Scene::Start() {
