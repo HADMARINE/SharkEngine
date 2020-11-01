@@ -29,7 +29,7 @@ namespace SharkEngine::Core {
         template<typename T>
         void AddComponent(SharkEngine::Core::Component *iter) {
             m_Scene->AddComponent<T>(m_id, iter);
-            iter->SetOwner(this);
+            iter->SetOwner(reinterpret_cast<EntityID *>(this));
         };
 
         template<typename T>

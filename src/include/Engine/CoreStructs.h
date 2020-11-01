@@ -2,8 +2,7 @@
 // Created by EunwooSong on 2020-10-30.
 //
 
-#ifndef SHARKENGINE_CORESTRUCTS_H
-#define SHARKENGINE_CORESTRUCTS_H
+#pragma once
 
 #include <vector>
 #include "Scene/Entity/Entity.h"
@@ -15,13 +14,8 @@
 
 /*************** Collision **************/
 namespace SharkEngine::Core{
-    class Entity;
-
     struct Collision {
         Entity *entity;
         std::vector<glm::vec3> contacts;   //Contact points
     };
 }
-
-
-#endif//SHARKENGINE_CORESTRUCTS_H

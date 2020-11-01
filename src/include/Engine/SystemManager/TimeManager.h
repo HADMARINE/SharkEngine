@@ -2,8 +2,7 @@
 // Created by EunwooSong on 2020-10-31.
 //
 
-#ifndef SHARKENGINE_TIMEMANAGER_H
-#define SHARKENGINE_TIMEMANAGER_H
+#pragma once
 
 #include "../../Graphic/VulkanApplication.h"
 
@@ -35,6 +34,3 @@ namespace SharkEngine::Core {
         double deltaTime;
     };
 }
-
-
-#endif//SHARKENGINE_TIMEMANAGER_H
