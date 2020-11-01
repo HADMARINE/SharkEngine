@@ -17,10 +17,6 @@
 #include "../../../include/Engine/Scene/Manager/SignatureManager.h"
 
 namespace SharkEngine::Core {
-    class Entity;
-    class Component;
-    class ComponentManager;
-
     //--------------------------------------------------------------------------------------
     // Scene
     // - 컴포넌트와 서명된 엔터티의 목록을 저장하고 반복 실행을 위함
@@ -99,7 +95,7 @@ namespace SharkEngine::Core {
         }
 
         template <typename T>
-        void SetSystemSignature(Signature){
+        void SetSystemSignature(Signature signature){
             m_SignatureManager->SetSignature<T>(signature);
         }
 

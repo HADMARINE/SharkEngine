@@ -2,18 +2,15 @@
 // Created by EunwooSong on 2020-10-26.
 //
 
-#ifndef VULKAN_ENGINE_ENTITY_H
-#define VULKAN_ENGINE_ENTITY_H
+#pragma once
 
-#include <vector>
+#include "../../../../include/Engine/SharkSystem.hpp"
 #include "../../CoreTypes.h"
 #include "../Components/Base/Component.h"
 #include "../Scene.h"
+#include <vector>
 
 namespace SharkEngine::Core {
-    class Component;
-    class Scene;
-
     class Entity {
     public:
         Entity();
@@ -30,24 +27,26 @@ namespace SharkEngine::Core {
         EntityID GetEntityID();
 
         template<typename T>
-        void AddComponent(SharkEngine::Core::Component* iter) {
+        void AddComponent(SharkEngine::Core::Component *iter) {
             m_Scene->AddComponent<T>(m_id, iter);
             iter->SetOwner(this);
         };
 
         template<typename T>
-        void DestroyComponent();
+        void DestroyComponent() {
+            SHARK_ENGINE->GetSceneManager()->GetCurrentScene()->DestroyComponent<T>(m_id);
+        };
 
         template<typename T>
-        T* GetComponent();
+        T *GetComponent() {
+            SHARK_ENGINE->GetSceneManager()->GetCurrentScene()->GetComponent<T>(m_id);
+        };
 
     protected:
         EntityID m_id;
-        Scene* m_Scene;
-        std::vector<Component*> m_components;
+        Scene *m_Scene;
+        std::vector<Component *> m_components;
         bool isDestroy;
         bool isActive;
     };
-}
-
-#endif//VULKAN_ENGINE_ENTITY_H
+}// namespace SharkEngine::Core

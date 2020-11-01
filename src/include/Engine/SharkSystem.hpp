@@ -2,8 +2,7 @@
 // Created by EunwooSong on 2020-10-23.
 //
 
-#ifndef VULKAN_ENGINE_SHARKSYSTEM_H
-#define VULKAN_ENGINE_SHARKSYSTEM_H
+#pragma once
 
 #include "../../stdafx.hpp"
 #include "SystemManager/SceneManager.h"
@@ -43,5 +42,3 @@ public:
     SharkEngine::Core::SceneManager* sceneMgr;
     SharkEngine::Core::TimeManager* timeMgr;
 };
-
-#endif//VULKAN_ENGINE_SHARKSYSTEM_H

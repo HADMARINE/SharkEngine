@@ -539,7 +539,7 @@ void VulkanRenderer::CreateTextureLinear(const char *filename, VkImageUsageFlags
     VkSubresourceLayout layout;
     void* data;
     vkMapMemory(deviceObj->device, stagingBufferMemory, 0, imageSize, 0, &data);
-    memcpy(data, pixels, stagingBufferMemory);
+    std::memcpy(data, pixels, reinterpret_cast<size_t>(stagingBufferMemory));
     vkUnmapMemory(deviceObj->device, stagingBufferMemory);
 
     stbi_image_free(pixels);

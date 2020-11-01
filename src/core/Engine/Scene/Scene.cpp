@@ -10,9 +10,9 @@ SharkEngine::Core::Scene::~Scene() {
     //Reset Signature
 }
 void SharkEngine::Core::Scene::Init() {
-    m_ComponentManager = make_unique<ComponentManager>();
-    m_EntityIDManager = make_unique<EntityIDManager>();
-    m_SignatureManager = make_unique<SignatureManager>();
+    m_ComponentManager = std::make_unique<ComponentManager>();
+    m_EntityIDManager = std::make_unique<EntityIDManager>();
+    m_SignatureManager = std::make_unique<SignatureManager>();
 
     //Register Component(Transform, RigidBody, 2D Renderer, Collider . . .)
 }

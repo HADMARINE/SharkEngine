@@ -28,11 +28,11 @@ void SharkEngine::Core::Entity::SetIsActive(bool isActive) {
 SharkEngine::Core::EntityID SharkEngine::Core::Entity::GetEntityID() {
     return m_id;
 }
-template<typename T>
-void SharkEngine::Core::Entity::DestroyComponent() {
-    SHARK_ENGINE->GetSceneManager()->GetCurrentScene()->DestroyComponent<T>(m_id);
-}
-template<typename T>
-T *SharkEngine::Core::Entity::GetComponent() {
-    SHARK_ENGINE->GetSceneManager()->GetCurrentScene()->GetComponent<T>(m_id);
-}
+//template<typename T>
+//void SharkEngine::Core::Entity::DestroyComponent() {
+//    SHARK_ENGINE->GetSceneManager()->GetCurrentScene()->DestroyComponent<T>(m_id);
+//}
+//template<typename T>
+//T *SharkEngine::Core::Entity::GetComponent() {
+//    SHARK_ENGINE->GetSceneManager()->GetCurrentScene()->GetComponent<T>(m_id);
+//}

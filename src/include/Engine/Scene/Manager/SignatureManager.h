@@ -2,16 +2,14 @@
 // Created by EunwooSong on 2020-10-23.
 //
 
-#ifndef VULKAN_ENGINE_SIGNATUREMANAGER_H
-#define VULKAN_ENGINE_SIGNATUREMANAGER_H
+#pragma once
 
 #include "../../CoreTypes.h"
+#include "../Scene.h"
 #include <shared_mutex>
 #include <unordered_map>
 
 namespace SharkEngine::Core {
-    class Scene;
-
     //-----------------------------------------------------
     // Signature Manager
     // - 등록 된 씬과 그 서명의 기록을 유지, 담당
@@ -37,6 +35,3 @@ namespace SharkEngine::Core {
         std::unordered_map<const char*, std::shared_ptr<Scene>> m_Scenes{};
     };
 }
-
-
-#endif//VULKAN_ENGINE_SIGNATUREMANAGER_H
