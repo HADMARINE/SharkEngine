@@ -2,24 +2,24 @@
 // Created by EunwooSong on 2020-10-23.
 //
 
-#ifndef VULKAN_ENGINE_SCENE_H
-#define VULKAN_ENGINE_SCENE_H
+#pragma once
 
+#include "../CoreTypes.h"
 #include <iostream>
 #include <list>
-#include <set>
 #include <map>
+#include <set>
 #include <shared_mutex>
-#include "../CoreTypes.h"
-
+#include <vector>
+#include "../../../stdafx.hpp"
+#include "../../../include/Engine/Scene/Manager/ComponentManager.h"
+#include "../../../include/Engine/Scene/Manager/EntityIDManager.h"
+#include "../../../include/Engine/Scene/Manager/SignatureManager.h"
 
 namespace SharkEngine::Core {
-    using namespace std;
-
-    class EntityIDManager;
-    class ComponentManager;
-    class SignatureManager;
+    class Entity;
     class Component;
+    class ComponentManager;
 
     //--------------------------------------------------------------------------------------
     // Scene
@@ -49,37 +49,72 @@ namespace SharkEngine::Core {
         void Render();
         void EndScene();
 
-        EntityID CreateEntity();
-        void DestroyEntity(EntityID);
+        EntityID CreateEntity(Entity* iter){
+            m_EntityList.push_back(iter);
+            return m_EntityIDManager->CreateEntityID();
+        }
+
+        void DestroyEntity(EntityID _id){
+            m_EntityIDManager->DestroyEntityID(_id);
+            m_SignatureManager->EntityDestroyed(_id);
+            m_ComponentManager->EntityDestroyed(_id);
+        }
 
         template <typename T>
-        void RegisterComponent();
+        void RegisterComponent(){
+            m_ComponentManager->RegisterComponent<T>();
+        }
 
         template <typename T>
-        void RemoveComponent(EntityID);
+        void DestroyComponent(EntityID _id){
+            m_ComponentManager->DestroyComponent<T>(_id);
+
+            auto signature = m_EntityIDManager->GetSignature(_id);
+            signature.set(m_ComponentManager->GetComponentID<T>(), false);
+        }
 
         template <typename T>
-        T* AddComponent(EntityID);
+        void AddComponent(EntityID _id, Component* iter) {
+            m_ComponentManager->AddComponent<T>(_id, iter);
+
+            auto signature = m_EntityIDManager->GetSignature(_id);
+            signature.set(m_ComponentManager->GetComponentID<T>(), true);
+            m_EntityIDManager->SetSignature(_id, signature);
+            m_SignatureManager->EntitySignatureChanged(_id, signature);
+        };
 
         template <typename T>
-        T* GetComponent(EntityID);
+        T* GetComponent(EntityID _id) {
+            return m_ComponentManager->GetComponent<T>(_id);
+        }
 
         template <typename T>
-        ComponentID GetComponentType();
+        ComponentID GetComponentType(){
+            return m_ComponentManager->GetComponentID<T>();
+        }
 
         template <typename T>
-        shared_ptr<T> RegisterSystem();
+        std::shared_ptr<T> RegisterSystem() {
+            return m_SignatureManager->RegisterScene<T>();
+        }
 
         template <typename T>
-        void SetSystemSignature(Signature);
+        void SetSystemSignature(Signature){
+            m_SignatureManager->SetSignature<T>(signature);
+        }
 
-        set<EntityID> m_EntityList;
+        template <typename T>
+        std::array<Component*, MAX_COMPONENTS>* GetComponentArray(){
+            return m_ComponentManager->GetComponentArray<T>().GetComponentArray();
+        }
+
+        std::set<EntityID> m_EntityIDList;
+        std::vector<Entity*> m_EntityList;
 
     private:
-        unique_ptr<ComponentManager> m_ComponentManager;
-        unique_ptr<EntityIDManager> m_EntityIDManager;
-        unique_ptr<SignatureManager> m_SignatureManager;
+        std::unique_ptr<ComponentManager> m_ComponentManager;
+        std::unique_ptr<EntityIDManager> m_EntityIDManager;
+        std::unique_ptr<SignatureManager> m_SignatureManager;
     };
 }
 
-#endif//VULKAN_ENGINE_SCENE_H

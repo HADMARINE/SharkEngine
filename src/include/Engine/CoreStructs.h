@@ -13,12 +13,12 @@
 //#include <glm/gtx/quaternion.hpp>
 //#include <glm/gtx/transform.hpp>
 
-using namespace SharkEngine::Core;
-
 /*************** Collision **************/
-namespace {
+namespace SharkEngine::Core{
+    class Entity;
+
     struct Collision {
-        Entity* entity;
+        Entity *entity;
         std::vector<glm::vec3> contacts;   //Contact points
     };
 }

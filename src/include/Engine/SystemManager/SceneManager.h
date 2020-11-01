@@ -16,7 +16,7 @@ namespace SharkEngine::Core {
         SceneManager() : currentScene(nullptr) {};
         ~SceneManager() {};
 
-        const Scene* GetCurrentScene();
+        Scene* GetCurrentScene();
 
         void Start();
         void Update();

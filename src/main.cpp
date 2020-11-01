@@ -16,13 +16,16 @@ std::vector<const char *> deviceExtensionNames = {
         VK_KHR_SWAPCHAIN_EXTENSION_NAME
 };
 
+std::unique_ptr<SharkSystem> SharkSystem::instance;
+std::once_flag SharkSystem::onlyOnce;
+
 int main() {
     VulkanApplication* appObj = VulkanApplication::GetInstance();
 
     appObj->Initialize();
     appObj->Prepare();
     SHARK_ENGINE->InitializeEngine();
-    SHARK_ENGINE->SetStartScene(new TestScene());
+    SHARK_ENGINE->GetSceneManager()->ChangeScene(new TestScene());
 
     bool isWindowOpen = true;
     while (isWindowOpen) {

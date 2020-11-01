@@ -10,32 +10,36 @@
 
 namespace SharkEngine::Core {
     class ComponentManager;
+    class Collision;
+    class Entity;
+
 
     class Component {
     public:
         Component() : isDestroy(false), isActive(true), isStarted(false){};
         ~Component(){};
-        virtual void Start()        {}
+        virtual void Start()        {isStarted = true;}
         virtual void Update()       {}
         virtual void LateUpdate()   {}
         virtual void Render()       {}
         virtual void EndScene()     {}
 
-        friend ComponentManager;
+        void Destroy()                          { isDestroy = true; }
+        static void Destroy(Component* compo)   { compo->Destroy(); }
+        bool GetIsDestroy() const               { return isDestroy; }
 
-        void Destroy() { isDestroy = true; }
-        static void Destroy(Component* compo) { compo->Destroy(); }
-        bool GetIsDestroy() const { return isDestroy; }
-
-        ComponentID GetComponentID() { return m_ComponentID; }
-        EntityID GetEntityID() const { return m_EntityID; }
+        EntityID GetEntityID() const            { return m_EntityID; }
   
-        void SetActive(bool isActive) {this->isActive = isActive;}
-        bool GetActive() const {return isActive;}
+        void SetActive(bool isActive)           {this->isActive = isActive;}
+        bool GetActive() const                  {return isActive;}
 
+        Entity* GetOwner() const {return m_Owner;}
+        void SetOwner(Entity* owner) {m_Owner = owner;}
+
+        bool GetIsStarted() {return isStarted;}
     protected:
         EntityID m_EntityID;
-        ComponentID m_ComponentID;
+        Entity* m_Owner;
         bool isDestroy;
         bool isActive;
         bool isStarted;

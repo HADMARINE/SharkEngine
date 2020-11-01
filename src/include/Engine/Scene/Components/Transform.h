@@ -5,19 +5,18 @@
 #ifndef SHARKENGINE_TRANSFORM_H
 #define SHARKENGINE_TRANSFORM_H
 
-#include "Base/Component.h"
 #include "../../../../stdafx.hpp"
 #include "../../CoreDefine.h"
 #include "../../CoreTypes.h"
+#include "Base/Component.h"
+
+using namespace glm;
 
 namespace SharkEngine::Core {
-    using namespace glm;
-
-    class Transform :
-        public Component {
+    class Transform : public SharkEngine::Core::Component {
         Transform() {}
         Transform(vec4 pos, quat rotation) : localPosition(pos), position(pos), rotation(rotation) {}
-        ~Transform() {};
+        ~Transform(){};
 
         void Start() override;
         void Update() override;
@@ -26,25 +25,21 @@ namespace SharkEngine::Core {
         void EndScene() override;
 
         //Get Methods
-        vec3 GetPosition()              { return position; };
-        vec3 GetLocalPosition()         { return localPosition; };
-
-        vec3 GetRightDirection()        { return right; }
-        vec3 GetUpDirection()           { return up;}
-        vec3 GetForwardDirection()      { return forward;}
-        vec3 GetEulerAngles()           { return eulerAngles;}
-        vec3 GetLocalEulerAngles()      { return localEulerAngles;}
-
-        quat GetRotation()              { return rotation; }
-        quat GetLocalRotation()         { return localRotation;}
-
-        vec3 GetLossyScale()            { return lossyScale;}
-        vec3 GetLocalScale()            { return localScale;}
-
-        mat4 GetLocalToWorldMatrix()    { return localToWorldMatrix;}
-        mat4 GetWorldToLocalMatrix()    { return worldToLocalMatrix;}
-        Transform* GetParent()          { return parent;};
-        Transform* GetChild(int index = 0)  { if(0 <= index && index < children.size()) return children[index]; }
+        vec3 GetPosition()          { return position; };
+        vec3 GetLocalPosition()     { return localPosition; };
+        vec3 GetRightDirection()    { return right; }
+        vec3 GetUpDirection()       { return up; }
+        vec3 GetForwardDirection()  { return forward; }
+        vec3 GetEulerAngles()       { return eulerAngles; }
+        vec3 GetLocalEulerAngles()  { return localEulerAngles; }
+        quat GetRotation()          { return rotation; }
+        quat GetLocalRotation()     { return localRotation; }
+        vec3 GetLossyScale()        { return lossyScale; }
+        vec3 GetLocalScale()        { return localScale; }
+        mat4 GetLocalToWorldMatrix() { return localToWorldMatrix; }
+        mat4 GetWorldToLocalMatrix() { return worldToLocalMatrix; }
+        Transform *GetParent()      { return parent; };
+        Transform *GetChild(int index = 0)  { if (0 <= index && index < children.size()) return children[index]; }
 
         vec3 TransformDirection(vec3);
         vec3 TransformDirection(vec4);
@@ -56,7 +51,7 @@ namespace SharkEngine::Core {
         vec3 TransformPoint(float, float, float);
         vec3 InverseTransformPoint(vec3);
         vec3 InverseTransformPoint(float, float, float);
-        void LookAt(Transform*);
+        void LookAt(Transform *);
         void LookAt(vec3);
         void Rotate(vec3);
         void Rotate(float, float, float);
@@ -87,11 +82,10 @@ namespace SharkEngine::Core {
         mat4 localToWorldMatrix;
         mat4 worldToLocalMatrix;
 
-        Transform* parent;
-        std::vector<Transform*> children;
+        Transform *parent;
+        std::vector<Transform *> children;
     };
+
 }
-
-
 
 #endif//SHARKENGINE_TRANSFORM_H

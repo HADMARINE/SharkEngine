@@ -11,6 +11,7 @@
 #include <unordered_map>
 
 namespace SharkEngine::Core {
+    class Component;
     class IComponentArray
     {
     public:

@@ -6,64 +6,66 @@
 
 using namespace SharkEngine::Core;
 
-void Transform::Transform::Start() {
+void Transform::Start() {
     Component::Start();
 }
-void Transform::Transform::Update() {
+void Transform::Update() {
     Component::Update();
 }
-void Transform::Transform::Render() {
+void Transform::Render() {
     Component::Render();
 }
-void Transform::Transform::LateUpdate() {
+void Transform::LateUpdate() {
     Component::LateUpdate();
 }
-void Transform::Transform::EndScene() {
+void Transform::EndScene() {
     Component::EndScene();
 }
-glm::vec3 Transform::Transform::TransformDirection(glm::vec3) {
+glm::vec3 Transform::TransformDirection(glm::vec3) {
     return glm::vec3();
 }
-glm::vec3 Transform::Transform::TransformDirection(glm::vec4) {
+glm::vec3 Transform::TransformDirection(glm::vec4) {
     return glm::vec3();
 }
-glm::vec3 Transform::Transform::TransformDirection(float, float, float) {
+glm::vec3 Transform::TransformDirection(float, float, float) {
     return glm::vec3();
 }
-glm::vec3 Transform::Transform::InverseTransformDirection(glm::vec3) {
+glm::vec3 Transform::InverseTransformDirection(glm::vec3) {
     return glm::vec3();
 }
-glm::vec3 Transform::Transform::InverseTransformDirection(glm::vec4) {
+glm::vec3 Transform::InverseTransformDirection(glm::vec4) {
     return glm::vec3();
 }
-glm::vec3 Transform::Transform::InverseTransformDirection(float, float, float) {
+glm::vec3 Transform::InverseTransformDirection(float, float, float) {
     return glm::vec3();
 }
-glm::vec3 Transform::Transform::TransformPoint(glm::vec3) {
+glm::vec3 Transform::TransformPoint(glm::vec3) {
     return glm::vec3();
 }
-glm::vec3 Transform::Transform::TransformPoint(float, float, float) {
+glm::vec3 Transform::TransformPoint(float, float, float) {
     return glm::vec3();
 }
-glm::vec3 Transform::Transform::InverseTransformPoint(glm::vec3) {
+glm::vec3 Transform::InverseTransformPoint(glm::vec3) {
     return glm::vec3();
 }
-glm::vec3 Transform::Transform::InverseTransformPoint(float, float, float) {
+glm::vec3 Transform::InverseTransformPoint(float, float, float) {
     return glm::vec3();
 }
-void Transform::Transform::LookAt(Transform::Transform * iter) {
+void Transform::LookAt(Transform * iter) {
+
 }
-void Transform::Transform::LookAt(glm::vec3) {
+void Transform::LookAt(glm::vec3) {
+
 }
-void Transform::Transform::Rotate(glm::vec3) {
+void Transform::Rotate(glm::vec3) {
 }
-void Transform::Transform::Rotate(float, float, float) {
+void Transform::Rotate(float, float, float) {
 }
-void Transform::Transform::RotateAround(glm::vec3, glm::vec3, float) {
+void Transform::RotateAround(glm::vec3, glm::vec3, float) {
 }
-void Transform::Transform::RotateAround(glm::vec3, float) {
+void Transform::RotateAround(glm::vec3, float) {
 }
-void Transform::Transform::RotateAroundLocal(glm::vec3, float) {
+void Transform::RotateAroundLocal(glm::vec3, float) {
 }
-void Transform::Transform::Translate(glm::vec3) {
+void Transform::Translate(glm::vec3) {
 }

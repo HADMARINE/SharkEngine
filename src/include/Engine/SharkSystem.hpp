@@ -8,7 +8,6 @@
 #include "../../stdafx.hpp"
 #include "SystemManager/SceneManager.h"
 #include "SystemManager/TimeManager.h"
-#include "Scene/Scene.h"
 
 #define SHARK_ENGINE SharkSystem::Instance()
 
@@ -30,26 +29,19 @@ public:
         sceneMgr = new SharkEngine::Core::SceneManager();
         timeMgr = new SharkEngine::Core::TimeManager();
         //inputMgr = new InputManager();
-    }
+    };
 
-    void SetStartScene(SharkEngine::Core::Scene* startScene) {
-        sceneMgr->ChangeScene(startScene);
-    }
+    void Start()        { sceneMgr->Start(); };
+    void Update()       { timeMgr->Update(); sceneMgr->Update(); };
+    void LateUpdate()   { sceneMgr->LateUpdate(); };
+    void Render()       { sceneMgr->Render(); };
+    void EndScene()     { sceneMgr->EndScene(); };
 
-    void Start()        { sceneMgr->Start(); }
-    void Update()       { timeMgr->Update(); sceneMgr->Update(); }
-    void LateUpdate()   { sceneMgr->LateUpdate(); }
-    void Render()       { sceneMgr->Render(); }
-    void EndScene()     { sceneMgr->EndScene(); }
-
-    SharkEngine::Core::SceneManager* GetSceneManager() {return sceneMgr;}
-    SharkEngine::Core::TimeManager* GetTimeManager() {return timeMgr;}
+    SharkEngine::Core::SceneManager* GetSceneManager() {return sceneMgr;};
+    SharkEngine::Core::TimeManager* GetTimeManager() {return timeMgr;};
 public:
     SharkEngine::Core::SceneManager* sceneMgr;
     SharkEngine::Core::TimeManager* timeMgr;
 };
-
-std::unique_ptr<SharkSystem> SharkSystem::instance;
-std::once_flag SharkSystem::onlyOnce;
 
 #endif//VULKAN_ENGINE_SHARKSYSTEM_H

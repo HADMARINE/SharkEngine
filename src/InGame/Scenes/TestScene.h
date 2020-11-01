@@ -6,15 +6,12 @@
 #define SHARKENGINE_TESTSCENE_H
 
 #include "../../include/Engine/Scene/Scene.h"
-
-using namespace SharkEngine::Core;
-
-class TestScene : public Scene {
+class TestScene : public SharkEngine::Core::Scene {
 public:
     TestScene(){};
     ~TestScene(){};
-    void Init(){ Scene::Init(); };
-};
 
+    void Init() override;
+};
 
 #endif//SHARKENGINE_TESTSCENE_H

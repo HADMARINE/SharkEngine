@@ -8,7 +8,7 @@
 using namespace SharkEngine::Core;
 
 template<typename T>
-shared_ptr<T> SignatureManager::RegisterScene() {
+std::shared_ptr<T> SignatureManager::RegisterScene() {
     const char* typeName = typeid(T).name();
 
     // Create a pointer to the system and return it so it can be used externally
@@ -30,7 +30,7 @@ void SignatureManager::EntityDestroyed(EntityID _ID) {
     for(auto const& pair : m_Scenes) {
         auto const& scene = pair.second;
 
-        scene->m_EntityList.erase(_ID);
+        scene->m_EntityIDList.erase(_ID);
     }
 }
 
@@ -43,13 +43,13 @@ void SignatureManager::EntitySignatureChanged(EntityID _ID, Signature _Signature
         // Entity signature matches system signature - insert into set
         if ((_Signature & sceneSignature) == sceneSignature)
         {
-            scene->m_EntityList.insert(_ID);
+            scene->m_EntityIDList.insert(_ID);
         }
 
         // Entity signature does not match system signature - erase from set
         else
         {
-            scene->m_EntityList.erase(_ID);
+            scene->m_EntityIDList.erase(_ID);
         }
     }
 }

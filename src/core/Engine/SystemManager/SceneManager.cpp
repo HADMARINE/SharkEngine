@@ -22,6 +22,6 @@ void SceneManager::Render() {
 void SceneManager::EndScene() {
     if(currentScene) currentScene->EndScene();
 }
-const Scene *SceneManager::GetCurrentScene() {
+Scene *SceneManager::GetCurrentScene() {
     return currentScene;
 }
