@@ -10,7 +10,8 @@
 using namespace SharkEngine::Core;
 
 std::vector<const char *> layerNames = {
-        "VK_LAYER_LUNARG_standard_validation"
+//        "VK_LAYER_LUNARG_standard_validation"
+        "VK_LAYER_KHRONOS_validation"
 };
 
 std::vector<const char *> deviceExtensionNames = {

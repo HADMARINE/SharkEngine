@@ -39,6 +39,7 @@ public:
     VulkanInstance  instanceObj;	// Vulkan Instance object
     VulkanDevice*   deviceObj;
     VulkanRenderer* rendererObj;
+    VkDebugUtilsMessengerEXT debugMessenger;
     bool isPrepared;
     bool isResizing;
 

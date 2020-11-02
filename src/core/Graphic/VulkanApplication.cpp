@@ -63,6 +63,27 @@ VulkanApplication *VulkanApplication::GetInstance() {
 
     return instance.get();
 }
+
+VKAPI_ATTR VkBool32 VKAPI_CALL debugCallback(VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity,
+                                             VkDebugUtilsMessageTypeFlagsEXT messageType,
+                                             const VkDebugUtilsMessengerCallbackDataEXT
+                                             *pCallbackData,
+                                             void *pUserData) {
+    CLogger::Debug("[VK] %s", pCallbackData->pMessage);
+    return VK_FALSE;
+}
+
+VkResult CreateDebugUtilsMessengerEXT(VkInstance instance, const VkDebugUtilsMessengerCreateInfoEXT *pCreateInfo,
+                                      const VkAllocationCallbacks *pAllocator,
+                                      VkDebugUtilsMessengerEXT *pDebugMessenger) {
+    auto func = (PFN_vkCreateDebugUtilsMessengerEXT) vkGetInstanceProcAddr(instance, "vkCreateDebugUtilsMessengerEXT");
+    if (func != nullptr) {
+        return func(instance, pCreateInfo, pAllocator, pDebugMessenger);
+    } else {
+        return VK_ERROR_EXTENSION_NOT_PRESENT;
+    }
+}
+
 void VulkanApplication::Initialize() {
     glfwInit();
     glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
@@ -70,6 +91,27 @@ void VulkanApplication::Initialize() {
 
     instanceObj.layerExtension.AreLayersSupported(layerNames);
     CreateVulkanInstance(layerNames);
+
+
+    [&]() {
+      if (!GlobalPreferences::enableValidationLayers) return;
+
+      VkDebugUtilsMessengerCreateInfoEXT createInfo;
+
+      createInfo.sType = VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT;
+      createInfo.messageSeverity =
+              VK_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT |
+              VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT;
+      createInfo.messageType =
+              VK_DEBUG_UTILS_MESSAGE_TYPE_GENERAL_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_TYPE_VALIDATION_BIT_EXT |
+              VK_DEBUG_UTILS_MESSAGE_TYPE_PERFORMANCE_BIT_EXT;
+      createInfo.pfnUserCallback = debugCallback;
+
+      if (CreateDebugUtilsMessengerEXT(instanceObj.instance, &createInfo, nullptr, &debugMessenger) != VK_SUCCESS) {
+          CLogger::Error("Failed to set up debug message");
+          throw std::runtime_error("Failed to set up debug messenger");
+      }
+    }();
 
     // Create the debugging report if debugging is enabled
     if (debugFlag) {
