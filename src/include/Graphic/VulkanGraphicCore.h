@@ -2,9 +2,6 @@
 // Created by EunwooSong on 2020-11-02.
 //
 
-#ifndef SHARKENGINE_VULKANCORE_H
-#define SHARKENGINE_VULKANCORE_H
-
 #pragma once
 #define GLFW_INCLUDE_VULKAN
 #define GLM_FORCE_RADIANS
@@ -12,6 +9,7 @@
 #define STB_IMAGE_IMPLEMENTATION
 
 #include "../../stdafx.hpp"
+#include <Vulkan/vulkan.h>
 #include <GLFW/glfw3.h>
 #include <array>
 #include <cstring>
@@ -22,10 +20,12 @@
 #include <stb_image.h>
 
 const std::vector<const char *> validationLayers = {
-        "VK_LAYER_KHRONOS_validation"};
+        "VK_LAYER_KHRONOS_validation"
+};
 
 const std::vector<const char *> deviceExtensions = {
-        VK_KHR_SWAPCHAIN_EXTENSION_NAME};
+        VK_KHR_SWAPCHAIN_EXTENSION_NAME
+};
 
 VkResult CreateDebugUtilsMessengerEXT(VkInstance instance, const VkDebugUtilsMessengerCreateInfoEXT *pCreateInfo,
                                       const VkAllocationCallbacks *pAllocator,
@@ -130,6 +130,51 @@ public:
         }
         indexCount += vertices.size();
     }
+};
+
+class VulkanDrawable {
+public:
+public:
+    VulkanDrawable() : isReady(false) {}
+    ~VulkanDrawable() {}
+
+    void SetTexture(TextureImageStruct* texture) {
+
+    }
+
+    void InitObject() {
+        createTextureImageView();
+        createTextureSampler();
+        createVertexBuffer();
+        createIndexBuffer();
+        createUniformBuffers();
+        createDescriptorPool();
+        createDescriptorSets();
+        createCommandBuffers();
+        createSyncObjects();
+    }
+
+    void createTextureImageView();
+    void createTextureSampler();
+    void createVertexBuffer();
+    void createIndexBuffer();
+    void createUniformBuffers();
+    void createDescriptorPool();
+    void createDescriptorSets();
+    void createCommandBuffers();
+    void createSyncObjects();
+
+    void Render();
+
+public:
+    // Pipeline layout object
+    VkPipelineLayout pipelineLayout;
+
+    std::vector<VkDescriptorSetLayout> descLayout;
+    VkDescriptorPool descriptorPool;
+    std::vector<VkDescriptorSet> descriptorSet;
+
+    bool isReady;
 };
 
 int GraphicsObject::indexCount = 0;
@@ -1339,7 +1384,7 @@ private:
                 swapChainSupport.presentModes);
         VkExtent2D extent = chooseSwapExtent(swapChainSupport.capabilities);
 
-        uint32_t imageCount = swapChainSupport.capabilities.minImageCount + 1;
+        uint32_t imageCount = swapChainSupport.capabilities.minImageCount;
 
         if (swapChainSupport.capabilities.maxImageCount > 0 &&
             imageCount > swapChainSupport.capabilities.maxImageCount) {
@@ -1384,8 +1429,7 @@ private:
 
         vkGetSwapchainImagesKHR(device, swapChain, &imageCount, nullptr);
         swapChainImages.resize(imageCount);
-        vkGetSwapchainImagesKHR(device, swapChain, &imageCount,
-                                swapChainImages.data());
+        vkGetSwapchainImagesKHR(device, swapChain, &imageCount,swapChainImages.data());
 
         swapChainImageFormat = surfaceFormat.format;
         swapChainExtent = extent;
@@ -1637,7 +1681,7 @@ private:
             }
 
             if(i == 2) {
-                auto textureImageInitial = createTextureImage("texture2.jpg");
+                auto textureImageInitial = createTextureImage("texture.jpg");
                 textureImage = *textureImageInitial->image;
                 textureImageMemory = *textureImageInitial->deviceMemory;
                 createTextureImageView();
@@ -1870,5 +1914,3 @@ private:
         return VK_FALSE;
     }
 };
-
-#endif//SHARKENGINE_VULKANCORE_H
