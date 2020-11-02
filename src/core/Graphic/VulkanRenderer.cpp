@@ -292,8 +292,9 @@ void VulkanRenderer::CreateVertexBuffer() {
 
     for (VulkanDrawable* drawableObj : drawableList)
     {
-        drawableObj->CreateVertexBuffer(geometryData, sizeof(geometryData), sizeof(geometryData[0]), false);
+        drawableObj->CreateVertexBuffer(geometryData, sizeof(geometryData), sizeof(geometryData[0]), true);
     }
+
     CommandBufferMgr::endCommandBuffer(cmdVertexBuffer);
     CommandBufferMgr::submitCommandBuffer(deviceObj->queue, &cmdVertexBuffer);
 
@@ -641,109 +642,9 @@ void VulkanRenderer::CreateTextureLinear(std::string filename, VkImageUsageFlags
 
     vkDestroyBuffer(deviceObj->device, stagingBuffer, nullptr);
     vkFreeMemory(deviceObj->device, stagingBufferMemory, nullptr);
+
     texturesData[filename] = texture;
     tmp = texture;
-
-//    vkGetImageSubresourceLayout(deviceObj->device, texture->image, &subresource, &layout);
-//
-//    // Map the GPU memory on to local host
-//    error = vkMapMemory(deviceObj->device, texture->mem, 0, texture->memoryAlloc.allocationSize, 0, (void**)&data);
-//    assert(!error);
-//
-//    // UnMap the host memory to push the changes into the device memory
-//    vkUnmapMemory(deviceObj->device, texture->mem);
-//
-//    // Command buffer allocation and recording begins
-//    CommandBufferMgr::allocCommandBuffer(&deviceObj->device, cmdPool, &cmdTexture);
-//    CommandBufferMgr::beginCommandBuffer(cmdTexture);
-//
-//    VkImageSubresourceRange subresourceRange	= {};
-//    subresourceRange.aspectMask					= VK_IMAGE_ASPECT_COLOR_BIT;
-//    subresourceRange.baseMipLevel				= 0;
-//    subresourceRange.levelCount					= texture->mipMapLevels;
-//    subresourceRange.layerCount					= 1;
-//
-//    texture->imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
-//    SetImageLayout(texture->image, VK_IMAGE_ASPECT_COLOR_BIT,
-//                   VK_IMAGE_LAYOUT_PREINITIALIZED, texture->imageLayout,
-//                   subresourceRange, cmdTexture);
-//
-//    // Stop command buffer recording
-//    CommandBufferMgr::endCommandBuffer(cmdTexture);
-//
-//    // Ensure that the GPU has finished the submitted job before host takes over again
-//    VkFence fence;
-//    VkFenceCreateInfo fenceCI = {};
-//    fenceCI.sType = VK_STRUCTURE_TYPE_FENCE_CREATE_INFO;
-//    fenceCI.flags = 0;
-//
-//    vkCreateFence(deviceObj->device, &fenceCI, nullptr, &fence);
-//
-//    VkSubmitInfo submitInfo = {};
-//    submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
-//    submitInfo.pNext = NULL;
-//    submitInfo.commandBufferCount = 1;
-//    submitInfo.pCommandBuffers = &cmdTexture;
-//
-//    CommandBufferMgr::submitCommandBuffer(deviceObj->queue, &cmdTexture, &submitInfo, fence);
-//    vkWaitForFences(deviceObj->device, 1, &fence, VK_TRUE, 10000000000);
-//    vkDestroyFence(deviceObj->device, fence, nullptr);
-//
-//    // Specify a particular kind of texture using samplers
-//    VkSamplerCreateInfo samplerCI	= {};
-//    samplerCI.sType					= VK_STRUCTURE_TYPE_SAMPLER_CREATE_INFO;
-//    samplerCI.pNext					= NULL;
-//    samplerCI.magFilter				= VK_FILTER_LINEAR;
-//    samplerCI.minFilter				= VK_FILTER_LINEAR;
-//    samplerCI.mipmapMode			= VK_SAMPLER_MIPMAP_MODE_LINEAR;
-//    samplerCI.addressModeU			= VK_SAMPLER_ADDRESS_MODE_CLAMP_TO_EDGE;
-//    samplerCI.addressModeV			= VK_SAMPLER_ADDRESS_MODE_CLAMP_TO_EDGE;
-//    samplerCI.addressModeW			= VK_SAMPLER_ADDRESS_MODE_CLAMP_TO_EDGE;
-//    samplerCI.mipLodBias			= 0.0f;
-//    if (deviceObj->deviceFeatures.samplerAnisotropy == VK_TRUE)
-//    {
-//        samplerCI.anisotropyEnable	= VK_TRUE;
-//        samplerCI.maxAnisotropy		= 8;
-//    }
-//    else
-//    {
-//        samplerCI.anisotropyEnable	= VK_FALSE;
-//        samplerCI.maxAnisotropy		= 1;
-//    }
-//    samplerCI.compareOp				= VK_COMPARE_OP_NEVER;
-//    samplerCI.minLod				= 0.0f;
-//    samplerCI.maxLod				= 0.0f; // Set to texture->mipLevels if Optimal tiling, generally linear does not support mip-maping
-//    samplerCI.borderColor			= VK_BORDER_COLOR_FLOAT_OPAQUE_WHITE;
-//    samplerCI.unnormalizedCoordinates = VK_FALSE;
-//
-//    // Create the sampler
-//    error = vkCreateSampler(deviceObj->device, &samplerCI, NULL, &texture->sampler);
-//    assert(!error);
-//
-//    // Create image view to allow shader to access the texture information -
-//    VkImageViewCreateInfo viewCI	= {};
-//    viewCI.sType					= VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
-//    viewCI.pNext					= NULL;
-//    viewCI.viewType					= VK_IMAGE_VIEW_TYPE_2D;
-//    viewCI.format					= format;
-//    viewCI.components.r				= VK_COMPONENT_SWIZZLE_R;
-//    viewCI.components.g				= VK_COMPONENT_SWIZZLE_G;
-//    viewCI.components.b				= VK_COMPONENT_SWIZZLE_B;
-//    viewCI.components.a				= VK_COMPONENT_SWIZZLE_A;
-//    viewCI.subresourceRange			= subresourceRange;
-//    viewCI.subresourceRange.levelCount = 1;
-//    viewCI.flags					= 0;
-//    viewCI.image					= texture->image;
-//
-//    error = vkCreateImageView(deviceObj->device, &viewCI, NULL, &texture->view);
-//    assert(!error);
-//
-//    texture->descsImgInfo.sampler		= texture->sampler;
-//    texture->descsImgInfo.imageView		= texture->view;
-//    texture->descsImgInfo.imageLayout	= VK_IMAGE_LAYOUT_GENERAL;
-//
-//    //Save texture data
-//    texturesData[filename] = texture;
 }
 void VulkanRenderer::CreateTextureOptimal(std::string filename, VkImageUsageFlags imageUsageFlags, VkFormat format) {
     CreateTextureLinear(filename, imageUsageFlags, format);

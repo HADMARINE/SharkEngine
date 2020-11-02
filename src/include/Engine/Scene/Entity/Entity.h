@@ -5,7 +5,6 @@
 #pragma once
 
 #include "../../CoreTypes.h"
-#include "../Scene.h"
 #include <vector>
 
 namespace SharkEngine::Core {

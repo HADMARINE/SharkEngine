@@ -25,6 +25,8 @@ namespace SharkEngine::Core {
     // - Entity gameObject = SHARK_SCENE_MGR->getCurrentScene()
     //--------------------------------------------------------------------------------------
 
+    class Component;
+
     class Scene {
     public:
         Scene();

@@ -16,6 +16,8 @@ void VulkanDescriptor::CreateDescriptor(bool useTexture) {
 
     // Create the descriptor pool and use it for descriptor set allocation
     CreateDescriptorPool(useTexture);
+
+    CreateDescriptorSet(useTexture);
 }
 void VulkanDescriptor::DestroyDescriptor() {
     DestroyDescriptorLayout();

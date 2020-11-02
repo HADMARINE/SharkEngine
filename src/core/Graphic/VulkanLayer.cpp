@@ -38,7 +38,7 @@ VkResult VulkanLayer::GetInstanceLayerProperties() {
     CLogger::Debug("\nInstanced Layers\n");
     CLogger::Debug("===================\n");
     for (auto globalLayerProp: layerProperties) {
-        CLogger::Debug("\n%s \n\t|\n\t|---[Layer Name]--> %s \n", globalLayerProp.description, globalLayerProp.layerName);
+        CLogger::Debug("\n%s \n\t|\n\t|---[Layer Name]--> %s ", globalLayerProp.description, globalLayerProp.layerName);
 
         LayerProperties layerProps;
         layerProps.properties = globalLayerProp;

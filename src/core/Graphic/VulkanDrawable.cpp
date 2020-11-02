@@ -56,7 +56,7 @@ void VulkanDrawable::CreateVertexBuffer(const void *vertexData, uint32_t dataSiz
     // Create memory allocation metadata information
     VkMemoryAllocateInfo allocInfo = {};
     allocInfo.sType				= VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO;
-    allocInfo.pNext				= NULL;
+    allocInfo.pNext				= nullptr;
     allocInfo.memoryTypeIndex	= 0;
     allocInfo.allocationSize	= memRequirement.size;
 
@@ -309,7 +309,7 @@ void VulkanDrawable::CreateDescriptorSet(bool useTexture) {
     }
 
     // Update the uniform buffer into the allocated descriptor set
-    vkUpdateDescriptorSets(deviceObj->device, useTexture ? 2 : 1, writes, 0, NULL);
+    vkUpdateDescriptorSets(deviceObj->device, useTexture ? 2 : 1, writes, 0, nullptr);
 }
 void VulkanDrawable::CreateDescriptorSetLayout(bool useTexture) {
     VkDescriptorSetLayoutBinding layoutBindings[2];
@@ -456,14 +456,9 @@ void VulkanDrawable::recordCommandBuffer(int currentImage, VkCommandBuffer *cmdD
     VulkanPipeline* pipelineObj 	= rendererObj->GetPipelineObject();
 
     // Specify the clear color value
-    VkClearValue clearValues[2];
-    clearValues[0].color.float32[0]		= 0.0f;
-    clearValues[0].color.float32[1]		= 0.0f;
-    clearValues[0].color.float32[2]		= 0.0f;
-    clearValues[0].color.float32[3]		= 1.0f;
-
-    clearValues[1].depthStencil.depth	= 1.0f;
-    clearValues[1].depthStencil.stencil	= 0;
+    std::array<VkClearValue, 2> clearValues{};
+    clearValues[0] = {0.0f, 0.0f, 0.0f, 1.0f};
+    clearValues[1] = {1.0f, 0};
 
     // Define the VkRenderPassBeginInfo control structure
     VkRenderPassBeginInfo renderPassBegin;
@@ -475,14 +470,17 @@ void VulkanDrawable::recordCommandBuffer(int currentImage, VkCommandBuffer *cmdD
     renderPassBegin.renderArea.offset.y			= 0;
     renderPassBegin.renderArea.extent.width		= rendererObj->width;
     renderPassBegin.renderArea.extent.height	= rendererObj->height;
-    renderPassBegin.clearValueCount				= 2;
-    renderPassBegin.pClearValues				= clearValues;
+    renderPassBegin.clearValueCount				= static_cast<uint32_t>(clearValues.size());
+    renderPassBegin.pClearValues				= clearValues.data();
+
+     VkResult error;
 
     // Start recording the render pass instance
     vkCmdBeginRenderPass(*cmdDraw, &renderPassBegin, VK_SUBPASS_CONTENTS_INLINE);
 
     // Bound the command buffer with the graphics pipeline
     vkCmdBindPipeline(*cmdDraw, VK_PIPELINE_BIND_POINT_GRAPHICS, *pipeline);
+
     vkCmdBindDescriptorSets(*cmdDraw, VK_PIPELINE_BIND_POINT_GRAPHICS, pipelineLayout,
                             0, 1, descriptorSet.data(), 0, nullptr);
     const VkDeviceSize offsets[1] = { 0 };
