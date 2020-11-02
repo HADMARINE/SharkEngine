@@ -15,7 +15,7 @@ using namespace glm;
 namespace SharkEngine::Core {
     class Transform : public SharkEngine::Core::Component {
         Transform() {}
-        Transform(vec4 pos, quat rotation) : localPosition(pos), position(pos), rotation(rotation) {}
+        Transform(vec4 pos, quat rotation) : localPosition(pos), position(pos) {}
         ~Transform(){};
 
         void Start() override;
@@ -32,8 +32,6 @@ namespace SharkEngine::Core {
         vec3 GetForwardDirection()  { return forward; }
         vec3 GetEulerAngles()       { return eulerAngles; }
         vec3 GetLocalEulerAngles()  { return localEulerAngles; }
-        quat GetRotation()          { return rotation; }
-        quat GetLocalRotation()     { return localRotation; }
         vec3 GetLossyScale()        { return lossyScale; }
         vec3 GetLocalScale()        { return localScale; }
         mat4 GetLocalToWorldMatrix() { return localToWorldMatrix; }
@@ -69,11 +67,8 @@ namespace SharkEngine::Core {
         vec4 up;
         vec4 forward;
 
-        vec3 eulerAngles;
         vec3 localEulerAngles;
-
-        quat rotation;
-        quat localRotation;
+        vec3 eulerAngles;
 
         vec4 lossyScale;
         vec4 localScale;

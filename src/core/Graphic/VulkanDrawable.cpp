@@ -457,9 +457,9 @@ void VulkanDrawable::recordCommandBuffer(int currentImage, VkCommandBuffer *cmdD
 
     // Specify the clear color value
     VkClearValue clearValues[2];
-    clearValues[0].color.float32[0]		= 1.0f;
-    clearValues[0].color.float32[1]		= 1.0f;
-    clearValues[0].color.float32[2]		= 1.0f;
+    clearValues[0].color.float32[0]		= 0.0f;
+    clearValues[0].color.float32[1]		= 0.0f;
+    clearValues[0].color.float32[2]		= 0.0f;
     clearValues[0].color.float32[3]		= 1.0f;
 
     clearValues[1].depthStencil.depth	= 1.0f;
@@ -484,7 +484,7 @@ void VulkanDrawable::recordCommandBuffer(int currentImage, VkCommandBuffer *cmdD
     // Bound the command buffer with the graphics pipeline
     vkCmdBindPipeline(*cmdDraw, VK_PIPELINE_BIND_POINT_GRAPHICS, *pipeline);
     vkCmdBindDescriptorSets(*cmdDraw, VK_PIPELINE_BIND_POINT_GRAPHICS, pipelineLayout,
-                            0, 1, descriptorSet.data(), 0, NULL);
+                            0, 1, descriptorSet.data(), 0, nullptr);
     const VkDeviceSize offsets[1] = { 0 };
     vkCmdBindVertexBuffers(*cmdDraw, 0, 1, &VertexBuffer.buf, offsets);
 

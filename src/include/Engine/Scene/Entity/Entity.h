@@ -9,6 +9,7 @@
 
 namespace SharkEngine::Core {
     class Component;
+    class Scene;
 
     class Entity {
     public:

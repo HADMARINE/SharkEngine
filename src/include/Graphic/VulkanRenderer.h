@@ -61,8 +61,11 @@ public:
                              VkMemoryPropertyFlags properties,
                              VkBuffer &buffer,
                              VkDeviceMemory &bufferMemory);
-    void CreateTextureLinear (const char* filename, VkImageUsageFlags imageUsageFlags = VK_IMAGE_USAGE_SAMPLED_BIT, VkFormat format = VK_FORMAT_R8G8B8A8_SRGB);
-    void CreateTextureOptimal(const char* filename, VkImageUsageFlags imageUsageFlags = VK_IMAGE_USAGE_SAMPLED_BIT, VkFormat format = VK_FORMAT_R8G8B8A8_SRGB);
+
+    void TransitionImageLayout(VkImage image, VkFormat forma,  VkImageLayout oldLayout, VkImageLayout newLayout);
+
+    void CreateTextureLinear (std::string , VkImageUsageFlags imageUsageFlags = VK_IMAGE_USAGE_SAMPLED_BIT, VkFormat format = VK_FORMAT_R8G8B8A8_SRGB);
+    void CreateTextureOptimal(std::string, VkImageUsageFlags imageUsageFlags = VK_IMAGE_USAGE_SAMPLED_BIT, VkFormat format = VK_FORMAT_R8G8B8A8_SRGB);
 
     void DestroyCommandBuffer();
     void DestroyCommandPool();
@@ -97,7 +100,8 @@ public:
     int					width, height;
 
     //임시 텍스쳐 메니저
-    std::map<const char*, TextureData*> texturesData;
+    std::map<std::string , TextureData*> texturesData;
+    TextureData* tmp;
 
 private:
     VulkanApplication* application;
