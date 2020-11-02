@@ -10,8 +10,8 @@
 class VulkanDrawable {
 public:
 public:
-    VulkanDrawable(VulkanEngine* core) : Core(core), isReady(false), isDestroy(false) {vertexData.resize(0);}
-    VulkanDrawable(VulkanEngine* core, TextureImageStruct* texture, const std::vector<Vertex> &vertices, const std::vector<uint16_t>& indices) :Core(core), isReady(false), isDestroy(false), vertexData(vertices), indices(indices) { SetTexture(texture);}
+    VulkanDrawable(VulkanCore::VulkanEngine* core) : Core(core), isReady(false), isDestroy(false) {vertexData.resize(0);}
+    VulkanDrawable(VulkanCore::VulkanEngine* core, VulkanCore::TextureImageStruct* texture, const std::vector<VulkanCore::Vertex> &vertices, const std::vector<uint16_t>& indices) :Core(core), isReady(false), isDestroy(false), vertexData(vertices), indices(indices) { SetTexture(texture);}
     ~VulkanDrawable() {}
 
     void Destroy() {
@@ -21,7 +21,7 @@ public:
         return isDestroy;
     }
 
-    void SetTexture(TextureImageStruct* texture) {
+    void SetTexture(VulkanCore::TextureImageStruct* texture) {
         this->texture.image = texture->image;
         this->texture.mem = texture->deviceMemory;
 
@@ -31,7 +31,7 @@ public:
         isReady = false;
     }
 
-    void SetVertexData(const std::vector<Vertex> &vertices) {
+    void SetVertexData(const std::vector<VulkanCore::Vertex> &vertices) {
         vertexData = vertices;
     }
 
@@ -126,7 +126,7 @@ public:
         vkFreeMemory(Core->GetDevice(), stagingBufferMemory, nullptr);
     }
     void createUniformBuffers(){
-        VkDeviceSize bufferSize = sizeof(UniformBufferObject);
+        VkDeviceSize bufferSize = sizeof(VulkanCore::UniformBufferObject);
         uniformBuffers.resize(Core->getSwapChainImageCount());
         uniformBuffersMemory.resize(Core->getSwapChainImageCount());
 
@@ -174,7 +174,7 @@ public:
             VkDescriptorBufferInfo bufferInfo{};
             bufferInfo.buffer = uniformBuffers[i];
             bufferInfo.offset = 0;
-            bufferInfo.range = sizeof(UniformBufferObject);
+            bufferInfo.range = sizeof(VulkanCore::UniformBufferObject);
 
             VkDescriptorImageInfo imageInfo{};
             imageInfo.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
@@ -374,7 +374,7 @@ public:
         auto currentTime = std::chrono::high_resolution_clock::now();
         float time = std::chrono::duration<float, std::chrono::seconds::period>(currentTime - startTime).count();
 
-        UniformBufferObject ubo{};
+        VulkanCore::UniformBufferObject ubo{};
         ubo.model = glm::rotate(glm::mat4(1.0f), time * glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f));
         ubo.view = glm::lookAt(glm::vec3(2.0f, 2.0f, 2.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f));
         ubo.proj = glm::perspective(glm::radians(45.0f), Core->GetSwapChainExtent().width / (float) Core->GetSwapChainExtent().height, 0.1f, 10.0f);
@@ -451,15 +451,15 @@ public:
     std::vector<VkDeviceMemory> uniformBuffersMemory;
 
     //VertexData;
-    std::vector<Vertex> vertexData;
+    std::vector<VulkanCore::Vertex> vertexData;
 
     //Image Data
-    TextureData texture;
+    VulkanCore::TextureData texture;
 
     //Index Data
     std::vector<uint16_t> indices;
 
-    VulkanEngine* Core;
+    VulkanCore::VulkanEngine* Core;
 
     bool isReady;
     bool isDestroy;

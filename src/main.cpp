@@ -6,8 +6,8 @@
 #include "include/Graphic/VulkanGraphicCore.h"
 #include "InGame/Scenes/TestScene.h"
 #include "include/Engine/SharkSystem.hpp"
-#include "include/Graphic/VulkanDrawableManager.h"
-#include "include/Engine/UniformBufferCamera/Camera.hpp"
+//#include "include/Graphic/VulkanDrawableManager.h"
+//#include "include/Engine/UniformBufferCamera/Camera.hpp"
 
 using namespace SharkEngine::Core;
 
@@ -30,7 +30,7 @@ int main() {
 //    appObj->Prepare();
 
     //ROLLBACK_GAME_PROJECT
-    VulkanEngine graphicEngine;
+    VulkanCore::VulkanEngine graphicEngine;
     graphicEngine.Initialize();
 
     SHARK_ENGINE->InitializeEngine();
