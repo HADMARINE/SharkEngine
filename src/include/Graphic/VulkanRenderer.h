@@ -55,6 +55,7 @@ public:
     void CreateShaders();
     void CreatePipelineStateManagement();
     void CreateDescriptors();
+    VkImageView CreateImageView(VkImage image, VkFormat format, VkImageAspectFlags aspectFlags);
 
     void CreateStagingBuffer(VkDeviceSize size,
                              VkBufferUsageFlags usage,
@@ -62,10 +63,13 @@ public:
                              VkBuffer &buffer,
                              VkDeviceMemory &bufferMemory);
 
-    void TransitionImageLayout(VkImage image, VkFormat forma,  VkImageLayout oldLayout, VkImageLayout newLayout);
-
+    void TransitionImageLayout(VkImage image, VkFormat format,  VkImageLayout oldLayout, VkImageLayout newLayout);
+    void CreateImage(uint32_t width, uint32_t height, VkFormat format, VkImageTiling tiling, VkImageUsageFlags usage, VkMemoryPropertyFlags properties, VkImage &image, VkDeviceMemory &imageMemory);
+    void CopyBufferToImage(VkBuffer buffer, VkImage image, uint32_t width, uint32_t height);
     void CreateTextureLinear (std::string , VkImageUsageFlags imageUsageFlags = VK_IMAGE_USAGE_SAMPLED_BIT, VkFormat format = VK_FORMAT_R8G8B8A8_SRGB);
     void CreateTextureOptimal(std::string, VkImageUsageFlags imageUsageFlags = VK_IMAGE_USAGE_SAMPLED_BIT, VkFormat format = VK_FORMAT_R8G8B8A8_SRGB);
+    VkCommandBuffer BeginSingleTimeCommands();
+    void EndSingleTimeCommands(VkCommandBuffer);
 
     void DestroyCommandBuffer();
     void DestroyCommandPool();

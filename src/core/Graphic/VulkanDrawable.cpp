@@ -298,6 +298,11 @@ void VulkanDrawable::CreateDescriptorSet(bool useTexture) {
 
     if (useTexture)
     {
+//        VkDescriptorImageInfo desImageInfo{};
+//        desImageInfo.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
+//        desImageInfo.imageView = textures->view;
+//        desImageInfo.sampler = textures->sampler;
+
         writes[1]					= {};
         writes[1].sType				= VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
         writes[1].dstSet			= descriptorSet[0];
