@@ -16,9 +16,9 @@ extern std::vector<const char *> deviceExtensionNames;
 VulkanApplication::VulkanApplication() {
     instanceObj.layerExtension.GetInstanceLayerProperties();
 
-    deviceObj = NULL;
+    deviceObj = nullptr;
     debugFlag = false;
-    rendererObj = NULL;
+    rendererObj = nullptr;
     isPrepared = false;
     isResizing = false;
 }
