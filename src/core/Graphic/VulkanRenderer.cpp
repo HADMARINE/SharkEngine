@@ -107,6 +107,10 @@ void VulkanRenderer::DestroyPresentationWindow() {
 }
 
 void VulkanRenderer::SetImageLayout(VkImage image, VkImageAspectFlags aspectMask, VkImageLayout oldImageLayout, VkImageLayout newImageLayout, const VkImageSubresourceRange &subresourceRange, VkCommandBuffer const &cmdBuf) {
+    assert(cmdBuf != VK_NULL_HANDLE);
+
+    assert(deviceObj->queue != VK_NULL_HANDLE);
+
     VkImageMemoryBarrier imgMemoryBarrier = {};
     imgMemoryBarrier.sType = VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER;
     imgMemoryBarrier.pNext = NULL;
@@ -352,6 +356,8 @@ void VulkanRenderer::CreateRenderPass(bool includeDepth, bool clear) {
 
     // Create the render pass object
     result = vkCreateRenderPass(deviceObj->device, &rpInfo, NULL, &renderPass);
+
+    assert(result == VK_SUCCESS);
 }
 void VulkanRenderer::CreateFrameBuffer(bool includeDepth) {
     VkResult result;

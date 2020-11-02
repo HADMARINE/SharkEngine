@@ -119,7 +119,7 @@ void VulkanDrawable::Update() {
 
     auto camProp = SharkEngine::Camera::Instance()->getCameraProperties();
 
-    Projection = glm::perspective(glm::radians(camProp->fieldOfView), 1.0f, 0.1f, 100.0f);
+    Projection = glm::perspective(glm::radians(45.0f), 1.0f, 0.1f, 100.0f);
     View = glm::lookAt(
             glm::vec3(0, 0, 5),		// Camera is in World Space
             glm::vec3(0, 0, 0),		// and looks at the origin
@@ -127,17 +127,19 @@ void VulkanDrawable::Update() {
     );
     Model = camProp->model;
     static float rot = 0;
-    rot += .0005f;
+    //rot += .0005f;
     Model = glm::rotate(Model, rot, glm::vec3(0.0, 1.0, 0.0))
             * glm::rotate(Model, rot, glm::vec3(1.0, 1.0, 1.0));
 
     glm::mat4 MVP = Projection * View * Model;
 
     VkResult res = vkInvalidateMappedMemoryRanges(deviceObj->device, 1, &UniformData.mappedRange[0]);
+    assert(res == VK_SUCCESS);
 
     memcpy(UniformData.pData, &MVP, sizeof(MVP));
 
     res = vkFlushMappedMemoryRanges(deviceObj->device, 1, &UniformData.mappedRange[0]);
+    assert(res == VK_SUCCESS);
 }
 void VulkanDrawable::Render() {
     VulkanDevice* deviceObj			= rendererObj->GetDevice();
