@@ -5,8 +5,8 @@
 #pragma once
 
 #include "../../CoreTypes.h"
+#include "../Scene.h"
 #include <vector>
-#include "../../Scene/Scene.h"
 
 namespace SharkEngine::Core {
     class Component;
