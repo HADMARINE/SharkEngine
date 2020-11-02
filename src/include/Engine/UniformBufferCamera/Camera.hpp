@@ -2,8 +2,7 @@
 // Created by HADMARINE on 2020/10/28.
 //
 
-#ifndef SHARKENGINE_CAMERA_HPP
-#define SHARKENGINE_CAMERA_HPP
+#pragma once
 
 #include <glm/glm.hpp>
 
@@ -71,28 +70,21 @@ namespace SharkEngine {
             this->fieldOfView = cam->getFieldOfView();
         }
 
+        static Camera* Instance() {
+            static Camera* camera = new Camera();
+            return camera;
+        }
+
         CameraProperties *getCameraProperties() {
             return &camProp;
         }
-
-        static void mountCamera(Camera *cam) {
-            Camera::currentCam = cam;
-        }
-
-        static Camera* getCurrentCamera() { return Camera::currentCam; };
-
     private:
         CameraProperties camProp;
-        static Camera *currentCam;
+        Camera* currentCam;
         float fieldOfView = 45.0f;
         glm::vec3 eye{10, 3, 10};
         glm::vec3 center{0, 0, 0};
         glm::vec3 upVector{0, -1, 0};
         glm::mat4 model{1.0f};
     };
-
-    Camera* Camera::currentCam{};
-
 }// namespace SharkEngine
-
-#endif//SHARKENGINE_CAMERA_HPP

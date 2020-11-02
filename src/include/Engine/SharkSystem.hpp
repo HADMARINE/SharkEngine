@@ -25,6 +25,8 @@ public:
     };
 
     void InitializeEngine() {
+        using namespace SharkEngine;
+
         sceneMgr = new SharkEngine::Core::SceneManager();
         timeMgr = new SharkEngine::Core::TimeManager();
         //inputMgr = new InputManager();

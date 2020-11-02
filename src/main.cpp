@@ -5,6 +5,7 @@
 #include "include/Graphic/VulkanApplication.h"
 #include "include/Engine/SharkSystem.hpp"
 #include "InGame/Scenes/TestScene.h"
+#include "include/Engine/UniformBufferCamera/Camera.hpp"
 
 using namespace SharkEngine::Core;
 

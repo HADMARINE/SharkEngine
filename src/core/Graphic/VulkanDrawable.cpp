@@ -117,7 +117,7 @@ void VulkanDrawable::Prepare() {
 void VulkanDrawable::Update() {
     VulkanDevice* deviceObj = rendererObj->GetDevice();
 
-    auto camProp = SharkEngine::Camera::getCurrentCamera()->getCameraProperties();
+    auto camProp = SharkEngine::Camera::Instance()->getCameraProperties();
 
     Projection = glm::perspective(glm::radians(camProp->fieldOfView), 1.0f, 0.1f, 100.0f);
     View = glm::lookAt(
