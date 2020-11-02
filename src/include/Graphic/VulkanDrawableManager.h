@@ -1,0 +1,13 @@
+//
+// Created by EunwooSong on 2020-11-03.
+//
+
+#ifndef SHARKENGINE_VULKANDRAWABLEMANAGER_H
+#define SHARKENGINE_VULKANDRAWABLEMANAGER_H
+
+
+class VulkanDrawableManager {
+};
+
+
+#endif//SHARKENGINE_VULKANDRAWABLEMANAGER_H
