@@ -77,7 +77,7 @@ namespace SharkEngine::Core::Physics {
             return ret;
         }
 
-#define PI 3.14159265358979323846
+#define PI 3.14159265358979323846f
 
         float deg_to_rad(float deg) {
             return deg * PI / 180;
@@ -94,6 +94,11 @@ namespace SharkEngine::Core::Physics {
         float dotProduct(vec3 & l, vec3 & r) {
             return l.x * r.x + l.y * r.y + l.z * r.z;
         }
+
+        vec2 crossProduct(vec2 & l, vec2 & r) {
+            return
+        }
+
     }// namespace OBBFunctions
 
     bool EvalCollision(RigidBody<OBB> a, RigidBody<OBB> b) {
@@ -179,11 +184,14 @@ namespace SharkEngine::Core::Physics {
 
     template<typename T, typename U>
     void ResolveCollision(RigidBody<T> A, RigidBody<U> B) {
+        using namespace glm;
+        using namespace OBBFunctions;
+
         // Calculate relative velocity
-        glm::vec3 rv = B.vel - A.vel;
+        vec3 rv = B.vel - A.vel;
 
         // Calculate relative velocity in terms of the normal direction
-        float velAlongNormal = dotproduct(rv, normal);
+        float velAlongNormal = dotProduct(rv, normal);
 
         // Do not resolve if velocities are separating
         if (velAlongNormal > 0)
@@ -197,7 +205,8 @@ namespace SharkEngine::Core::Physics {
         j /= 1 / A.mass + 1 / B.mass;
 
         // Apply impulse
-        glm::vec2 impulse = j * normal;
+        vec2 impulse = j * normal;
+
         A.velocity -= 1 / A.mass * impulse;
         B.velocity += 1 / B.mass * impulse;
     }
