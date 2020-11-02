@@ -6,7 +6,6 @@
 
 #include "../../CoreTypes.h"
 #include <vector>
-#include "../../Scene/Scene.h"
 
 namespace SharkEngine::Core {
     class Component;

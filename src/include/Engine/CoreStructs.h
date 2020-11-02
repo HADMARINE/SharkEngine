@@ -46,6 +46,3 @@ namespace SharkEngine::Core {
         };
     }// namespace Physics
 }// namespace SharkEngine::Core
-
-
-#endif//SHARKENGINE_CORESTRUCTS_H
