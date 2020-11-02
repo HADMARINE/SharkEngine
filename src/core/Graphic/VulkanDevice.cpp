@@ -29,6 +29,7 @@ VkResult VulkanDevice::CreateDevice(std::vector<const char *> &layers, std::vect
 
     VkPhysicalDeviceFeatures setEnabledFeatures = {VK_FALSE};
     setEnabledFeatures.samplerAnisotropy = deviceFeatures.samplerAnisotropy;
+    setEnabledFeatures.depthClamp = VK_TRUE;
 
     VkDeviceCreateInfo deviceInfo		= {};
     deviceInfo.sType					= VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;
