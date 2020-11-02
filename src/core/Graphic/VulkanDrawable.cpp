@@ -121,9 +121,9 @@ void VulkanDrawable::Update() {
 
     Projection = glm::perspective(glm::radians(camProp->fieldOfView), 1.0f, 0.1f, 100.0f);
     View = glm::lookAt(
-            camProp->eye,		    // Camera is in World Space
-            camProp->center,		// and looks at the origin
-            camProp->upVector		    // Head is up
+            glm::vec3(0, 0, 5),		// Camera is in World Space
+            glm::vec3(0, 0, 0),		// and looks at the origin
+            glm::vec3(0, 1, 0)		// Head is up
     );
     Model = camProp->model;
     static float rot = 0;
