@@ -18,19 +18,19 @@ public:
     ~VulkanDescriptor();
 
     // Creates descriptor pool and allocate descriptor set from it
-    void CreateDescriptor(bool useTexture);
+    void CreateDescriptor(bool useTexture = true);
     void DestroyDescriptor();
 
     // Defines the scriptor sets layout binding and create descriptor layout
-    virtual void CreateDescriptorSetLayout(bool useTexture) = 0;
+    virtual void CreateDescriptorSetLayout(bool useTexture = true) = 0;
     void DestroyDescriptorLayout();
 
-    virtual void CreateDescriptorPool(bool useTexture) = 0;
+    virtual void CreateDescriptorPool(bool useTexture = true) = 0;
     void DestroyDescriptorPool();
 
     virtual void CreateDescriptorResources() = 0;
 
-    virtual void CreateDescriptorSet(bool useTexture) = 0;
+    virtual void CreateDescriptorSet(bool useTexture = true) = 0;
     void DestroyDescriptorSet();
 
     virtual void CreatePipelineLayout() = 0;
