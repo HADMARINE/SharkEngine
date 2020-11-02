@@ -47,7 +47,7 @@ add_executable(
         src/InGame/GameObjects/TestObject.h
         src/InGame/Scripts/TestComponent.cpp
         src/InGame/Scripts/TestComponent.h
-        )
+        src/include/Graphic/VulkanDrawable.h src/core/Graphic/VulkanDrawableManager.cpp src/include/Graphic/VulkanDrawableManager.h)
 
 find_package(glm CONFIG REQUIRED)
 target_link_libraries(main PRIVATE glm)

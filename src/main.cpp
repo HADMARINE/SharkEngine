@@ -6,6 +6,7 @@
 #include "include/Graphic/VulkanGraphicCore.h"
 #include "InGame/Scenes/TestScene.h"
 #include "include/Engine/SharkSystem.hpp"
+#include "include/Graphic/VulkanDrawableManager.h"
 #include "include/Engine/UniformBufferCamera/Camera.hpp"
 
 using namespace SharkEngine::Core;
@@ -33,15 +34,19 @@ int main() {
     graphicEngine.Initialize();
 
     SHARK_ENGINE->InitializeEngine();
+
     SHARK_ENGINE->GetSceneManager()->ChangeScene(new TestScene());
 
     bool isWindowOpen = true;
     while (isWindowOpen) {
+        //VULKAN_DRAW_MANAGER->CheckInit();
+
         SHARK_ENGINE->Start();
         //appObj->Update();
         SHARK_ENGINE->Update();
         SHARK_ENGINE->LateUpdate();
         SHARK_ENGINE->Render();
+
         isWindowOpen = graphicEngine.Render();
 
         SHARK_ENGINE->EndScene();
