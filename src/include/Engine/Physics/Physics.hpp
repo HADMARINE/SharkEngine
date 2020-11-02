@@ -4,8 +4,8 @@
 
 #pragma once
 
-#include "../CoreStructs.h"
 #include <glm/glm.hpp>
+#include "RigidBody.hpp"
 
 namespace SharkEngine::Core::Physics {
     struct XYMinMax {
@@ -85,6 +85,14 @@ namespace SharkEngine::Core::Physics {
 
         float rad_to_deg(float rad) {
             return rad * 180 / PI;
+        }
+
+        float dotProduct(vec2 & l, vec2 & r) {
+            return l.x * r.x + l.y * r.y;
+        }
+
+        float dotProduct(vec3 & l, vec3 & r) {
+            return l.x * r.x + l.y * r.y + l.z * r.z;
         }
     }// namespace OBBFunctions
 
@@ -169,29 +177,29 @@ namespace SharkEngine::Core::Physics {
         return EvalCollision(c, b);
     }
 
-//    template<typename T, typename U>
-//    void ResolveCollision(RigidBody<T> A, RigidBody<U> B) {
-//        // Calculate relative velocity
-//        glm::vec3 rv = B.vel - A.vel;
-//
-//        // Calculate relative velocity in terms of the normal direction
-//        float velAlongNormal = DotProduct(rv, normal);
-//
-//        // Do not resolve if velocities are separating
-//        if (velAlongNormal > 0)
-//            return;
-//
-//        // Calculate restitution
-//        float e = min(A.restitution, B.restitution);
-//
-//        // Calculate impulse scalar
-//        float j = -(1 + e) * velAlongNormal;
-//        j /= 1 / A.mass + 1 / B.mass;
-//
-//        // Apply impulse
-//        glm::vec2 impulse = j * normal;
-//        A.velocity -= 1 / A.mass * impulse;
-//        B.velocity += 1 / B.mass * impulse;
-//    }
+    template<typename T, typename U>
+    void ResolveCollision(RigidBody<T> A, RigidBody<U> B) {
+        // Calculate relative velocity
+        glm::vec3 rv = B.vel - A.vel;
+
+        // Calculate relative velocity in terms of the normal direction
+        float velAlongNormal = dotproduct(rv, normal);
+
+        // Do not resolve if velocities are separating
+        if (velAlongNormal > 0)
+            return;
+
+        // Calculate restitution
+        float e = min(A.restitution, B.restitution);
+
+        // Calculate impulse scalar
+        float j = -(1 + e) * velAlongNormal;
+        j /= 1 / A.mass + 1 / B.mass;
+
+        // Apply impulse
+        glm::vec2 impulse = j * normal;
+        A.velocity -= 1 / A.mass * impulse;
+        B.velocity += 1 / B.mass * impulse;
+    }
 
 }// namespace SharkEngine::Core::Physics

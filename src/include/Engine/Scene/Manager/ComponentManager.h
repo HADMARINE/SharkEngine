@@ -83,5 +83,3 @@ namespace SharkEngine::Core {
         ComponentID m_nextComponentID;
     };
 }
-
-//#endif//VULKAN_ENGINE_COMPONENTMANAGER_H

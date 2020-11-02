@@ -40,7 +40,7 @@ namespace SharkEngine {
         glm::mat4 getModel() { return model; };
         float getFieldOfView() { return fieldOfView; };
 
-        Camera(glm::vec3 eye, glm::vec3 center, glm::vec3 upVector, glm::mat4 model, float fieldOfView) : camProp(eye, center, upVector, model, fieldOfView){
+        Camera(glm::vec3 eye, glm::vec3 center, glm::vec3 upVector, glm::mat4 model, float fieldOfView) : camProp(eye, center, upVector, model, fieldOfView) {
             this->eye = eye;
             this->center = center;
             this->upVector = upVector;
@@ -79,7 +79,7 @@ namespace SharkEngine {
             Camera::currentCam = cam;
         }
 
-        static Camera* getCurrentCamera() { return Camera::currentCam; };
+        static Camera *getCurrentCamera() { return Camera::currentCam; };
 
     private:
         CameraProperties camProp;
@@ -91,7 +91,7 @@ namespace SharkEngine {
         glm::mat4 model{1.0f};
     };
 
-    Camera* Camera::currentCam{};
+    Camera *Camera::currentCam{};
 
 }// namespace SharkEngine
 
