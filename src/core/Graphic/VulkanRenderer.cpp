@@ -542,7 +542,7 @@ void VulkanRenderer::CreateTextureLinear(std::string filename, VkImageUsageFlags
     TextureData* texture = new TextureData();
 
     texture->textureWidth = static_cast<uint32_t>(texWidth);
-    texture->textureWidth = static_cast<uint32_t>(texHeight);
+    texture->textureHeight = static_cast<uint32_t>(texHeight);
     texture->mipMapLevels = static_cast<uint32_t>(texChannels);
 
     // Create image resource states using VkImageCreateInfo
@@ -566,11 +566,6 @@ void VulkanRenderer::CreateTextureLinear(std::string filename, VkImageUsageFlags
         throw std::runtime_error("Failed to create image");
     }
 
-    VkResult  error;
-    // Use create image info and create the image objects
-    error = vkCreateImage(deviceObj->device, &imageInfo, nullptr, &texture->image);
-    assert(!error);
-
     // Get the buffer memory requirements
     VkMemoryRequirements memoryRequirements;
     vkGetImageMemoryRequirements(deviceObj->device, texture->image, &memoryRequirements);
@@ -589,7 +584,7 @@ void VulkanRenderer::CreateTextureLinear(std::string filename, VkImageUsageFlags
             break;
         }
     }
-
+    VkResult error;
 
     // Determine the type of memory required
     // with the help of memory properties
