@@ -3,6 +3,8 @@
 //
 
 #include "../../../../include/Engine/SharkSystem.hpp"
+#include "../../../../include/Engine/Scene/Entity/Entity.h"
+
 
 SharkEngine::Core::Entity::Entity() : m_id(-1), m_Scene(nullptr), isDestroy(false), isActive(true) {
     m_Scene = SHARK_ENGINE->GetSceneManager()->GetCurrentScene();
@@ -28,4 +30,7 @@ void SharkEngine::Core::Entity::SetIsActive(bool isActive) {
 }
 SharkEngine::Core::EntityID SharkEngine::Core::Entity::GetEntityID() {
     return m_id;
+}
+SharkEngine::Core::Scene *SharkEngine::Core::Entity::GetCurrentScene() {
+    return m_Scene;
 }

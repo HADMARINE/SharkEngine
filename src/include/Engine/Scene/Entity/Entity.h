@@ -26,6 +26,8 @@ namespace SharkEngine::Core {
 
         EntityID GetEntityID();
 
+        Scene* GetCurrentScene();
+
     protected:
         EntityID m_id;
         Scene *m_Scene;

@@ -96,7 +96,7 @@ namespace SharkEngine::Core::Physics {
         }
 
         vec2 crossProduct(vec2 & l, vec2 & r) {
-            return
+            return l * r;
         }
 
     }// namespace OBBFunctions
@@ -183,12 +183,49 @@ namespace SharkEngine::Core::Physics {
     }
 
     template<typename T, typename U>
-    void ResolveCollision(RigidBody<T> A, RigidBody<U> B) {
+    void ResolveCollision(RigidBody<OBB> A, RigidBody<OBB> B) {
+//        TODO : Tweak this function
         using namespace glm;
         using namespace OBBFunctions;
 
         // Calculate relative velocity
         vec3 rv = B.vel - A.vel;
+        vec3 auto normal = crossProduct(A.object.pos, B.object.pos);
+
+        // Calculate relative velocity in terms of the normal direction
+        float velAlongNormal = dotProduct(rv, normal);
+
+        // Do not resolve if velocities are separating
+        if (velAlongNormal > 0)
+            return;
+
+        // Calculate restitution
+        float e = min(A.restitution, B.restitution);
+
+
+
+        // Calculate impulse scalar
+        float j = -(1 + e) * velAlongNormal;
+        j /= 1 / A.mass + 1 / B.mass;
+
+        // Apply impulse
+        vec2 impulse = j * normal;
+
+
+        auto owner = A.GetOwner();
+        owner->GetCurrentScene()->GetComponent<>(owner->GetEntityID());
+        A.velocity -= 1 / A.mass * impulse;
+        B.velocity += 1 / B.mass * impulse;
+    }
+
+    template<typename T, typename U>
+    void ResolveCollisionPriorOnly(RigidBody<T> A, RigidBody<U> B) {
+        using namespace glm;
+        using namespace OBBFunctions;
+
+        // Calculate relative velocity
+        vec3 rv = B.vel - A.vel;
+        auto normal = crossProduct(A.object.pos, B.object.pos);
 
         // Calculate relative velocity in terms of the normal direction
         float velAlongNormal = dotProduct(rv, normal);
@@ -207,8 +244,10 @@ namespace SharkEngine::Core::Physics {
         // Apply impulse
         vec2 impulse = j * normal;
 
+        A.m_Owner->
         A.velocity -= 1 / A.mass * impulse;
         B.velocity += 1 / B.mass * impulse;
     }
+
 
 }// namespace SharkEngine::Core::Physics
