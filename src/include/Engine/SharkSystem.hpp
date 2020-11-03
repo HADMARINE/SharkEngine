@@ -9,6 +9,8 @@
 #include "SystemManager/TimeManager.h"
 
 #define SHARK_ENGINE SharkSystem::Instance()
+#define SHARK_SCENE_MGR SharkSystem::GetSceneManager()
+#define SHARK_TIME_MGR SharkSystem::GetSceneManager()
 
 class SharkSystem {
 public:

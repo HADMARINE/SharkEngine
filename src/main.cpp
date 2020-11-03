@@ -38,7 +38,12 @@ int main() {
     VulkanDrawable* tmp =  new VulkanDrawable(VULKAN_CORE,
                                               VULKAN_TEXTURE_MANAGER->GetTextureImage("texture.jpg"),
                                              VULKAN_CORE->vertices, VULKAN_CORE->indices);
+
+    VulkanDrawable* tmp_2 =  new VulkanDrawable(VULKAN_CORE,
+                                              VULKAN_TEXTURE_MANAGER->GetTextureImage("texture2.jpg"),
+                                              VULKAN_CORE->vertices, VULKAN_CORE->indices);
     VULKAN_DRAW_MANAGER->AddVulkanDrawable(tmp);
+    VULKAN_DRAW_MANAGER->AddVulkanDrawable(tmp_2);
 
     SHARK_ENGINE->GetSceneManager()->ChangeScene(new TestScene());
 
@@ -58,6 +63,8 @@ int main() {
         SHARK_ENGINE->EndScene();
     }
 
+    VULKAN_DRAW_MANAGER->ReleaseAll();
+    VULKAN_TEXTURE_MANAGER->ReleaseTextures();
     VULKAN_CORE->Release();
     //appObj->Release();
 }
