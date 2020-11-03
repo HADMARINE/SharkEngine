@@ -37,13 +37,14 @@ int main() {
 
     VulkanDrawable* tmp =  new VulkanDrawable(VULKAN_CORE,
                                               VULKAN_TEXTURE_MANAGER->GetTextureImage("texture.jpg"),
-                                             VULKAN_CORE->vertices_1, VULKAN_CORE->indices);
+                                             VULKAN_CORE->vertices, std::vector<uint16_t>{0, 1, 2, 2, 3, 0});
 
     VulkanDrawable* tmp_2 =  new VulkanDrawable(VULKAN_CORE,
                                               VULKAN_TEXTURE_MANAGER->GetTextureImage("viking_room.png"),
-                                              VULKAN_CORE->vertices_2, VULKAN_CORE->indices);
-    VULKAN_DRAW_MANAGER->AddVulkanDrawable(tmp);
+                                              VULKAN_CORE->vertices, std::vector<uint16_t>{4, 5, 6, 6, 7, 4});
+
     VULKAN_DRAW_MANAGER->AddVulkanDrawable(tmp_2);
+    VULKAN_DRAW_MANAGER->AddVulkanDrawable(tmp);
 
     SHARK_ENGINE->GetSceneManager()->ChangeScene(new TestScene());
 
