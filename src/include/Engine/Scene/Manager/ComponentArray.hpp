@@ -5,12 +5,13 @@
 #ifndef VULKAN_ENGINE_COMPONENTARRAY_HPP
 #define VULKAN_ENGINE_COMPONENTARRAY_HPP
 
+#include "../../../../CLogger.hpp"
 #include "../../CoreDefine.h"
 #include "../../CoreTypes.h"
 #include "../Components/Base/Component.h"
-#include <unordered_map>
 #include <array>
 #include <cassert>
+#include <unordered_map>
 
 namespace SharkEngine::Core {
     class IComponentArray {
@@ -54,8 +55,12 @@ namespace SharkEngine::Core {
             --m_Size;
         }
 
-        T *GetComponent(EntityID _id = -1) {
-            assert(m_EntityToIndexMap.find(_id) != m_EntityToIndexMap.end() && "Retrieving non-existent component");
+        T *GetComponent(EntityID _id) {
+            //assert(m_EntityToIndexMap.find(_id) != m_EntityToIndexMap.end() && "Retrieving non-existent component");
+            if(m_EntityToIndexMap.find(_id) == m_EntityToIndexMap.end()) {
+                CLogger::Error("Retrieving non-existent component");
+                return nullptr;
+            }
 
             return m_ComponentArray[m_EntityToIndexMap[_id]];
         }

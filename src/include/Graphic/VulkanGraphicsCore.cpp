@@ -6,7 +6,7 @@
 #include <stb_image.h>
 
 
-VulkanCore::TextureImageStruct *VulkanCore::VulkanEngine::createTextureImage(const std::string location) {
+VulkanCore::TextureImageStruct VulkanCore::VulkanEngine::createTextureImage(const std::string location) {
     {
         int texWidth, texHeight, texChannels;
         stbi_uc *pixels = stbi_load((std::string("../src/source/") + location).c_str(), &texWidth, &texHeight, &texChannels, STBI_rgb_alpha);
@@ -43,9 +43,9 @@ VulkanCore::TextureImageStruct *VulkanCore::VulkanEngine::createTextureImage(con
 
         TextureImageStruct texImgStructReturn{};
 
-        texImgStructReturn.image = &fTextureImage;
-        texImgStructReturn.deviceMemory = &fTextureImageMemory;
+        texImgStructReturn.image = fTextureImage;
+        texImgStructReturn.deviceMemory = fTextureImageMemory;
 
-        return &texImgStructReturn;
+        return texImgStructReturn;
     }
 }

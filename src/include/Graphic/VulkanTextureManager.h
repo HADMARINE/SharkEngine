@@ -5,9 +5,29 @@
 #ifndef SHARKENGINE_VULKANTEXTUREMANAGER_H
 #define SHARKENGINE_VULKANTEXTUREMANAGER_H
 
+#include <string>
+#include <map>
 
-class VulkanTextureManager {
-};
+#define VULKAN_TEXTURE_MANAGER VulkanTextureManager::Instance()
 
+namespace VulkanCore {
+    struct TextureImageStruct;
+
+    class VulkanTextureManager {
+    public:
+        VulkanTextureManager();
+        ~VulkanTextureManager();
+
+        static VulkanTextureManager* Instance();
+
+        TextureImageStruct* GetTextureImage(std::string path);
+
+        void ReleaseTextures();
+
+    private:
+        std::map<const char *, TextureImageStruct*> textureImageList;
+    };
+
+}
 
 #endif//SHARKENGINE_VULKANTEXTUREMANAGER_H

@@ -22,8 +22,8 @@ public:
     }
 
     void SetTexture(VulkanCore::TextureImageStruct* texture) {
-        image = texture->image;
-        mem = texture->deviceMemory;
+        image = &texture->image;
+        mem = &texture->deviceMemory;
 
         if(isReady)
             cleanup();
@@ -156,7 +156,7 @@ public:
         }
     }
     void createDescriptorSets(){
-        std::vector<VkDescriptorSetLayout> layouts(Core->getSwapChainImageCount(), descriptorSetLayout);
+        std::vector<VkDescriptorSetLayout> layouts(Core->getSwapChainImageCount(), Core->GetDescriptorSetLayout());
         VkDescriptorSetAllocateInfo allocInfo{};
         allocInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO;
         allocInfo.descriptorPool = descriptorPool;
@@ -211,15 +211,50 @@ public:
         allocInfo.commandBufferCount = (uint32_t) commandBuffers.size();
 
         if (vkAllocateCommandBuffers(Core->GetDevice(), &allocInfo, commandBuffers.data()) != VK_SUCCESS) {
-            throw std::runtime_error("failed to allocate command buffers!");
+            CLogger::Error("Failed to allocate command buffers");
+            throw std::runtime_error("Failed to allocate command buffers");
         }
 
         for (size_t i = 0; i < commandBuffers.size(); i++) {
+            for (size_t i = 0; i < Core->getSwapChainImageCount(); i++) {
+                VkDescriptorBufferInfo bufferInfo{};
+                bufferInfo.buffer = uniformBuffers[i];
+                bufferInfo.offset = 0;
+                bufferInfo.range = sizeof(VulkanCore::UniformBufferObject);
+
+                VkDescriptorImageInfo imageInfo{};
+                imageInfo.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
+                imageInfo.imageView = view;
+                imageInfo.sampler = sampler;
+                std::array<VkWriteDescriptorSet, 2> descriptorWrites{};
+
+                descriptorWrites[0].sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+                descriptorWrites[0].dstSet = descriptorSets[i];
+                descriptorWrites[0].dstBinding = 0;
+                descriptorWrites[0].dstArrayElement = 0;
+                descriptorWrites[0].descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
+                descriptorWrites[0].descriptorCount = 1;
+                descriptorWrites[0].pBufferInfo = &bufferInfo;
+
+                descriptorWrites[1].sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+                descriptorWrites[1].dstSet = descriptorSets[i];
+                descriptorWrites[1].dstBinding = 1;
+                descriptorWrites[1].dstArrayElement = 0;
+                descriptorWrites[1].descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+                descriptorWrites[1].descriptorCount = 1;
+                descriptorWrites[1].pImageInfo = &imageInfo;
+
+                vkUpdateDescriptorSets(Core->GetDevice(), static_cast<uint32_t>(descriptorWrites.size()), descriptorWrites.data(), 0, nullptr);
+            }
+
             VkCommandBufferBeginInfo beginInfo{};
             beginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
+            beginInfo.flags = 0;
+            beginInfo.pInheritanceInfo = nullptr;
 
             if (vkBeginCommandBuffer(commandBuffers[i], &beginInfo) != VK_SUCCESS) {
-                throw std::runtime_error("failed to begin recording command buffer!");
+                CLogger::Error("Failed to begin recording command buffer");
+                throw std::runtime_error("Failed to begin recording command buffer");
             }
 
             VkRenderPassBeginInfo renderPassInfo{};
@@ -229,13 +264,20 @@ public:
             renderPassInfo.renderArea.offset = {0, 0};
             renderPassInfo.renderArea.extent = Core->GetSwapChainExtent();
 
-            VkClearValue clearColor = {0.0f, 0.0f, 0.0f, 1.0f};
-            renderPassInfo.clearValueCount = 1;
-            renderPassInfo.pClearValues = &clearColor;
+            std::array<VkClearValue, 2> clearValues{};
+            clearValues[0] = {0.0f, 0.0f, 0.0f, 1.0f};
+            clearValues[1] = {1.0f, 0};
 
-            vkCmdBeginRenderPass(commandBuffers[i], &renderPassInfo, VK_SUBPASS_CONTENTS_INLINE);
+            renderPassInfo.clearValueCount = static_cast<uint32_t>(clearValues.size());
+            renderPassInfo.pClearValues = clearValues.data();
 
-            vkCmdBindPipeline(commandBuffers[i], VK_PIPELINE_BIND_POINT_GRAPHICS, Core->GetGraphicPipeline());
+            vkCmdBeginRenderPass(commandBuffers[i],
+                                 &renderPassInfo,
+                                 VK_SUBPASS_CONTENTS_INLINE);
+
+            vkCmdBindPipeline(commandBuffers[i],
+                              VK_PIPELINE_BIND_POINT_GRAPHICS,
+                              Core->GetGraphicPipeline());
 
             VkBuffer vertexBuffers[] = {vertexBuffer};
             VkDeviceSize offsets[] = {0};
@@ -243,20 +285,25 @@ public:
 
             vkCmdBindIndexBuffer(commandBuffers[i], indexBuffer, 0, VK_INDEX_TYPE_UINT16);
 
-            vkCmdBindDescriptorSets(commandBuffers[i], VK_PIPELINE_BIND_POINT_GRAPHICS, pipelineLayout, 0, 1, &descriptorSets[i], 0, nullptr);
+            vkCmdBindDescriptorSets(commandBuffers[i], VK_PIPELINE_BIND_POINT_GRAPHICS,
+                                    Core->GetPipelineLayout(), 0, 1, &descriptorSets[i], 0, nullptr);
 
             vkCmdDrawIndexed(commandBuffers[i], static_cast<uint32_t>(indices.size()), 1, 0, 0, 0);
 
             vkCmdEndRenderPass(commandBuffers[i]);
 
             if (vkEndCommandBuffer(commandBuffers[i]) != VK_SUCCESS) {
-                throw std::runtime_error("failed to record command buffer!");
+                CLogger::Error("Failed to record command buffer");
+                throw std::runtime_error("Failed to record command buffer");
             }
         }
     }
+
     void createSyncObjects(){
         imageAvailableSemaphores.resize(GlobalPreferences::MAX_FRAMES_IN_FLIGHT);
         renderFinishedSemaphores.resize(GlobalPreferences::MAX_FRAMES_IN_FLIGHT);
+        inFlightFences.resize(GlobalPreferences::MAX_FRAMES_IN_FLIGHT);
+        imagesInFlight.resize(Core->getSwapChainImageCount(), VK_NULL_HANDLE);
 
         VkSemaphoreCreateInfo semaphoreInfo{};
         semaphoreInfo.sType = VK_STRUCTURE_TYPE_SEMAPHORE_CREATE_INFO;
@@ -267,7 +314,8 @@ public:
 
         for (size_t i = 0; i < GlobalPreferences::MAX_FRAMES_IN_FLIGHT; i++) {
             if (vkCreateSemaphore(Core->GetDevice(), &semaphoreInfo, nullptr, &imageAvailableSemaphores[i]) != VK_SUCCESS ||
-                vkCreateSemaphore(Core->GetDevice(), &semaphoreInfo, nullptr, &renderFinishedSemaphores[i]) != VK_SUCCESS) {
+                vkCreateSemaphore(Core->GetDevice(), &semaphoreInfo, nullptr, &renderFinishedSemaphores[i]) != VK_SUCCESS ||
+                vkCreateFence(Core->GetDevice(), &fenceInfo, nullptr, &inFlightFences[i]) != VK_SUCCESS) {
 
                 CLogger::Error("Failed to create semaphores for a frame");
                 throw std::runtime_error("Failed to create semaphores for a frame");
@@ -300,6 +348,8 @@ public:
 
 
     void drawFrame() {
+        createCommandBuffers();
+
         vkWaitForFences(Core->GetDevice(), 1, &inFlightFences[Core->GetCurrentFrame()], VK_TRUE, UINT64_MAX);
 
         uint32_t imageIndex;
@@ -309,6 +359,7 @@ public:
             //recreateSwapChain();
             return;
         } else if (result != VK_SUCCESS && result != VK_SUBOPTIMAL_KHR) {
+            CLogger::Error("Failed to acquire swap chain image");
             throw std::runtime_error("failed to acquire swap chain image!");
         }
 
@@ -335,9 +386,9 @@ public:
         submitInfo.signalSemaphoreCount = 1;
         submitInfo.pSignalSemaphores = signalSemaphores;
 
-//        vkResetFences(Core->GetDevice(), 1, &inFlightFences[Core->GetCurrentFrame()]);
+        vkResetFences(Core->GetDevice(), 1, &inFlightFences[Core->GetCurrentFrame()]);
 //
-        if (vkQueueSubmit(Core->GetGraphicQueue(), 1, &submitInfo, Core->GetCurrentFrameInFlightFences()) != VK_SUCCESS) {
+        if (vkQueueSubmit(Core->GetGraphicQueue(), 1, &submitInfo, inFlightFences[Core->GetCurrentFrame()]) != VK_SUCCESS) {
             throw std::runtime_error("failed to submit draw command buffer!");
         }
 
@@ -354,6 +405,12 @@ public:
         presentInfo.pImageIndices = &imageIndex;
 
         result = vkQueuePresentKHR(Core->GetPresentQueue(), &presentInfo);
+
+        if (result != VK_SUCCESS) {
+            CLogger::Error("Failed to present swap chain image");
+            throw std::runtime_error("Failed to present swap chain image");
+        }
+
         vkQueueWaitIdle(Core->GetPresentQueue());
 
 //        assert(result);

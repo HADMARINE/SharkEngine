@@ -8,6 +8,7 @@
 #include "include/Engine/SharkSystem.hpp"
 #include "include/Graphic/VulkanDrawableManager.h"
 #include "include/Graphic/VulkanDrawable.h"
+#include "include/Graphic/VulkanTextureManager.h"
 //#include "include/Engine/UniformBufferCamera/Camera.hpp"
 
 using namespace SharkEngine::Core;
@@ -32,14 +33,12 @@ int main() {
 
     //ROLLBACK_GAME_PROJECT
     VULKAN_CORE->Initialize();
+    SHARK_ENGINE->InitializeEngine();
 
     VulkanDrawable* tmp =  new VulkanDrawable(VULKAN_CORE,
-                       VULKAN_CORE->createTextureImage("texture.jpg"),
-                       VULKAN_CORE->vertices, VULKAN_CORE->indices);
-
-    //VULKAN_DRAW_MANAGER->AddVulkanDrawable(tmp);
-
-    SHARK_ENGINE->InitializeEngine();
+                                              VULKAN_TEXTURE_MANAGER->GetTextureImage("texture.jpg"),
+                                             VULKAN_CORE->vertices, VULKAN_CORE->indices);
+    VULKAN_DRAW_MANAGER->AddVulkanDrawable(tmp);
 
     SHARK_ENGINE->GetSceneManager()->ChangeScene(new TestScene());
 

@@ -19,4 +19,9 @@ void TestScene::Init() {
     tmp->Init();
     tmp1->Init();
     tmp2->Init();
+
+    //DestroyComponent<TestObject>(tmp2->GetEntityID());
+
+    //if(GetComponent<TestObject>(tmp2->GetEntityID()) == nullptr)
+    //    CLogger::Error("real bug.!");
 }

@@ -86,9 +86,13 @@ namespace VulkanCore {
         alignas(16) glm::mat4 proj;
     };
 
-    struct TextureImageStruct {
-        VkImage *image;
-        VkDeviceMemory *deviceMemory;
+    class TextureImageStruct {
+    public:
+        TextureImageStruct() { }
+        ~TextureImageStruct() { }
+
+        VkImage         image;
+        VkDeviceMemory  deviceMemory;
     };
 
     struct TextureData {
@@ -161,7 +165,7 @@ namespace VulkanCore {
             cleanup();
         }
 
-        TextureImageStruct *createTextureImage(const std::string location);
+        TextureImageStruct createTextureImage(const std::string location);
 
         GLFWwindow *GetWindow() { return window; }
         VkDevice &GetDevice() { return device; }
@@ -175,8 +179,10 @@ namespace VulkanCore {
         VkSwapchainKHR &GetSwapChain() { return swapChain; }
         VkQueue &GetGraphicQueue() { return graphicsQueue; }
         VkQueue &GetPresentQueue() { return presentQueue; }
+        VkFence &GetFrameInFlightFence(int index) { return (0 <= index && index < inFlightFences.size()) ? inFlightFences[index] : inFlightFences[0]; }
         VkFence &GetCurrentFrameInFlightFences() { return inFlightFences[currentFrame]; }
-
+        VkDescriptorSetLayout &GetDescriptorSetLayout() { return descriptorSetLayout; }
+        VkPipelineLayout &GetPipelineLayout() { return pipelineLayout; }
 
         //Util
         void createBuffer(VkDeviceSize size, VkBufferUsageFlags usage, VkMemoryPropertyFlags properties,
@@ -1849,7 +1855,8 @@ namespace VulkanCore {
                                                             const VkDebugUtilsMessengerCallbackDataEXT
                                                                     *pCallbackData,
                                                             void *pUserData) {
-            CLogger::Debug("[VK] %s", pCallbackData->pMessage);
+            CLogger::Debug("[VK]", pCallbackData->pMessage);
+            std::cout << pCallbackData->pMessage << std::endl;
             return VK_FALSE;
         }
     };
