@@ -18,7 +18,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <optional>
 #include "../../stdafx.hpp"
-//#include "VulkanDrawableManager.h"
+#include "VulkanDrawableManager.h"
 
 namespace VulkanCore {
 #define VULKAN_CORE VulkanEngine::Instance()
@@ -569,7 +569,7 @@ namespace VulkanCore {
 //        result = vkQueuePresentKHR(presentQueue, &presentInfo);
 */
 
-            //VULKAN_DRAW_MANAGER->Render();
+            VULKAN_DRAW_MANAGER->Render();
 
             if (framebufferResized) {
                 framebufferResized = false;

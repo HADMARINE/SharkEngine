@@ -11,7 +11,8 @@ VulkanDrawableManager *VulkanDrawableManager::Instance() {
 }
 void VulkanDrawableManager::CheckInit() {
     for(auto iter : drawablesList)
-        iter->InitObject();
+        if(!iter->isReady)
+            iter->InitObject();
 }
 void VulkanDrawableManager::Render() {
     for(auto iter : drawablesList)
