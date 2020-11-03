@@ -17,13 +17,13 @@ namespace SharkEngine::Core {
     public:
         virtual ~IComponentArray() = default;
         virtual void EntityDestroyed(EntityID _id) = 0;
-        virtual std::array<Component *, MAX_COMPONENTS> *GetComponentArray() = 0;
+        virtual std::array<Component *, MAX_COMPONENTS> GetComponentArray() = 0;
     };
 
     template<typename T>
     class ComponentArray : public IComponentArray {
     public:
-        void AddComponent(EntityID _id, Component *component) {
+        void AddComponent(EntityID _id, T *component) {
             assert(m_EntityToIndexMap.find(_id) == m_EntityToIndexMap.end() && "Component added to same entity more than once.");
 
             // Put new entry at end and update the maps
@@ -67,12 +67,16 @@ namespace SharkEngine::Core {
             }
         }
 
-        std::array<Component *, MAX_COMPONENTS> *GetComponentArray() {
-            return &m_ComponentArray;
+        std::array<Component *, MAX_COMPONENTS> GetComponentArray() {
+            std::array<Component *, MAX_COMPONENTS> m_compoArray{};
+            for(int i = 0; i < MAX_COMPONENTS; i++)
+                m_compoArray[i] = dynamic_cast<Component *>(m_ComponentArray[i]);
+
+            return m_compoArray;
         }
 
     private:
-        std::array<Component *, MAX_COMPONENTS> m_ComponentArray;
+        std::array<T *, MAX_COMPONENTS> m_ComponentArray;
         std::unordered_map<EntityID, size_t> m_EntityToIndexMap;
         std::unordered_map<size_t, EntityID> m_IndexToEntityMap;
 

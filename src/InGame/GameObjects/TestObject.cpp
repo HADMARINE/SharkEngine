@@ -15,4 +15,7 @@ void TestObject::Init() {
 
     testComponent = new TestComponent();
     m_Scene->AddComponent<TestComponent>(this, testComponent);
+
+    if(m_Scene->GetComponent<TestComponent>(this->GetEntityID()) != nullptr)
+        CLogger::Error("이게되누;;");
 };

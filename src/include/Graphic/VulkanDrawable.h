@@ -22,8 +22,8 @@ public:
     }
 
     void SetTexture(VulkanCore::TextureImageStruct* texture) {
-        this->texture.image = texture->image;
-        this->texture.mem = texture->deviceMemory;
+        image = texture->image;
+        mem = texture->deviceMemory;
 
         if(isReady)
             cleanup();
@@ -51,7 +51,7 @@ public:
 
     //Main Func
     void createTextureImageView() {
-        texture.view = Core->createImageView(*texture.image, VK_FORMAT_R8G8B8A8_SRGB,
+        view = Core->createImageView(*image, VK_FORMAT_R8G8B8A8_SRGB,
                                        VK_IMAGE_ASPECT_COLOR_BIT);
     }
 
@@ -76,7 +76,7 @@ public:
         samplerInfo.minLod = 0.0f;
         samplerInfo.maxLod = 0.0f;
 
-        if (vkCreateSampler(Core->GetDevice(), &samplerInfo, nullptr, &texture.sampler) != VK_SUCCESS) {
+        if (vkCreateSampler(Core->GetDevice(), &samplerInfo, nullptr, &sampler) != VK_SUCCESS) {
             CLogger::Error("Failed to create texture sampler");
             throw std::runtime_error("Failed to create texture sampler");
         }
@@ -178,8 +178,8 @@ public:
 
             VkDescriptorImageInfo imageInfo{};
             imageInfo.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
-            imageInfo.imageView = texture.view;
-            imageInfo.sampler = texture.sampler;
+            imageInfo.imageView = view;
+            imageInfo.sampler = sampler;
             std::array<VkWriteDescriptorSet, 2> descriptorWrites{};
 
             descriptorWrites[0].sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
@@ -396,9 +396,9 @@ public:
     }
 
     void cleanup() {
-        vkDestroySampler(Core->GetDevice(), texture.sampler, nullptr);
+        vkDestroySampler(Core->GetDevice(), sampler, nullptr);
 
-        vkDestroyImageView(Core->GetDevice(), texture.view, nullptr);
+        vkDestroyImageView(Core->GetDevice(), view, nullptr);
 
 //        Free TextureStruct array
 //        for (TextureImageStruct textureImageStruct : *textureImageStructs) {
@@ -454,7 +454,16 @@ public:
     std::vector<VulkanCore::Vertex> vertexData;
 
     //Image Data
-    VulkanCore::TextureData texture;
+    VkSampler sampler;
+    VkImage *image;
+    VkImageLayout imageLayout;
+    VkMemoryAllocateInfo memoryAlloc;
+    VkDeviceMemory *mem;
+    VkImageView view;
+    uint32_t mipMapLevels;
+    uint32_t layerCount;
+    uint32_t textureWidth, textureHeight;
+    VkDescriptorImageInfo descsImgInfo;
 
     //Index Data
     std::vector<uint16_t> indices;
