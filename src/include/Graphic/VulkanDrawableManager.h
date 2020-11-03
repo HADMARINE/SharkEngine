@@ -6,6 +6,7 @@
 #define SHARKENGINE_VULKANDRAWABLEMANAGER_H
 
 #include <vector>
+#include "VulkanDrawable.h"
 
 #define VULKAN_DRAW_MANAGER VulkanDrawableManager::Instance()
 
@@ -26,6 +27,9 @@ public:
     void DestroyVulkanDrawable(VulkanDrawable* drawIter);
 
 private:
+    //SwapChain, drawIndexBuffer
+    std::vector<std::vector<VkCommandBuffer*>> commandBuffers;
+
     std::vector<VulkanDrawable*> drawablesList;
 };
 

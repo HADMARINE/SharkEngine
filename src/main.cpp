@@ -57,6 +57,7 @@ int main() {
         SHARK_ENGINE->LateUpdate();
         SHARK_ENGINE->Render();
 
+        VULKAN_DRAW_MANAGER->Render();
         //Render Object
         isWindowOpen = VULKAN_CORE->Render();
 

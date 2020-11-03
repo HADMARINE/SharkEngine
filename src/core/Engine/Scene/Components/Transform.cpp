@@ -61,11 +61,11 @@ void Transform::Rotate(glm::vec3) {
 }
 void Transform::Rotate(float, float, float) {
 }
-void Transform::RotateAround(glm::vec3, glm::vec3, float) {
+void Transform::Translate(glm::vec3 position) {
+    m_Matrix = glm::translate(position);
 }
-void Transform::RotateAround(glm::vec3, float) {
+void Transform::AddChild(Transform *iter) {
+    children.push_back(iter);
 }
-void Transform::RotateAroundLocal(glm::vec3, float) {
-}
-void Transform::Translate(glm::vec3) {
+void Transform::SetParent(Transform* target, Transform* children) {
 }

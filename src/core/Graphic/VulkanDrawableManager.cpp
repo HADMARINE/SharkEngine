@@ -15,6 +15,19 @@ void VulkanDrawableManager::CheckInit() {
             iter->InitObject();
 }
 void VulkanDrawableManager::Render() {
+    //Create Command Buffer
+
+    //
+
+    for(auto iter : drawablesList)
+        iter->StartRenderPass();
+
+    for(auto iter : drawablesList)
+        iter->drawIndexed();
+
+    for(auto iter : drawablesList)
+        iter->endRenderPass();
+
     for(auto iter : drawablesList)
         iter->drawFrame();
 }

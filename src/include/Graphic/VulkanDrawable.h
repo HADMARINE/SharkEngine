@@ -10,8 +10,8 @@
 class VulkanDrawable {
 public:
 public:
-    VulkanDrawable(VulkanCore::VulkanEngine* core) : Core(core), isReady(false), isDestroy(false) {vertexData.resize(0);}
-    VulkanDrawable(VulkanCore::VulkanEngine* core, VulkanCore::TextureImageStruct* texture, const std::vector<VulkanCore::Vertex> &vertices, const std::vector<uint16_t>& indices) :Core(core), isReady(false), isDestroy(false), vertexData(vertices), indices(indices) { SetTexture(texture);}
+    VulkanDrawable(VulkanCore::VulkanEngine *core) : Core(core), isReady(false), isDestroy(false) { vertexData.resize(0); }
+    VulkanDrawable(VulkanCore::VulkanEngine *core, VulkanCore::TextureImageStruct *texture, const std::vector<VulkanCore::Vertex> &vertices, const std::vector<uint16_t> &indices) : Core(core), isReady(false), isDestroy(false), vertexData(vertices), indices(indices) { SetTexture(texture); }
     ~VulkanDrawable() {}
 
     void Destroy() {
@@ -21,11 +21,11 @@ public:
         return isDestroy;
     }
 
-    void SetTexture(VulkanCore::TextureImageStruct* texture) {
+    void SetTexture(VulkanCore::TextureImageStruct *texture) {
         image = &texture->image;
         mem = &texture->deviceMemory;
 
-        if(isReady)
+        if (isReady)
             cleanup();
 
         isReady = false;
@@ -52,10 +52,10 @@ public:
     //Main Func
     void createTextureImageView() {
         view = Core->createImageView(*image, VK_FORMAT_R8G8B8A8_SRGB,
-                                       VK_IMAGE_ASPECT_COLOR_BIT);
+                                     VK_IMAGE_ASPECT_COLOR_BIT);
     }
 
-    void createTextureSampler(){
+    void createTextureSampler() {
         VkSamplerCreateInfo samplerInfo{};
         samplerInfo.sType = VK_STRUCTURE_TYPE_SAMPLER_CREATE_INFO;
         samplerInfo.magFilter = VK_FILTER_LINEAR;
@@ -80,9 +80,8 @@ public:
             CLogger::Error("Failed to create texture sampler");
             throw std::runtime_error("Failed to create texture sampler");
         }
-
     }
-    void createVertexBuffer(){
+    void createVertexBuffer() {
         VkDeviceSize bufferSize = sizeof(vertexData[0]) * vertexData.size();
 
         VkBuffer stagingBuffer;
@@ -103,7 +102,7 @@ public:
         vkDestroyBuffer(Core->GetDevice(), stagingBuffer, nullptr);
         vkFreeMemory(Core->GetDevice(), stagingBufferMemory, nullptr);
     }
-    void createIndexBuffer(){
+    void createIndexBuffer() {
         VkDeviceSize bufferSize = sizeof(indices[0]) * indices.size();
 
         VkBuffer stagingBuffer;
@@ -125,7 +124,7 @@ public:
         vkDestroyBuffer(Core->GetDevice(), stagingBuffer, nullptr);
         vkFreeMemory(Core->GetDevice(), stagingBufferMemory, nullptr);
     }
-    void createUniformBuffers(){
+    void createUniformBuffers() {
         VkDeviceSize bufferSize = sizeof(VulkanCore::UniformBufferObject);
         uniformBuffers.resize(Core->getSwapChainImageCount());
         uniformBuffersMemory.resize(Core->getSwapChainImageCount());
@@ -135,9 +134,8 @@ public:
                                VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT,
                                uniformBuffers[i], uniformBuffersMemory[i]);
         }
-
     }
-    void createDescriptorPool(){
+    void createDescriptorPool() {
         std::array<VkDescriptorPoolSize, 2> poolSizes{};
         poolSizes[0].type = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
         poolSizes[0].descriptorCount = static_cast<uint32_t>(Core->getSwapChainImageCount());
@@ -155,7 +153,7 @@ public:
             throw std::runtime_error("Failed to create descriptor pool");
         }
     }
-    void createDescriptorSets(){
+    void createDescriptorSets() {
         std::vector<VkDescriptorSetLayout> layouts(Core->getSwapChainImageCount(), Core->GetDescriptorSetLayout());
         VkDescriptorSetAllocateInfo allocInfo{};
         allocInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO;
@@ -201,7 +199,7 @@ public:
             vkUpdateDescriptorSets(Core->GetDevice(), static_cast<uint32_t>(descriptorWrites.size()), descriptorWrites.data(), 0, nullptr);
         }
     }
-    void createCommandBuffers(){
+    void createCommandBuffers() {
         commandBuffers.resize(Core->getSwapChainImageCount());
 
         VkCommandBufferAllocateInfo allocInfo{};
@@ -247,6 +245,60 @@ public:
                 vkUpdateDescriptorSets(Core->GetDevice(), static_cast<uint32_t>(descriptorWrites.size()), descriptorWrites.data(), 0, nullptr);
             }
 
+            //            VkCommandBufferBeginInfo beginInfo{};
+            //            beginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
+            //            beginInfo.flags = 0;
+            //            beginInfo.pInheritanceInfo = nullptr;
+            //
+            //            if (vkBeginCommandBuffer(commandBuffers[i], &beginInfo) != VK_SUCCESS) {
+            //                CLogger::Error("Failed to begin recording command buffer");
+            //                throw std::runtime_error("Failed to begin recording command buffer");
+            //            }
+            //
+            //            VkRenderPassBeginInfo renderPassInfo{};
+            //            renderPassInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
+            //            renderPassInfo.renderPass = Core->GetRenderPass();
+            //            renderPassInfo.framebuffer = Core->GetSwapChainFrameBuffer()[i];
+            //            renderPassInfo.renderArea.offset = {0, 0};
+            //            renderPassInfo.renderArea.extent = Core->GetSwapChainExtent();
+            //
+            //            std::array<VkClearValue, 2> clearValues{};
+            //            clearValues[0] = {0.0f, 0.0f, 0.0f, 0.0f};
+            //            clearValues[1] = {1.0f, 0};
+            //
+            //            renderPassInfo.clearValueCount = static_cast<uint32_t>(clearValues.size());
+            //            renderPassInfo.pClearValues = clearValues.data();
+            //
+            //            vkCmdBeginRenderPass(commandBuffers[i],
+            //                                 &renderPassInfo,
+            //                                 VK_SUBPASS_CONTENTS_INLINE);
+            //
+            //            vkCmdBindPipeline(commandBuffers[i],
+            //                              VK_PIPELINE_BIND_POINT_GRAPHICS,
+            //                              Core->GetGraphicPipeline());
+            //
+            //            VkBuffer vertexBuffers[] = {vertexBuffer};
+            //            VkDeviceSize offsets[] = {0};
+            //            vkCmdBindVertexBuffers(commandBuffers[i], 0, 1, vertexBuffers, offsets);
+            //
+            //            vkCmdBindIndexBuffer(commandBuffers[i], indexBuffer, 0, VK_INDEX_TYPE_UINT16);
+            //
+            //            vkCmdBindDescriptorSets(commandBuffers[i], VK_PIPELINE_BIND_POINT_GRAPHICS,
+            //                                    Core->GetPipelineLayout(), 0, 1, &descriptorSets[i], 0, nullptr);
+            //
+            //            vkCmdDrawIndexed(commandBuffers[i], static_cast<uint32_t>(indices.size()), 1, 0, 0, 0);
+            //
+            //            vkCmdEndRenderPass(commandBuffers[i]);
+            //
+            //            if (vkEndCommandBuffer(commandBuffers[i]) != VK_SUCCESS) {
+            //                CLogger::Error("Failed to record command buffer");
+            //                throw std::runtime_error("Failed to record command buffer");
+            //            }
+        }
+    }
+
+    void StartRenderPass() {
+        for (size_t i = 0; i < commandBuffers.size(); i++) {
             VkCommandBufferBeginInfo beginInfo{};
             beginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
             beginInfo.flags = 0;
@@ -265,7 +317,7 @@ public:
             renderPassInfo.renderArea.extent = Core->GetSwapChainExtent();
 
             std::array<VkClearValue, 2> clearValues{};
-            clearValues[0] = {0.0f, 0.0f, 0.0f, 1.0f};
+            clearValues[0] = {0.0f, 0.0f, 0.0f, 0.0f};
             clearValues[1] = {1.0f, 0};
 
             renderPassInfo.clearValueCount = static_cast<uint32_t>(clearValues.size());
@@ -289,7 +341,17 @@ public:
                                     Core->GetPipelineLayout(), 0, 1, &descriptorSets[i], 0, nullptr);
 
             vkCmdDrawIndexed(commandBuffers[i], static_cast<uint32_t>(indices.size()), 1, 0, 0, 0);
+        }
+    }
 
+    void drawIndexed() {
+        for (size_t i = 0; i < commandBuffers.size(); i++) {
+            vkCmdDrawIndexed(commandBuffers[i], static_cast<uint32_t>(indices.size()), 1, 0, 0, 0);
+        }
+    }
+
+    void endRenderPass() {
+        for (size_t i = 0; i < commandBuffers.size(); i++) {
             vkCmdEndRenderPass(commandBuffers[i]);
 
             if (vkEndCommandBuffer(commandBuffers[i]) != VK_SUCCESS) {
@@ -299,7 +361,7 @@ public:
         }
     }
 
-    void createSyncObjects(){
+    void createSyncObjects() {
         imageAvailableSemaphores.resize(GlobalPreferences::MAX_FRAMES_IN_FLIGHT);
         renderFinishedSemaphores.resize(GlobalPreferences::MAX_FRAMES_IN_FLIGHT);
         inFlightFences.resize(GlobalPreferences::MAX_FRAMES_IN_FLIGHT);
@@ -348,20 +410,10 @@ public:
 
 
     void drawFrame() {
-        createCommandBuffers();
-
         vkWaitForFences(Core->GetDevice(), 1, &inFlightFences[Core->GetCurrentFrame()], VK_TRUE, UINT64_MAX);
 
         uint32_t imageIndex;
         VkResult result = vkAcquireNextImageKHR(Core->GetDevice(), Core->GetSwapChain(), UINT64_MAX, imageAvailableSemaphores[Core->GetCurrentFrame()], VK_NULL_HANDLE, &imageIndex);
-
-        if (result == VK_ERROR_OUT_OF_DATE_KHR) {
-            //recreateSwapChain();
-            return;
-        } else if (result != VK_SUCCESS && result != VK_SUBOPTIMAL_KHR) {
-            CLogger::Error("Failed to acquire swap chain image");
-            throw std::runtime_error("failed to acquire swap chain image!");
-        }
 
         updateUniformBuffer(imageIndex);
 
@@ -387,7 +439,7 @@ public:
         submitInfo.pSignalSemaphores = signalSemaphores;
 
         vkResetFences(Core->GetDevice(), 1, &inFlightFences[Core->GetCurrentFrame()]);
-//
+        //
         if (vkQueueSubmit(Core->GetGraphicQueue(), 1, &submitInfo, inFlightFences[Core->GetCurrentFrame()]) != VK_SUCCESS) {
             throw std::runtime_error("failed to submit draw command buffer!");
         }
@@ -413,16 +465,16 @@ public:
 
         vkQueueWaitIdle(Core->GetPresentQueue());
 
-//        assert(result);
-//
-//        if (result == VK_ERROR_OUT_OF_DATE_KHR || result == VK_SUBOPTIMAL_KHR || framebufferResized) {
-//            framebufferResized = false;
-//            recreateSwapChain();
-//        } else if (result != VK_SUCCESS) {
-//            throw std::runtime_error("failed to present swap chain image!");
-//        }
-//
-//        currentFrame = (currentFrame + 1) % MAX_FRAMES_IN_FLIGHT;
+        //        assert(result);
+        //
+        //        if (result == VK_ERROR_OUT_OF_DATE_KHR || result == VK_SUBOPTIMAL_KHR || framebufferResized) {
+        //            framebufferResized = false;
+        //            recreateSwapChain();
+        //        } else if (result != VK_SUCCESS) {
+        //            throw std::runtime_error("failed to present swap chain image!");
+        //        }
+        //
+        //        currentFrame = (currentFrame + 1) % MAX_FRAMES_IN_FLIGHT;
     }
 
     void updateUniformBuffer(uint32_t currentImage) {
@@ -437,7 +489,7 @@ public:
         ubo.proj = glm::perspective(glm::radians(45.0f), Core->GetSwapChainExtent().width / (float) Core->GetSwapChainExtent().height, 0.1f, 10.0f);
         ubo.proj[1][1] *= -1;
 
-        void* data;
+        void *data;
         vkMapMemory(Core->GetDevice(), uniformBuffersMemory[currentImage], 0, sizeof(ubo), 0, &data);
         memcpy(data, &ubo, sizeof(ubo));
         vkUnmapMemory(Core->GetDevice(), uniformBuffersMemory[currentImage]);
@@ -457,11 +509,11 @@ public:
 
         vkDestroyImageView(Core->GetDevice(), view, nullptr);
 
-//        Free TextureStruct array
-//        for (TextureImageStruct textureImageStruct : *textureImageStructs) {
-//            vkDestroyImage(device, *textureImageStruct.image, nullptr);
-//            vkFreeMemory(device, *textureImageStruct.deviceMemory, nullptr);
-//        }
+        //        Free TextureStruct array
+        //        for (TextureImageStruct textureImageStruct : *textureImageStructs) {
+        //            vkDestroyImage(device, *textureImageStruct.image, nullptr);
+        //            vkFreeMemory(device, *textureImageStruct.deviceMemory, nullptr);
+        //        }
 
         vkDestroyDescriptorSetLayout(Core->GetDevice(), descriptorSetLayout, nullptr);
 
@@ -486,7 +538,7 @@ public:
     VkDescriptorPool descriptorPool;
     std::vector<VkDescriptorSet> descriptorSets;
 
-    std::vector<VkCommandBuffer> commandBuffers;			// Command buffer for drawing
+    std::vector<VkCommandBuffer> commandBuffers;// Command buffer for drawing
 
     std::vector<VkSemaphore> imageAvailableSemaphores;
     std::vector<VkSemaphore> renderFinishedSemaphores;
@@ -525,7 +577,7 @@ public:
     //Index Data
     std::vector<uint16_t> indices;
 
-    VulkanCore::VulkanEngine* Core;
+    VulkanCore::VulkanEngine *Core;
 
     bool isReady;
     bool isDestroy;
