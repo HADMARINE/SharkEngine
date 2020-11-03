@@ -25,7 +25,7 @@ namespace VulkanCore {
         void ReleaseTextures();
 
     private:
-        std::map<const char *, TextureImageStruct*> textureImageList;
+        std::map<std::string, TextureImageStruct*> textureImageList;
     };
 
 }

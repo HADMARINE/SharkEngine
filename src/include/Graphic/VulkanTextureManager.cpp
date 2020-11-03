@@ -18,16 +18,16 @@ VulkanTextureManager* VulkanTextureManager::Instance() {
     return instance;
 }
 TextureImageStruct *VulkanTextureManager::GetTextureImage(std::string path) {
-    if(textureImageList[path.c_str()] == nullptr) {
-        textureImageList[path.c_str()] =  new TextureImageStruct();
+    if(textureImageList[path] == nullptr) {
+        textureImageList[path] =  new TextureImageStruct();
 
         TextureImageStruct tmp = VULKAN_CORE->createTextureImage(path);
 
-        textureImageList[path.c_str()]->image = tmp.image;
-        textureImageList[path.c_str()]->deviceMemory = tmp.deviceMemory;
+        textureImageList[path]->image = tmp.image;
+        textureImageList[path]->deviceMemory = tmp.deviceMemory;
     }
 
-    return textureImageList[path.c_str()];
+    return textureImageList[path];
 }
 void VulkanTextureManager::ReleaseTextures() {
     for(auto iter : textureImageList) {

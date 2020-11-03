@@ -37,11 +37,11 @@ int main() {
 
     VulkanDrawable* tmp =  new VulkanDrawable(VULKAN_CORE,
                                               VULKAN_TEXTURE_MANAGER->GetTextureImage("texture.jpg"),
-                                             VULKAN_CORE->vertices, VULKAN_CORE->indices);
+                                             VULKAN_CORE->vertices_1, VULKAN_CORE->indices);
 
     VulkanDrawable* tmp_2 =  new VulkanDrawable(VULKAN_CORE,
-                                              VULKAN_TEXTURE_MANAGER->GetTextureImage("texture2.jpg"),
-                                              VULKAN_CORE->vertices, VULKAN_CORE->indices);
+                                              VULKAN_TEXTURE_MANAGER->GetTextureImage("viking_room.png"),
+                                              VULKAN_CORE->vertices_2, VULKAN_CORE->indices);
     VULKAN_DRAW_MANAGER->AddVulkanDrawable(tmp);
     VULKAN_DRAW_MANAGER->AddVulkanDrawable(tmp_2);
 
@@ -59,6 +59,8 @@ int main() {
 
         VULKAN_DRAW_MANAGER->Render();
         isWindowOpen = VULKAN_CORE->Render();
+
+        Sleep(1000);
 
         SHARK_ENGINE->EndScene();
     }
