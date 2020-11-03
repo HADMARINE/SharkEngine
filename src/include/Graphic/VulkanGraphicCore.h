@@ -1857,8 +1857,7 @@ namespace VulkanCore {
                                                             const VkDebugUtilsMessengerCallbackDataEXT
                                                                     *pCallbackData,
                                                             void *pUserData) {
-            CLogger::Debug("[VK]", pCallbackData->pMessage);
-            std::cout << pCallbackData->pMessage << std::endl;
+            CLogger::Debug("[VK] %s", pCallbackData->pMessage);
             return VK_FALSE;
         }
     };

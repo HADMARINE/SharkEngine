@@ -251,7 +251,6 @@ void CLogger::ClearWindow() {
       screen.dwSize.X * screen.dwSize.Y, topLeft, &written);
   SetConsoleCursorPosition(console, topLeft);
   SetConsoleTextColor();
-  CLogger::isUsing = false;
 #else
   //    if (!cur_term)
   //    {
@@ -264,4 +263,5 @@ void CLogger::ClearWindow() {
   //TODO : Cross Platform
   cout << string(20, '\n');
 #endif
+    CLogger::isUsing = false;
 }
