@@ -1,0 +1,13 @@
+//
+// Created by EunwooSong on 2020-11-03.
+//
+
+#ifndef SHARKENGINE_VULKANTEXTUREMANAGER_H
+#define SHARKENGINE_VULKANTEXTUREMANAGER_H
+
+
+class VulkanTextureManager {
+};
+
+
+#endif//SHARKENGINE_VULKANTEXTUREMANAGER_H

@@ -37,7 +37,7 @@ int main() {
                        VULKAN_CORE->createTextureImage("texture.jpg"),
                        VULKAN_CORE->vertices, VULKAN_CORE->indices);
 
-    VULKAN_DRAW_MANAGER->AddVulkanDrawable(tmp);
+    //VULKAN_DRAW_MANAGER->AddVulkanDrawable(tmp);
 
     SHARK_ENGINE->InitializeEngine();
 
