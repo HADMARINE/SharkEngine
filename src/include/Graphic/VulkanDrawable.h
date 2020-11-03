@@ -1,5 +1,5 @@
 //
-// Created by HADMARINE on 2020-11-04.
+// Created by EunwooSong on 2020-11-03.
 //
 
 #ifndef SHARKENGINE_VULKANDRAWABLE_H
@@ -245,6 +245,60 @@ public:
                 vkUpdateDescriptorSets(Core->GetDevice(), static_cast<uint32_t>(descriptorWrites.size()), descriptorWrites.data(), 0, nullptr);
             }
 
+            //            VkCommandBufferBeginInfo beginInfo{};
+            //            beginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
+            //            beginInfo.flags = 0;
+            //            beginInfo.pInheritanceInfo = nullptr;
+            //
+            //            if (vkBeginCommandBuffer(commandBuffers[i], &beginInfo) != VK_SUCCESS) {
+            //                CLogger::Error("Failed to begin recording command buffer");
+            //                throw std::runtime_error("Failed to begin recording command buffer");
+            //            }
+            //
+            //            VkRenderPassBeginInfo renderPassInfo{};
+            //            renderPassInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
+            //            renderPassInfo.renderPass = Core->GetRenderPass();
+            //            renderPassInfo.framebuffer = Core->GetSwapChainFrameBuffer()[i];
+            //            renderPassInfo.renderArea.offset = {0, 0};
+            //            renderPassInfo.renderArea.extent = Core->GetSwapChainExtent();
+            //
+            //            std::array<VkClearValue, 2> clearValues{};
+            //            clearValues[0] = {0.0f, 0.0f, 0.0f, 0.0f};
+            //            clearValues[1] = {1.0f, 0};
+            //
+            //            renderPassInfo.clearValueCount = static_cast<uint32_t>(clearValues.size());
+            //            renderPassInfo.pClearValues = clearValues.data();
+            //
+            //            vkCmdBeginRenderPass(commandBuffers[i],
+            //                                 &renderPassInfo,
+            //                                 VK_SUBPASS_CONTENTS_INLINE);
+            //
+            //            vkCmdBindPipeline(commandBuffers[i],
+            //                              VK_PIPELINE_BIND_POINT_GRAPHICS,
+            //                              Core->GetGraphicPipeline());
+            //
+            //            VkBuffer vertexBuffers[] = {vertexBuffer};
+            //            VkDeviceSize offsets[] = {0};
+            //            vkCmdBindVertexBuffers(commandBuffers[i], 0, 1, vertexBuffers, offsets);
+            //
+            //            vkCmdBindIndexBuffer(commandBuffers[i], indexBuffer, 0, VK_INDEX_TYPE_UINT16);
+            //
+            //            vkCmdBindDescriptorSets(commandBuffers[i], VK_PIPELINE_BIND_POINT_GRAPHICS,
+            //                                    Core->GetPipelineLayout(), 0, 1, &descriptorSets[i], 0, nullptr);
+            //
+            //            vkCmdDrawIndexed(commandBuffers[i], static_cast<uint32_t>(indices.size()), 1, 0, 0, 0);
+            //
+            //            vkCmdEndRenderPass(commandBuffers[i]);
+            //
+            //            if (vkEndCommandBuffer(commandBuffers[i]) != VK_SUCCESS) {
+            //                CLogger::Error("Failed to record command buffer");
+            //                throw std::runtime_error("Failed to record command buffer");
+            //            }
+        }
+    }
+
+    void StartRenderPass() {
+        for (size_t i = 0; i < commandBuffers.size(); i++) {
             VkCommandBufferBeginInfo beginInfo{};
             beginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
             beginInfo.flags = 0;
@@ -263,7 +317,7 @@ public:
             renderPassInfo.renderArea.extent = Core->GetSwapChainExtent();
 
             std::array<VkClearValue, 2> clearValues{};
-            clearValues[0] = {0.0f, 0.0f, 0.0f, 1.0f};
+            clearValues[0] = {0.0f, 0.0f, 0.0f, 0.0f};
             clearValues[1] = {1.0f, 0};
 
             renderPassInfo.clearValueCount = static_cast<uint32_t>(clearValues.size());
@@ -286,8 +340,18 @@ public:
             vkCmdBindDescriptorSets(commandBuffers[i], VK_PIPELINE_BIND_POINT_GRAPHICS,
                                     Core->GetPipelineLayout(), 0, 1, &descriptorSets[i], 0, nullptr);
 
-            vkCmdDrawIndexed(commandBuffers[i], static_cast<uint32_t>(indices.size()), 1, 0, 0, 0);
+            //vkCmdDrawIndexed(commandBuffers[i], static_cast<uint32_t>(indices.size()), 1, 0, 0, 0);
+        }
+    }
 
+    void drawIndexed() {
+        for (size_t i = 0; i < commandBuffers.size(); i++) {
+            vkCmdDrawIndexed(commandBuffers[i], static_cast<uint32_t>(indices.size()), 1, 0, 0, 0);
+        }
+    }
+
+    void endRenderPass() {
+        for (size_t i = 0; i < commandBuffers.size(); i++) {
             vkCmdEndRenderPass(commandBuffers[i]);
 
             if (vkEndCommandBuffer(commandBuffers[i]) != VK_SUCCESS) {
@@ -346,20 +410,10 @@ public:
 
 
     void drawFrame() {
-        createCommandBuffers();
-
         vkWaitForFences(Core->GetDevice(), 1, &inFlightFences[Core->GetCurrentFrame()], VK_TRUE, UINT64_MAX);
 
         uint32_t imageIndex;
         VkResult result = vkAcquireNextImageKHR(Core->GetDevice(), Core->GetSwapChain(), UINT64_MAX, imageAvailableSemaphores[Core->GetCurrentFrame()], VK_NULL_HANDLE, &imageIndex);
-
-        if (result == VK_ERROR_OUT_OF_DATE_KHR) {
-            //recreateSwapChain();
-            return;
-        } else if (result != VK_SUCCESS && result != VK_SUBOPTIMAL_KHR) {
-            CLogger::Error("Failed to acquire swap chain image");
-            throw std::runtime_error("failed to acquire swap chain image!");
-        }
 
         updateUniformBuffer(imageIndex);
 

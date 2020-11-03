@@ -9,15 +9,15 @@
 #define GLM_FORCE_DEPTH_ZERO_TO_ONE
 #define STB_IMAGE_IMPLEMENTATION
 
-#include "../../stdafx.hpp"
-#include <GLFW/glfw3.h>
 #include <Vulkan/vulkan.h>
+#include <GLFW/glfw3.h>
 #include <array>
 #include <cstring>
 #include <fstream>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <optional>
+#include "../../stdafx.hpp"
 
 namespace VulkanCore {
 #define VULKAN_CORE VulkanEngine::Instance()
@@ -87,11 +87,11 @@ namespace VulkanCore {
 
     class TextureImageStruct {
     public:
-        TextureImageStruct() {}
-        ~TextureImageStruct() {}
+        TextureImageStruct() { }
+        ~TextureImageStruct() { }
 
-        VkImage image;
-        VkDeviceMemory deviceMemory;
+        VkImage         image;
+        VkDeviceMemory  deviceMemory;
     };
 
     struct TextureData {
@@ -132,8 +132,8 @@ namespace VulkanCore {
 
     class VulkanEngine {
     public:
-        static VulkanEngine *Instance() {
-            static VulkanEngine *instance = new VulkanEngine();
+        static VulkanEngine* Instance() {
+            static VulkanEngine* instance = new VulkanEngine();
             return instance;
         }
 
@@ -271,7 +271,8 @@ namespace VulkanCore {
                 {{-0.5f, -0.5f, -0.5f}, {1.0f, 0.0f, 0.0f, 1.0f}, {0.0f, 0.0f}},
                 {{0.5f, -0.5f, -0.5f}, {0.0f, 1.0f, 0.0f, 1.0f}, {1.0f, 0.0f}},
                 {{0.5f, 0.5f, -0.5f}, {0.0f, 0.0f, 1.0f, 1.0f}, {1.0f, 1.0f}},
-                {{-0.5f, 0.5f, -0.5f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.0f, 1.0f}}};
+                {{-0.5f, 0.5f, -0.5f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.0f, 1.0f}}
+        };
 
         std::vector<uint16_t> indices = {
                 0, 1, 2, 2, 3, 0,
@@ -298,7 +299,6 @@ namespace VulkanCore {
 
             return imageView;
         }
-
     private:
         VkResult CreateDebugUtilsMessengerEXT(VkInstance instance, const VkDebugUtilsMessengerCreateInfoEXT *pCreateInfo,
                                               const VkAllocationCallbacks *pAllocator,
@@ -417,6 +417,7 @@ namespace VulkanCore {
             //auto textureImageInitial = createTextureImage("texture.jpg");
 
             //
+
         }
 
 
@@ -1803,4 +1804,4 @@ namespace VulkanCore {
             return VK_FALSE;
         }
     };
-};// namespace VulkanCore
+};
