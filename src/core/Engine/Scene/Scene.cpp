@@ -13,7 +13,7 @@ void SharkEngine::Core::Scene::Init() {
     m_ComponentManager = std::make_unique<ComponentManager>();
     m_EntityIDManager = std::make_unique<EntityIDManager>();
 
-    //Register Component(Transform, RigidBody, 2D Renderer, Collider . . .)
+    //Register Component(Transform, RigidBody2D, 2D Renderer, Collider . . .)
 }
 void SharkEngine::Core::Scene::Start() {
     m_ComponentManager->Start();

@@ -71,8 +71,8 @@ add_executable(
         src/InGame/GameObjects/TestObject.h
         src/InGame/Scripts/TestComponent.cpp
         src/InGame/Scripts/TestComponent.h
-        src/include/Engine/Physics/Physics.hpp
-        src/include/Engine/Physics/RigidBody.hpp
+        src/include/Engine/Physics/Physics2D.hpp
+        src/include/Engine/Physics/RigidBody2D.hpp
 )
 
 find_package(glm CONFIG REQUIRED)

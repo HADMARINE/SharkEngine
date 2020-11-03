@@ -2,8 +2,8 @@
 // Created by HADMARINE on 2020/11/02.
 //
 
-#ifndef SHARKENGINE_RIGIDBODY_HPP
-#define SHARKENGINE_RIGIDBODY_HPP
+#ifndef SHARKENGINE_RIGIDBODY2D_HPP
+#define SHARKENGINE_RIGIDBODY2D_HPP
 
 
 #include "../Scene/Components/Base/Component.h"
@@ -12,45 +12,43 @@
 #include "../SharkSystem.hpp"
 
 namespace SharkEngine::Core::Physics {
-    template<typename T>
-    class RigidBody : public Component {
+    template<typename T, class CompType>
+    class RigidBody2D : public Component {
     public:
         T object;
-        glm::vec3 vel;
+        glm::vec2 vel;
         float mass;
-        float strength;
+        float restitution;
+        float gravity = 9.8;
 
-        bool isGravity = true;
         bool isTrigger = false;
-        bool isCollided = false;
-        glm::vec2 normal;
 
-        std::function<void()> onCollisionEnter;
-        std::function<void()> onCollisionStay;
-        std::function<void()> onCollisionExit;
+    protected:
+        bool isCollided = false;
 
     public:
-        RigidBody() = default;
-        RigidBody(T object, glm::vec3 vel, float mass,
-                  float strength, bool isGravity, bool isTrigger,
-                  const std::function<void()> &onCollisionEnter,
-                  const std::function<void()> &onCollisionStay,
-                  const std::function<void()> &onCollisionExit) {
+        RigidBody2D() = default;
+        RigidBody2D(T object, glm::vec2 vel, float mass,
+                    float restitution, bool gravity, bool isTrigger) {
             this->object = object;
             this->vel = vel;
             this->mass = mass;
-            this->strength = strength;
-            this->isGravity = isGravity;
             this->isTrigger = isTrigger;
-//            this->normal = new glm::vec2();
-            this->onCollisionEnter = onCollisionEnter;
-            this->onCollisionStay = onCollisionStay;
-            this->onCollisionExit = onCollisionExit;
+            this->restitution = restitution;
+            this->gravity = gravity;
         }
 
-        template<typename U, typename V>
-        static bool Assert(RigidBody<U> a, RigidBody<V> b) {
+        template<typename U, class CTA, typename V, class CTB>
+        static bool Assert(RigidBody2D<U, CTA> a, RigidBody2D<V, CTB> b) {
             const auto result = EvalCollision(a, b);
+
+            Entity* ownerA = a.GetOwner();
+            Entity* ownerB = b.GetOwner();
+            Component aComp = ownerA->GetCurrentScene()->template GetComponent<CTA>(ownerA->GetEntityID());
+            Component bComp = ownerB->GetCurrentScene()->template GetComponent<CTB>(ownerB->GetEntityID());
+
+            Collision aCol;
+            Collision bCol;
 
             if (!a.isTrigger) {
                 if (!b.isTrigger) {
@@ -64,26 +62,26 @@ namespace SharkEngine::Core::Physics {
 
             if (result) {
                 if (!a.isCollided) {
-                    a.onCollisionEnter();
+                    aComp.OnCollisionEnter(&aCol);
                 } else {
-                    a.onCollisionStay();
+                    aComp.OnCollisionStay(&aCol);
                 }
 
                 if (!b.isCollided) {
-                    b.onCollisionEnter();
+                    bComp.OnCollisionEnter(&bCol);
                 } else {
-                    b.onCollisionStay();
+                    bComp.OnCollisionStay(&bCol);
                 }
 
                 a->isCollided = true;
                 b->isCollided = true;
             } else {
                 if (a.isCollided) {
-                    a.onCollisionExit();
+                    aComp.OnCollisionExit(&aCol);
                 }
 
                 if (b.isCollided) {
-                    b.onCollisionExit();
+                    bComp.OnCollisionExit(&bCol);
                 }
 
                 a->isCollided = false;
@@ -91,6 +89,11 @@ namespace SharkEngine::Core::Physics {
             }
         }
     };
+
+    template <typename T, class RTA>
+    bool loop(RigidBody2D<T, RTA> a) {
+        float deltaTime;
+    }
 
     struct Circle {
         float radius;
@@ -109,4 +112,4 @@ namespace SharkEngine::Core::Physics {
     };
 }// namespace SharkEngine::Core::Physics
 
-#endif//SHARKENGINE_RIGIDBODY_HPP
+#endif//SHARKENGINE_RIGIDBODY2D_HPP
