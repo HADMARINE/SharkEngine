@@ -6,7 +6,8 @@
 #include "../../include/Graphic/VulkanDrawable.h"
 
 VulkanDrawableManager *VulkanDrawableManager::Instance() {
-    return nullptr;
+    static VulkanDrawableManager* instance = new VulkanDrawableManager();
+    return instance;
 }
 void VulkanDrawableManager::CheckInit() {
     for(auto iter : drawablesList)

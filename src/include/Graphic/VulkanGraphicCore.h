@@ -21,6 +21,8 @@
 //#include "VulkanDrawableManager.h"
 
 namespace VulkanCore {
+#define VULKAN_CORE VulkanEngine::Instance()
+
     const std::vector<const char *> validationLayers = {
             "VK_LAYER_KHRONOS_validation"};
 
@@ -127,6 +129,11 @@ namespace VulkanCore {
 
     class VulkanEngine {
     public:
+        static VulkanEngine* Instance() {
+            static VulkanEngine* instance = new VulkanEngine();
+            return instance;
+        }
+
         void run(const std::vector<TextureImageStruct> *texImgStructs) {
             //        initWindow();
             //        initVulkan();
@@ -169,6 +176,7 @@ namespace VulkanCore {
         VkQueue &GetGraphicQueue() { return graphicsQueue; }
         VkQueue &GetPresentQueue() { return presentQueue; }
         VkFence &GetCurrentFrameInFlightFences() { return inFlightFences[currentFrame]; }
+
 
         //Util
         void createBuffer(VkDeviceSize size, VkBufferUsageFlags usage, VkMemoryPropertyFlags properties,
@@ -237,6 +245,42 @@ namespace VulkanCore {
 
         int getSwapChainImageCount() { return swapChainImages.size(); }
 
+        std::vector<Vertex> vertices = {
+                {{-0.5f, -0.5f, 0.0f}, {1.0f, 0.0f, 0.0f, 1.0f}, {0.0f, 1.0f}},
+                {{0.5f, -0.5f, 0.0f}, {0.0f, 1.0f, 0.0f, 1.0f}, {1.0f, 1.0f}},
+                {{0.5f, 0.5f, 0.0f}, {0.0f, 0.0f, 1.0f, 1.0f}, {1.0f, 0.0f}},
+                {{-0.5f, 0.5f, 0.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.0f, 0.0f}},
+
+                {{-0.5f, -0.5f, -0.5f}, {1.0f, 0.0f, 0.0f, 1.0f}, {0.0f, 0.0f}},
+                {{0.5f, -0.5f, -0.5f}, {0.0f, 1.0f, 0.0f, 1.0f}, {1.0f, 0.0f}},
+                {{0.5f, 0.5f, -0.5f}, {0.0f, 0.0f, 1.0f, 1.0f}, {1.0f, 1.0f}},
+                {{-0.5f, 0.5f, -0.5f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.0f, 1.0f}}};
+
+        std::vector<uint16_t> indices = {
+                0, 1, 2, 2, 3, 0,
+                4, 5, 6, 6, 7, 4};
+
+        VkImageView createImageView(VkImage image, VkFormat format,
+                                    VkImageAspectFlags aspectFlags) {
+            VkImageViewCreateInfo viewInfo{};
+            viewInfo.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
+            viewInfo.image = image;
+            viewInfo.viewType = VK_IMAGE_VIEW_TYPE_2D;
+            viewInfo.format = format;
+            viewInfo.subresourceRange.aspectMask = aspectFlags;
+            viewInfo.subresourceRange.baseMipLevel = 0;
+            viewInfo.subresourceRange.levelCount = 1;
+            viewInfo.subresourceRange.baseArrayLayer = 0;
+            viewInfo.subresourceRange.layerCount = 1;
+
+            VkImageView imageView;
+            if (vkCreateImageView(device, &viewInfo, nullptr, &imageView) != VK_SUCCESS) {
+                CLogger::Error("Failed to create texture image view");
+                throw std::runtime_error("Failed to create texture image view");
+            }
+
+            return imageView;
+        }
     private:
         VkResult CreateDebugUtilsMessengerEXT(VkInstance instance, const VkDebugUtilsMessengerCreateInfoEXT *pCreateInfo,
                                               const VkAllocationCallbacks *pAllocator,
@@ -257,22 +301,6 @@ namespace VulkanCore {
                 func(instance, debugMessenger, pAllocator);
             }
         }
-
-
-        std::vector<Vertex> vertices = {
-                {{-0.5f, -0.5f, 0.0f}, {1.0f, 0.0f, 0.0f, 1.0f}, {0.0f, 1.0f}},
-                {{0.5f, -0.5f, 0.0f}, {0.0f, 1.0f, 0.0f, 1.0f}, {1.0f, 1.0f}},
-                {{0.5f, 0.5f, 0.0f}, {0.0f, 0.0f, 1.0f, 1.0f}, {1.0f, 0.0f}},
-                {{-0.5f, 0.5f, 0.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.0f, 0.0f}},
-
-                {{-0.5f, -0.5f, -0.5f}, {1.0f, 0.0f, 0.0f, 1.0f}, {0.0f, 0.0f}},
-                {{0.5f, -0.5f, -0.5f}, {0.0f, 1.0f, 0.0f, 1.0f}, {1.0f, 0.0f}},
-                {{0.5f, 0.5f, -0.5f}, {0.0f, 0.0f, 1.0f, 1.0f}, {1.0f, 1.0f}},
-                {{-0.5f, 0.5f, -0.5f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.0f, 1.0f}}};
-
-        std::vector<uint16_t> indices = {
-                0, 1, 2, 2, 3, 0,
-                4, 5, 6, 6, 7, 4};
 
 
         //    Member variable
@@ -368,18 +396,10 @@ namespace VulkanCore {
             createDepthResources();
             createFrameBuffers();
 
-            auto textureImageInitial = createTextureImage("texture.jpg");
+            //auto textureImageInitial = createTextureImage("texture.jpg");
 
             //
-            //        createTextureImageView();
-            //        createTextureSampler();
-            //        createVertexBuffer();
-            //        createIndexBuffer();
-            //        createUniformBuffers();
-            //        createDescriptorPool();
-            //        createDescriptorSets();
-            //        createCommandBuffers();
-            //        createSyncObjects();
+
         }
 
 
@@ -1408,28 +1428,6 @@ namespace VulkanCore {
             //                createDescriptorSets();
             //                createCommandBuffers();
             //            }
-        }
-
-        VkImageView createImageView(VkImage image, VkFormat format,
-                                    VkImageAspectFlags aspectFlags) {
-            VkImageViewCreateInfo viewInfo{};
-            viewInfo.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
-            viewInfo.image = image;
-            viewInfo.viewType = VK_IMAGE_VIEW_TYPE_2D;
-            viewInfo.format = format;
-            viewInfo.subresourceRange.aspectMask = aspectFlags;
-            viewInfo.subresourceRange.baseMipLevel = 0;
-            viewInfo.subresourceRange.levelCount = 1;
-            viewInfo.subresourceRange.baseArrayLayer = 0;
-            viewInfo.subresourceRange.layerCount = 1;
-
-            VkImageView imageView;
-            if (vkCreateImageView(device, &viewInfo, nullptr, &imageView) != VK_SUCCESS) {
-                CLogger::Error("Failed to create texture image view");
-                throw std::runtime_error("Failed to create texture image view");
-            }
-
-            return imageView;
         }
 
         void createImageViews() {
