@@ -7,7 +7,7 @@
 #include "VulkanGraphicsCore.h"
 #include <map>
 
-using namespace VulkanCore;
+using namespace SharkEngine;
 
 VulkanTextureManager::VulkanTextureManager() {
 }

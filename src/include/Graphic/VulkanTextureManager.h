@@ -10,7 +10,7 @@
 
 #define VULKAN_TEXTURE_MANAGER VulkanTextureManager::Instance()
 
-namespace VulkanCore {
+namespace SharkEngine {
     struct TextureImageStruct;
 
     class VulkanTextureManager {

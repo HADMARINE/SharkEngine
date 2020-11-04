@@ -11,6 +11,9 @@
 
 #include "VulkanGraphicsCore.h"
 #include <vulkan/vulkan.h>
+#include "VulkanTextureManager.h"
+
+
 
 
 namespace SharkEngine {
@@ -37,11 +40,10 @@ namespace SharkEngine {
                 return dv;
         };
 
-        Drawable(TextureImageStruct* image, const std::vector<Vertex> &vertices, std::string textureName) {
+        Drawable(std::string uri, const std::vector<Vertex> &vertices, std::string textureName) {
             this->vertices = vertices;
 
-            textureImage = image->image;
-            textureImageMemory = image->deviceMemory;
+            TextureImageStruct* texture = SharkEngine::VULKAN_TEXTURE_MANAGER->GetTextureImage(uri);
 
             for (int i = 0; i < vertices.size() - 2; i++) {
                 this->indices.push_back(indexCount);
