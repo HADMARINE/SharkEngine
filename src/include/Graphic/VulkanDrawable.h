@@ -38,7 +38,7 @@ public:
     void InitObject() {
         createTextureImageView();
         createTextureSampler();
-        createVertexBuffer();
+        //createVertexBuffer();
         createIndexBuffer();
         createUniformBuffers();
         createDescriptorPool();
@@ -81,27 +81,7 @@ public:
             throw std::runtime_error("Failed to create texture sampler");
         }
     }
-    void createVertexBuffer() {
-        VkDeviceSize bufferSize = sizeof(vertexData[0]) * vertexData.size();
 
-        VkBuffer stagingBuffer;
-        VkDeviceMemory stagingBufferMemory;
-        Core->createBuffer(bufferSize, VK_BUFFER_USAGE_TRANSFER_SRC_BIT,
-                           VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT,
-                           stagingBuffer, stagingBufferMemory);
-
-        void *data;
-        vkMapMemory(Core->GetDevice(), stagingBufferMemory, 0, bufferSize, 0, &data);
-        memcpy(data, vertexData.data(), (size_t) bufferSize);
-        vkUnmapMemory(Core->GetDevice(), stagingBufferMemory);
-
-        Core->createBuffer(bufferSize, VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_VERTEX_BUFFER_BIT,
-                           VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, vertexBuffer, vertexBufferMemory);
-
-        Core->copyBuffer(stagingBuffer, vertexBuffer, bufferSize);
-        vkDestroyBuffer(Core->GetDevice(), stagingBuffer, nullptr);
-        vkFreeMemory(Core->GetDevice(), stagingBufferMemory, nullptr);
-    }
     void createIndexBuffer() {
         VkDeviceSize bufferSize = sizeof(indices[0]) * indices.size();
 
@@ -202,7 +182,7 @@ public:
 
 
     void drawIndexed(VkCommandBuffer& commandBuffer, int currentIndex) {
-        VkBuffer vertexBuffers[] = {vertexBuffer};
+        VkBuffer vertexBuffers[] = {Core->GetVertexBuffer()};
         VkDeviceSize offsets[] = {0};
         vkCmdBindVertexBuffers(commandBuffer, 0, 1, vertexBuffers, offsets);
 
@@ -374,9 +354,6 @@ public:
         vkDestroyBuffer(Core->GetDevice(), indexBuffer, nullptr);
         vkFreeMemory(Core->GetDevice(), indexBufferMemory, nullptr);
 
-        vkDestroyBuffer(Core->GetDevice(), vertexBuffer, nullptr);
-        vkFreeMemory(Core->GetDevice(), vertexBufferMemory, nullptr);
-
         for (size_t i = 0; i < GlobalPreferences::MAX_FRAMES_IN_FLIGHT; i++) {
             vkDestroySemaphore(Core->GetDevice(), renderFinishedSemaphores[i], nullptr);
             vkDestroySemaphore(Core->GetDevice(), imageAvailableSemaphores[i], nullptr);
@@ -402,9 +379,6 @@ public:
     glm::mat4 Model;
     glm::mat4 MVP;
 
-    //Uniform Buffer
-    VkBuffer vertexBuffer;
-    VkDeviceMemory vertexBufferMemory;
     VkBuffer indexBuffer;
     VkDeviceMemory indexBufferMemory;
     std::vector<VkBuffer> uniformBuffers;

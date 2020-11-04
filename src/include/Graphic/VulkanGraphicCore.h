@@ -9,15 +9,15 @@
 #define GLM_FORCE_DEPTH_ZERO_TO_ONE
 #define STB_IMAGE_IMPLEMENTATION
 
-#include <Vulkan/vulkan.h>
+#include "../../stdafx.hpp"
 #include <GLFW/glfw3.h>
+#include <Vulkan/vulkan.h>
 #include <array>
 #include <cstring>
 #include <fstream>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <optional>
-#include "../../stdafx.hpp"
 
 namespace VulkanCore {
 #define VULKAN_CORE VulkanEngine::Instance()
@@ -87,11 +87,11 @@ namespace VulkanCore {
 
     class TextureImageStruct {
     public:
-        TextureImageStruct() { }
-        ~TextureImageStruct() { }
+        TextureImageStruct() {}
+        ~TextureImageStruct() {}
 
-        VkImage         image;
-        VkDeviceMemory  deviceMemory;
+        VkImage image;
+        VkDeviceMemory deviceMemory;
     };
 
     struct TextureData {
@@ -132,8 +132,8 @@ namespace VulkanCore {
 
     class VulkanEngine {
     public:
-        static VulkanEngine* Instance() {
-            static VulkanEngine* instance = new VulkanEngine();
+        static VulkanEngine *Instance() {
+            static VulkanEngine *instance = new VulkanEngine();
             return instance;
         }
 
@@ -182,8 +182,8 @@ namespace VulkanCore {
         VkFence &GetCurrentFrameInFlightFences() { return inFlightFences[currentFrame]; }
         VkDescriptorSetLayout &GetDescriptorSetLayout() { return descriptorSetLayout; }
         VkPipelineLayout &GetPipelineLayout() { return pipelineLayout; }
-        std::vector<VkCommandBuffer>& GetCommandBuffer() {return commandBuffers;}
-
+        std::vector<VkCommandBuffer> &GetCommandBuffer() { return commandBuffers; }
+        VkBuffer& GetVertexBuffer() {return vertexBuffer;}
 
         //Util
         void createBuffer(VkDeviceSize size, VkBufferUsageFlags usage, VkMemoryPropertyFlags properties,
@@ -273,8 +273,7 @@ namespace VulkanCore {
                 {{-0.5f, -0.5f, -0.5f}, {1.0f, 0.0f, 0.0f, 1.0f}, {0.0f, 0.0f}},
                 {{0.5f, -0.5f, -0.5f}, {0.0f, 1.0f, 0.0f, 1.0f}, {1.0f, 0.0f}},
                 {{0.5f, 0.5f, -0.5f}, {0.0f, 0.0f, 1.0f, 1.0f}, {1.0f, 1.0f}},
-                {{-0.5f, 0.5f, -0.5f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.0f, 1.0f}}
-        };
+                {{-0.5f, 0.5f, -0.5f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.0f, 1.0f}}};
 
         std::vector<uint16_t> indices = {
                 0, 1, 2, 2, 3, 0,
@@ -301,6 +300,7 @@ namespace VulkanCore {
 
             return imageView;
         }
+
     private:
         VkResult CreateDebugUtilsMessengerEXT(VkInstance instance, const VkDebugUtilsMessengerCreateInfoEXT *pCreateInfo,
                                               const VkAllocationCallbacks *pAllocator,
@@ -417,6 +417,7 @@ namespace VulkanCore {
             createFrameBuffers();
             createCommandBuffers();
 
+            createVertexBuffer();
         }
 
 
@@ -913,27 +914,27 @@ namespace VulkanCore {
             endSingleTimeCommands(commandBuffer);
         }
 
-            void createVertexBuffer() {
-                VkDeviceSize bufferSize = sizeof(vertices[0]) * vertices.size();
+        void createVertexBuffer() {
+            VkDeviceSize bufferSize = sizeof(vertices[0]) * vertices.size();
 
-                VkBuffer stagingBuffer;
-                VkDeviceMemory stagingBufferMemory;
-                createBuffer(bufferSize, VK_BUFFER_USAGE_TRANSFER_SRC_BIT,
-                             VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT,
-                             stagingBuffer, stagingBufferMemory);
+            VkBuffer stagingBuffer;
+            VkDeviceMemory stagingBufferMemory;
+            createBuffer(bufferSize, VK_BUFFER_USAGE_TRANSFER_SRC_BIT,
+                         VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT,
+                         stagingBuffer, stagingBufferMemory);
 
-                void *data;
-                vkMapMemory(device, stagingBufferMemory, 0, bufferSize, 0, &data);
-                memcpy(data, vertices.data(), (size_t) bufferSize);
-                vkUnmapMemory(device, stagingBufferMemory);
+            void *data;
+            vkMapMemory(device, stagingBufferMemory, 0, bufferSize, 0, &data);
+            memcpy(data, vertices.data(), (size_t) bufferSize);
+            vkUnmapMemory(device, stagingBufferMemory);
 
-                createBuffer(bufferSize, VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_VERTEX_BUFFER_BIT,
-                             VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, vertexBuffer, vertexBufferMemory);
+            createBuffer(bufferSize, VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_VERTEX_BUFFER_BIT,
+                         VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, vertexBuffer, vertexBufferMemory);
 
-                copyBuffer(stagingBuffer, vertexBuffer, bufferSize);
-                vkDestroyBuffer(device, stagingBuffer, nullptr);
-                vkFreeMemory(device, stagingBufferMemory, nullptr);
-            }
+            copyBuffer(stagingBuffer, vertexBuffer, bufferSize);
+            vkDestroyBuffer(device, stagingBuffer, nullptr);
+            vkFreeMemory(device, stagingBufferMemory, nullptr);
+        }
         //
         void createDescriptorSetLayout() {
             VkDescriptorSetLayoutBinding uboLayoutBinding{};
@@ -1656,4 +1657,4 @@ namespace VulkanCore {
             return VK_FALSE;
         }
     };
-};
+};// namespace VulkanCore

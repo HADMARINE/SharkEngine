@@ -41,7 +41,7 @@ int main() {
 
     VulkanDrawable* tmp_2 =  new VulkanDrawable(VULKAN_CORE,
                                               VULKAN_TEXTURE_MANAGER->GetTextureImage("viking_room.png"),
-                                              VULKAN_CORE->vertices_2, std::vector<uint16_t>{0, 1, 2, 2, 3, 0});
+                                              VULKAN_CORE->vertices_2, std::vector<uint16_t>{4, 5, 6, 6, 7, 4});
 
 
     VULKAN_DRAW_MANAGER->AddVulkanDrawable(tmp);
