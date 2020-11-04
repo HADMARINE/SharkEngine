@@ -10,8 +10,8 @@
 class VulkanDrawable {
 public:
 public:
-    VulkanDrawable() : isReady(false), isDestroy(false) { vertexData.resize(0); }
-    VulkanDrawable(VulkanCore::TextureImageStruct *texture, const std::vector<VulkanCore::Vertex> &vertices, const std::vector<uint16_t> &indices) : isReady(false), isDestroy(false), vertexData(vertices), indices(indices) { SetTexture(texture); }
+    VulkanDrawable(VulkanCore::VulkanEngine *core) : Core(core), isReady(false), isDestroy(false) { vertexData.resize(0); }
+    VulkanDrawable(VulkanCore::VulkanEngine *core, VulkanCore::TextureImageStruct *texture, const std::vector<VulkanCore::Vertex> &vertices, const std::vector<uint16_t> &indices) : Core(core), isReady(false), isDestroy(false), vertexData(vertices), indices(indices) { SetTexture(texture); }
     ~VulkanDrawable() {}
 
     void Destroy() {
@@ -199,8 +199,7 @@ public:
             vkUpdateDescriptorSets(Core->GetDevice(), static_cast<uint32_t>(descriptorWrites.size()), descriptorWrites.data(), 0, nullptr);
         }
     }
-
-    static void createCommandBuffers(std::vector<VulkanDrawable> &drawable) {
+    void createCommandBuffers() {
         commandBuffers.resize(Core->getSwapChainImageCount());
 
         VkCommandBufferAllocateInfo allocInfo{};
@@ -223,7 +222,7 @@ public:
 
                 VkDescriptorImageInfo imageInfo{};
                 imageInfo.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
-                imageInfo.imageView = drawable.view;
+                imageInfo.imageView = view;
                 imageInfo.sampler = sampler;
                 std::array<VkWriteDescriptorSet, 2> descriptorWrites{};
 
@@ -346,8 +345,8 @@ public:
     }
 
 
-    void drawFrame(std::vector<VulkanDrawable> &drawable) {
-        createCommandBuffers(drawable);
+    void drawFrame() {
+        createCommandBuffers();
 
         vkWaitForFences(Core->GetDevice(), 1, &inFlightFences[Core->GetCurrentFrame()], VK_TRUE, UINT64_MAX);
 
@@ -411,6 +410,17 @@ public:
         }
 
         vkQueueWaitIdle(Core->GetPresentQueue());
+
+        //        assert(result);
+        //
+        //        if (result == VK_ERROR_OUT_OF_DATE_KHR || result == VK_SUBOPTIMAL_KHR || framebufferResized) {
+        //            framebufferResized = false;
+        //            recreateSwapChain();
+        //        } else if (result != VK_SUCCESS) {
+        //            throw std::runtime_error("failed to present swap chain image!");
+        //        }
+        //
+        //        currentFrame = (currentFrame + 1) % MAX_FRAMES_IN_FLIGHT;
     }
 
     void updateUniformBuffer(uint32_t currentImage) {
@@ -472,14 +482,14 @@ public:
 
     VkDescriptorSetLayout descriptorSetLayout;
     VkDescriptorPool descriptorPool;
-    static std::vector<VkDescriptorSet> descriptorSets;
+    std::vector<VkDescriptorSet> descriptorSets;
 
-    static std::vector<VkCommandBuffer> commandBuffers;// Command buffer for drawing
+    std::vector<VkCommandBuffer> commandBuffers;// Command buffer for drawing
 
-    static std::vector<VkSemaphore> imageAvailableSemaphores;
-    static std::vector<VkSemaphore> renderFinishedSemaphores;
-    static std::vector<VkFence> inFlightFences;
-    static std::vector<VkFence> imagesInFlight;
+    std::vector<VkSemaphore> imageAvailableSemaphores;
+    std::vector<VkSemaphore> renderFinishedSemaphores;
+    std::vector<VkFence> inFlightFences;
+    std::vector<VkFence> imagesInFlight;
 
     //Matrix
     glm::mat4 Projection;
@@ -488,32 +498,32 @@ public:
     glm::mat4 MVP;
 
     //Uniform Buffer
-    static VkBuffer vertexBuffer;
-    static VkDeviceMemory vertexBufferMemory;
-    static VkBuffer indexBuffer;
-    static VkDeviceMemory indexBufferMemory;
-    static std::vector<VkBuffer> uniformBuffers;
-    static std::vector<VkDeviceMemory> uniformBuffersMemory;
+    VkBuffer vertexBuffer;
+    VkDeviceMemory vertexBufferMemory;
+    VkBuffer indexBuffer;
+    VkDeviceMemory indexBufferMemory;
+    std::vector<VkBuffer> uniformBuffers;
+    std::vector<VkDeviceMemory> uniformBuffersMemory;
 
     //VertexData;
     std::vector<VulkanCore::Vertex> vertexData;
 
     //Image Data
-    static VkSampler sampler;
+    VkSampler sampler;
     VkImage *image;
-    static VkImageLayout imageLayout;
-    static VkMemoryAllocateInfo memoryAlloc;
-    static VkDeviceMemory *mem;
+    VkImageLayout imageLayout;
+    VkMemoryAllocateInfo memoryAlloc;
+    VkDeviceMemory *mem;
     VkImageView view;
-    static uint32_t mipMapLevels;
-    static uint32_t layerCount;
-    static uint32_t textureWidth, textureHeight;
-    static VkDescriptorImageInfo descsImgInfo;
+    uint32_t mipMapLevels;
+    uint32_t layerCount;
+    uint32_t textureWidth, textureHeight;
+    VkDescriptorImageInfo descsImgInfo;
 
     //Index Data
-    static std::vector<uint16_t> indices;
+    std::vector<uint16_t> indices;
 
-    static VulkanCore::VulkanEngine *Core;
+    VulkanCore::VulkanEngine *Core;
 
     bool isReady;
     bool isDestroy;
