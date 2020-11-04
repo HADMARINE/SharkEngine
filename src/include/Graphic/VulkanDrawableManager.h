@@ -27,9 +27,6 @@ public:
     void DestroyVulkanDrawable(VulkanDrawable* drawIter);
 
 private:
-    //SwapChain, drawIndexBuffer
-    std::vector<std::vector<VkCommandBuffer*>> commandBuffers;
-
     std::vector<VulkanDrawable*> drawablesList;
 };
 

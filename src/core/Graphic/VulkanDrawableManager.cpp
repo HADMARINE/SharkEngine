@@ -19,17 +19,7 @@ void VulkanDrawableManager::Render() {
 
     //
 
-    for(auto iter : drawablesList)
-        iter->StartRenderPass();
-
-    for(auto iter : drawablesList)
-        iter->drawIndexed();
-
-    for(auto iter : drawablesList)
-        iter->endRenderPass();
-
-    for(auto iter : drawablesList)
-        iter->drawFrame();
+    VulkanDrawable::drawFrame();
 }
 void VulkanDrawableManager::EndScene() {
     drawablesList.erase(remove_if(drawablesList.begin(), drawablesList.end(),[&](VulkanDrawable* iter) {
