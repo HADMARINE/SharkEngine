@@ -47,7 +47,7 @@ add_executable(
         src/InGame/GameObjects/TestObject.h
         src/InGame/Scripts/TestComponent.cpp
         src/InGame/Scripts/TestComponent.h
-        src/include/Graphic/VulkanDrawable.h src/core/Graphic/VulkanDrawableManager.cpp src/include/Graphic/VulkanDrawableManager.h src/include/Graphic/VulkanGraphicsCore.cpp src/include/Graphic/VulkanTextureManager.cpp src/include/Graphic/VulkanTextureManager.h)
+        src/include/Graphic/VulkanDrawable.h src/core/Graphic/VulkanDrawableManager.cpp src/include/Graphic/VulkanDrawableManager.h src/include/Graphic/VulkanGraphicsCore.cpp src/include/Graphic/VulkanTextureManager.cpp src/include/Graphic/VulkanTextureManager.h src/core/Graphic/DirectX9Core/DirectXCore.cpp src/include/Graphic/DirectX9Core/DirectXCore.h src/core/Engine/SystemManager/SharkApplication.cpp src/include/Engine/SystemManager/SharkApplication.h)
 
 find_package(glm CONFIG REQUIRED)
 target_link_libraries(main PRIVATE glm)
@@ -75,3 +75,37 @@ target_link_libraries(main PRIVATE OpenAL::OpenAL)
 
 find_package(gli CONFIG REQUIRED)
 target_link_libraries(main PRIVATE gli)
+
+target_include_directories(main PUBLIC lib/directx/Include)
+
+IF( WIN32 )
+    SET( PSDK_PATH "C:/Program Files/Microsoft Platform SDK/Bin" )
+    SET( PSDK_INC "C:/Program Files/Microsoft Platform SDK/Include" )
+
+    FIND_PATH(DX9_INCLUDE_PATH d3d9.h
+            PATHS
+            "$ENV{DXSDK_DIR}/Include"
+            "$ENV{PROGRAMFILES}/Microsoft DirectX SDK/Include"
+            DOC "The directory where D3D9.h resides")
+
+
+    FIND_LIBRARY(D3D9_LIBRARY d3d9.lib
+            PATHS
+            "$ENV{DXSDK_DIR}/Lib/x86"
+            "$ENV{PROGRAMFILES}/Microsoft DirectX SDK/Lib/x86"
+            DOC "The directory where d3d9.lib resides")
+
+    FIND_LIBRARY(D3DX9_LIBRARY d3dx9.lib
+            PATHS
+            "$ENV{DXSDK_DIR}/Lib/x86"
+            "$ENV{PROGRAMFILES}/Microsoft DirectX SDK/Lib/x86"
+            DOC "The directory where d3dx9.lib resides")
+
+    SET( DX9_LIBRARIES ${D3D9_LIBRARY} ${D3DX9_LIBRARY} )
+
+    FIND_LIBRARY( WIN32_COMCTRL comctl32.lib
+            PATHS
+            "C:/Programme/Microsoft Platform SDK for Windows Server 2003 R2/Lib"
+            DOC "Path to psdk"
+            )
+ENDIF( WIN32 )
