@@ -511,16 +511,10 @@ namespace VulkanCore {
 
         void drawFrame() {
 
-            //VULKAN_DRAW_MANAGER->Render();
-
             if (framebufferResized) {
                 framebufferResized = false;
                 recreateSwapChain();
-            }//else if (result != VK_SUCCESS) {
-             //            CLogger::Error("Failed to present swap chain image");
-             //            throw std::runtime_error("Failed to present swap chain image");
-             //        }
-
+            }
             currentFrame = (currentFrame + 1) % GlobalPreferences::MAX_FRAMES_IN_FLIGHT;
         }
 
@@ -1363,21 +1357,7 @@ namespace VulkanCore {
             createGraphicsPipeline();
             createDepthResources();
             createFrameBuffers();
-            //        createUniformBuffers();
-            //        createDescriptorPool();
-            //        createDescriptorSets();
-            //        createCommandBuffers();
-            //            for (const GraphicsObject graphicsObject : *graphicsObjects) {
-            //                std::cout << "FUCFKCUFKCUKF" << std::endl;
-            //                auto gObjTexture = graphicsObject.getTexture();
-            //                textureImage = *gObjTexture->image;
-            //                textureImageMemory = *gObjTexture->deviceMemory;
-            //                createFrameBuffers();
-            //                createUniformBuffers();
-            //                createDescriptorPool();
-            //                createDescriptorSets();
-            //                createCommandBuffers();
-            //            }
+            createCommandBuffers();
         }
 
         void createImageViews() {

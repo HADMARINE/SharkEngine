@@ -104,6 +104,5 @@ void VulkanDrawableManager::ReCreateSwapChain() {
         iter->createUniformBuffers();
         iter->createDescriptorPool();
         iter->createDescriptorSets();
-        iter->createCommandBuffers();
     }
 }
