@@ -235,73 +235,19 @@ public:
         }
     }
 
-    void StartRenderPass() {
-        for (size_t i = 0; i < Core->GetCommandBuffer().size(); i++) {
-            VkCommandBufferBeginInfo beginInfo{};
-            beginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
-            beginInfo.flags = 0;
-            beginInfo.pInheritanceInfo = nullptr;
+    void drawIndexed(VkCommandBuffer& commandBuffer, int currentIndex) {
+        VkBuffer vertexBuffers[] = {vertexBuffer};
+        VkDeviceSize offsets[] = {0};
+        vkCmdBindVertexBuffers(commandBuffer, 0, 1, vertexBuffers, offsets);
 
-            if (vkBeginCommandBuffer(Core->GetCommandBuffer()[i], &beginInfo) != VK_SUCCESS) {
-                CLogger::Error("Failed to begin recording command buffer");
-                throw std::runtime_error("Failed to begin recording command buffer");
-            }
+        vkCmdBindIndexBuffer(commandBuffer, indexBuffer, 0, VK_INDEX_TYPE_UINT16);
 
-            VkRenderPassBeginInfo renderPassInfo{};
-            renderPassInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
-            renderPassInfo.renderPass = Core->GetRenderPass();
-            renderPassInfo.framebuffer = Core->GetSwapChainFrameBuffer()[i];
-            renderPassInfo.renderArea.offset = {0, 0};
-            renderPassInfo.renderArea.extent = Core->GetSwapChainExtent();
+        vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS,
+                                Core->GetPipelineLayout(), 0, 1, &descriptorSets[currentIndex], 0, nullptr);
 
-            std::array<VkClearValue, 2> clearValues{};
-            clearValues[0] = {0.0f, 0.0f, 0.0f, 0.0f};
-            clearValues[1] = {1.0f, 0};
 
-            renderPassInfo.clearValueCount = static_cast<uint32_t>(clearValues.size());
-            renderPassInfo.pClearValues = clearValues.data();
-
-            vkCmdBeginRenderPass(Core->GetCommandBuffer()[i],
-                                 &renderPassInfo,
-                                 VK_SUBPASS_CONTENTS_INLINE);
-
-            vkCmdBindPipeline(Core->GetCommandBuffer()[i],
-                              VK_PIPELINE_BIND_POINT_GRAPHICS,
-                              Core->GetGraphicPipeline());
-
-            VkBuffer vertexBuffers[] = {vertexBuffer};
-            VkDeviceSize offsets[] = {0};
-            vkCmdBindVertexBuffers(Core->GetCommandBuffer()[i], 0, 1, vertexBuffers, offsets);
-
-            vkCmdBindIndexBuffer(Core->GetCommandBuffer()[i], indexBuffer, 0, VK_INDEX_TYPE_UINT16);
-
-            vkCmdBindDescriptorSets(Core->GetCommandBuffer()[i], VK_PIPELINE_BIND_POINT_GRAPHICS,
-                                    Core->GetPipelineLayout(), 0, 1, &descriptorSets[i], 0, nullptr);
-
-            vkCmdDrawIndexed(Core->GetCommandBuffer()[i], static_cast<uint32_t>(indices.size()), 1, 0, 0, 0);
-
-            vkCmdEndRenderPass(Core->GetCommandBuffer()[i]);
-
-            if (vkEndCommandBuffer(Core->GetCommandBuffer()[i]) != VK_SUCCESS) {
-                CLogger::Error("Failed to record command buffer");
-                throw std::runtime_error("Failed to record command buffer");
-            }
-
-            //vkCmdDrawIndexed(commandBuffers[i], static_cast<uint32_t>(indices.size()), 1, 0, 0, 0);
-        }
+        vkCmdDrawIndexed(commandBuffer, static_cast<uint32_t>(indices.size()), 1, 0, 0, 0);
     }
-
-//    void drawIndexed() {
-//        for (size_t i = 0; i < Core->GetCommandBuffer().size(); i++) {
-//
-//        }
-//    }
-//
-//    void endRenderPass() {
-//        for (size_t i = 0; i < Core->GetCommandBuffer().size(); i++) {
-//
-//        }
-//    }
 
     void createSyncObjects() {
         imageAvailableSemaphores.resize(GlobalPreferences::MAX_FRAMES_IN_FLIGHT);

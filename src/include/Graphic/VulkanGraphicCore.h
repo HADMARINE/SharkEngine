@@ -416,9 +416,6 @@ namespace VulkanCore {
             createDepthResources();
             createFrameBuffers();
             createCommandBuffers();
-            //auto textureImageInitial = createTextureImage("texture.jpg");
-
-            //
 
         }
 

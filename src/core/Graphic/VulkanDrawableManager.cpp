@@ -4,6 +4,7 @@
 
 #include "../../include/Graphic/VulkanDrawableManager.h"
 #include "../../include/Graphic/VulkanDrawable.h"
+#include "../../include/Graphic/VulkanGraphicCore.h"
 
 VulkanDrawableManager *VulkanDrawableManager::Instance() {
     static VulkanDrawableManager* instance = new VulkanDrawableManager();
@@ -15,12 +16,55 @@ void VulkanDrawableManager::CheckInit() {
             iter->InitObject();
 }
 void VulkanDrawableManager::Render() {
-    //Create Command Buffer
+    for (size_t i = 0; i < VulkanCore::VULKAN_CORE->GetCommandBuffer().size(); i++) {
+        VkCommandBufferBeginInfo beginInfo{};
+        beginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
+        beginInfo.flags = 0;
+        beginInfo.pInheritanceInfo = nullptr;
 
-    //
+        if (vkBeginCommandBuffer(VulkanCore::VULKAN_CORE->GetCommandBuffer()[i], &beginInfo) != VK_SUCCESS) {
+            CLogger::Error("Failed to begin recording command buffer");
+            throw std::runtime_error("Failed to begin recording command buffer");
+        }
 
-    for(auto iter : drawablesList)
-        iter->StartRenderPass();
+        VkRenderPassBeginInfo renderPassInfo{};
+        renderPassInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
+        renderPassInfo.renderPass = VulkanCore::VULKAN_CORE->GetRenderPass();
+        renderPassInfo.framebuffer = VulkanCore::VULKAN_CORE->GetSwapChainFrameBuffer()[i];
+        renderPassInfo.renderArea.offset = {0, 0};
+        renderPassInfo.renderArea.extent = VulkanCore::VULKAN_CORE->GetSwapChainExtent();
+
+        std::array<VkClearValue, 2> clearValues{};
+        clearValues[0] = {0.0f, 0.0f, 0.0f, 0.0f};
+        clearValues[1] = {1.0f, 0};
+
+        renderPassInfo.clearValueCount = static_cast<uint32_t>(clearValues.size());
+        renderPassInfo.pClearValues = clearValues.data();
+
+        vkCmdBeginRenderPass(VulkanCore::VULKAN_CORE->GetCommandBuffer()[i],
+                             &renderPassInfo,
+                             VK_SUBPASS_CONTENTS_INLINE);
+
+        vkCmdBindPipeline(VulkanCore::VULKAN_CORE->GetCommandBuffer()[i],
+                          VK_PIPELINE_BIND_POINT_GRAPHICS,
+                          VulkanCore::VULKAN_CORE->GetGraphicPipeline());
+
+        //Draw Indexed!! -----------------------
+        for(auto iter : drawablesList) {
+            iter->drawIndexed(VulkanCore::VULKAN_CORE->GetCommandBuffer()[i], i);
+        }
+        //--------------------------------------
+
+        vkCmdEndRenderPass(VulkanCore::VULKAN_CORE->GetCommandBuffer()[i]);
+
+        if (vkEndCommandBuffer(VulkanCore::VULKAN_CORE->GetCommandBuffer()[i]) != VK_SUCCESS) {
+            CLogger::Error("Failed to record command buffer");
+            throw std::runtime_error("Failed to record command buffer");
+        }
+    }
+
+//    for(auto iter : drawablesList)
+//        iter->StartRenderPass();
 
 //    for(auto iter : drawablesList)
 //        iter->drawIndexed();
