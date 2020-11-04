@@ -49,6 +49,12 @@ add_executable(
         src/InGame/Scripts/TestComponent.h
         src/include/Graphic/VulkanDrawable.h src/core/Graphic/VulkanDrawableManager.cpp src/include/Graphic/VulkanDrawableManager.h src/include/Graphic/VulkanGraphicsCore.cpp src/include/Graphic/VulkanTextureManager.cpp src/include/Graphic/VulkanTextureManager.h src/core/Graphic/DirectX9Core/DirectXCore.cpp src/include/Graphic/DirectX9Core/DirectXCore.h src/core/Engine/SystemManager/SharkApplication.cpp src/include/Engine/SystemManager/SharkApplication.h)
 
+target_include_directories(main PRIVATE src)
+
+add_subdirectory(lib/freealut)
+target_include_directories(main PRIVATE lib/freealut/include)
+target_link_libraries(main PRIVATE alut)
+
 find_package(glm CONFIG REQUIRED)
 target_link_libraries(main PRIVATE glm)
 
