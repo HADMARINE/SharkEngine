@@ -16,7 +16,7 @@ add_executable(
         src/util/Assets.cpp
         src/Assets.hpp
         src/include/Graphic/IncludeVulkan.h
-        src/include/Graphic/VulkanGraphicCore.h
+        src/include/Graphic/VulkanGraphicsCore.h
         src/include/Engine/CoreDefine.h
         src/core/Engine/Scene/Manager/EntityIDManager.cpp
         src/include/Engine/Scene/Manager/EntityIDManager.h

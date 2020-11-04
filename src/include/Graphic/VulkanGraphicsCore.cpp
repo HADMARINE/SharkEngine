@@ -2,11 +2,9 @@
 // Created by HADMARINE on 2020/11/03.
 //
 
-#include "VulkanGraphicCore.h"
+#include "VulkanGraphicsCore.h"
 #include <stb_image.h>
-
-
-VulkanCore::TextureImageStruct VulkanCore::VulkanEngine::createTextureImage(const std::string location) {
+SharkEngine::TextureImageStruct SharkEngine::VulkanEngine::createTextureImage(const std::string location) {
     {
         int texWidth, texHeight, texChannels;
         stbi_uc *pixels = stbi_load((std::string("../src/source/") + location).c_str(), &texWidth, &texHeight, &texChannels, STBI_rgb_alpha);
@@ -43,8 +41,8 @@ VulkanCore::TextureImageStruct VulkanCore::VulkanEngine::createTextureImage(cons
 
         TextureImageStruct texImgStructReturn{};
 
-        texImgStructReturn.image = fTextureImage;
-        texImgStructReturn.deviceMemory = fTextureImageMemory;
+        texImgStructReturn.image = reinterpret_cast<VkImage *>(fTextureImage);
+        texImgStructReturn.deviceMemory = reinterpret_cast<VkDeviceMemory *>(fTextureImageMemory);
 
         return texImgStructReturn;
     }

@@ -4,7 +4,7 @@
 
 #include "../../include/Graphic/VulkanDrawableManager.h"
 #include "../../include/Graphic/VulkanDrawable.h"
-#include "../../include/Graphic/VulkanGraphicCore.h"
+#include "../../include/Graphic/VulkanGraphicsCore.h"
 
 VulkanDrawableManager *VulkanDrawableManager::Instance() {
     static VulkanDrawableManager* instance = new VulkanDrawableManager();
