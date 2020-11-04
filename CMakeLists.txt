@@ -47,7 +47,7 @@ add_executable(
         src/InGame/GameObjects/TestObject.h
         src/InGame/Scripts/TestComponent.cpp
         src/InGame/Scripts/TestComponent.h
-        src/include/Graphic/VulkanDrawable.h src/core/Graphic/VulkanDrawableManager.cpp src/include/Graphic/VulkanDrawableManager.h src/include/Graphic/VulkanGraphicsCore.cpp src/include/Graphic/VulkanTextureManager.cpp src/include/Graphic/VulkanTextureManager.h src/core/Graphic/DirectX9Core/DirectXCore.cpp src/include/Graphic/DirectX9Core/DirectXCore.h src/core/Engine/SystemManager/SharkApplication.cpp src/include/Engine/SystemManager/SharkApplication.h)
+        src/include/Graphic/VulkanDrawable.h src/core/Graphic/VulkanDrawableManager.cpp src/include/Graphic/VulkanDrawableManager.h src/include/Graphic/VulkanGraphicsCore.cpp src/include/Graphic/VulkanTextureManager.cpp src/include/Graphic/VulkanTextureManager.h src/core/Graphic/DirectX9Core/DirectXCore.cpp src/include/Graphic/DirectX9Core/DirectXCore.h src/core/Graphic/DirectX9Core/WindowsApplication.cpp src/include/Graphic/DirectX9Core/WindowsApplication.h)
 
 target_include_directories(main PRIVATE src)
 

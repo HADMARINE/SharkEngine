@@ -8,9 +8,14 @@
 #include "SystemManager/SceneManager.h"
 #include "SystemManager/TimeManager.h"
 
-#define SHARK_ENGINE SharkSystem::Instance()
+#include "../Graphic/DirectX9Core/DirectXCore.h"
+#include "../Graphic/DirectX9Core/WindowsApplication.h"
+
+#define SHARK_ENGINE    SharkSystem::Instance()
 #define SHARK_SCENE_MGR SharkSystem::GetSceneManager()
-#define SHARK_TIME_MGR SharkSystem::GetSceneManager()
+#define SHARK_TIME_MGR  SharkSystem::GetSceneManager()
+#define SHARK_DIRECT3D  DIRECTX_CORE
+#define SHARK_WINDOWS   WINDOWS_APPLICATION
 
 class SharkSystem {
 public:
@@ -31,19 +36,34 @@ public:
 
         sceneMgr = new SharkEngine::Core::SceneManager();
         timeMgr = new SharkEngine::Core::TimeManager();
-        //inputMgr = new InputManager();
+
+        SHARK_WINDOWS->Initialize();
+        SHARK_WINDOWS->FloatWindow(SW_SHOWDEFAULT);
+        SHARK_DIRECT3D->Initialize(SHARK_WINDOWS->GetHWND());
     };
 
-    void Start()        { sceneMgr->Start(); };
-    void Update()       { timeMgr->Update(); sceneMgr->Update(); };
-    void LateUpdate()   { sceneMgr->LateUpdate(); };
-    void Render()       { sceneMgr->Render(); };
-    void EndScene()     { sceneMgr->EndScene(); };
-    void Release()      { }
+    void Start()        { sceneMgr->Start(); }
+    void Update()       { timeMgr->Update(); sceneMgr->Update(); }
+    void LateUpdate()   { sceneMgr->LateUpdate(); }
+    void Render()       { SHARK_DIRECT3D->BeginRender(); sceneMgr->Render(); SHARK_DIRECT3D->EndRender();}
+    void EndScene()     { sceneMgr->EndScene(); }
+
+    void Release()      {
+        SAFE_DELETE(sceneMgr);
+        SAFE_DELETE(timeMgr);
+
+
+        SHARK_DIRECT3D->Release();
+    }
+
+    bool IsClosed() const { return SHARK_WINDOWS->CheckMessage().message == WM_QUIT; }
 
     SharkEngine::Core::SceneManager* GetSceneManager() {return sceneMgr;};
     SharkEngine::Core::TimeManager* GetTimeManager() {return timeMgr;};
 public:
     SharkEngine::Core::SceneManager* sceneMgr;
     SharkEngine::Core::TimeManager* timeMgr;
+
+private:
+
 };

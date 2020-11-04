@@ -16,6 +16,7 @@ namespace GlobalPreferences {
 
     constexpr const uint32_t SCREEN_WIDTH = 1280;
     constexpr const uint32_t SCREEN_HEIGHT = 720;
+    constexpr const bool FULL_SCREEN = false;
 
 // max frame in bound on GPU, ONLY 2^n values
     constexpr const int MAX_FRAMES_IN_FLIGHT = 32;
