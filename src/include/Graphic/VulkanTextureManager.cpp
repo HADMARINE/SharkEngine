@@ -13,13 +13,13 @@ VulkanTextureManager::VulkanTextureManager() {
 }
 VulkanTextureManager::~VulkanTextureManager() {
 }
-VulkanTextureManager* VulkanTextureManager::Instance() {
-    static VulkanTextureManager* instance = new VulkanTextureManager();
+VulkanTextureManager *VulkanTextureManager::Instance() {
+    static VulkanTextureManager *instance = new VulkanTextureManager();
     return instance;
 }
 TextureImageStruct *VulkanTextureManager::GetTextureImage(std::string path) {
-    if(textureImageList[path] == nullptr) {
-        textureImageList[path] =  new TextureImageStruct();
+    if (textureImageList[path] == nullptr) {
+        textureImageList[path] = new TextureImageStruct();
 
         TextureImageStruct tmp = VULKAN_CORE->createTextureImage(path);
 
@@ -30,9 +30,9 @@ TextureImageStruct *VulkanTextureManager::GetTextureImage(std::string path) {
     return textureImageList[path];
 }
 void VulkanTextureManager::ReleaseTextures() {
-    for(auto iter : textureImageList) {
-        vkDestroyImage(VULKAN_CORE->GetDevice(), iter.second->image, nullptr);
-        vkFreeMemory(VULKAN_CORE->GetDevice(), iter.second->deviceMemory, nullptr);
+    for (auto iter : textureImageList) {
+        vkDestroyImage(reinterpret_cast<VkDevice>(VULKAN_CORE->GetDevice()), reinterpret_cast<VkImage>(iter.second->image), nullptr);
+        vkFreeMemory(reinterpret_cast<VkDevice>(VULKAN_CORE->GetDevice()), reinterpret_cast<VkDeviceMemory>(iter.second->deviceMemory), nullptr);
         SAFE_DELETE(iter.second);
     }
 }
