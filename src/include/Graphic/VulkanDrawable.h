@@ -46,6 +46,7 @@ public:
         createSyncObjects();
 
         isReady = true;
+        CLogger::Debug("Createed!");
     }
 
     //Main Func
@@ -385,7 +386,6 @@ public:
 
 public:
     // Pipeline layout object
-    VkPipelineLayout pipelineLayout;
 
     VkDescriptorSetLayout descriptorSetLayout;
     VkDescriptorPool descriptorPool;
