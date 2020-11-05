@@ -7,15 +7,17 @@
 #include "../../stdafx.hpp"
 #include "SystemManager/SceneManager.h"
 #include "SystemManager/TimeManager.h"
-
+#include "SystemManager/DirectXTextureManger.h"
 #include "../Graphic/DirectX9Core/DirectXCore.h"
 #include "../Graphic/DirectX9Core/WindowsApplication.h"
 
-#define SHARK_ENGINE    SharkSystem::Instance()
-#define SHARK_SCENE_MGR SharkSystem::GetSceneManager()
-#define SHARK_TIME_MGR  SharkSystem::GetSceneManager()
-#define SHARK_DIRECT3D  DIRECTX_CORE
-#define SHARK_WINDOWS   WINDOWS_APPLICATION
+#define SHARK_ENGINE        SharkSystem::Instance()
+#define SHARK_DIRECT3D      DIRECTX_CORE
+#define SHARK_WINDOWS       WINDOWS_APPLICATION
+
+#define SHARK_TIME_MGR      SHARK_ENGINE->SharkSystem::GetTimeManager()
+#define SHARK_SCENE_MGR     SHARK_ENGINE->SharkSystem::GetSceneManager()
+#define SHARK_TEXTURE_MGR   SHARK_ENGINE->SharkSystem::GetTextureManager()
 
 class SharkSystem {
 public:
@@ -36,9 +38,10 @@ public:
 
         sceneMgr = new SharkEngine::Core::SceneManager();
         timeMgr = new SharkEngine::Core::TimeManager();
+        textureMgr = new SharkEngine::Core::DirectXTextureManger();
 
         SHARK_WINDOWS->Initialize();
-        SHARK_WINDOWS->FloatWindow(SW_SHOWDEFAULT);
+        SHARK_WINDOWS->FloatWindow(10);
         SHARK_DIRECT3D->Initialize(SHARK_WINDOWS->GetHWND());
     };
 
@@ -51,7 +54,7 @@ public:
     void Release()      {
         SAFE_DELETE(sceneMgr);
         SAFE_DELETE(timeMgr);
-
+        SAFE_DELETE(textureMgr);
 
         SHARK_DIRECT3D->Release();
     }
@@ -60,10 +63,11 @@ public:
 
     SharkEngine::Core::SceneManager* GetSceneManager() {return sceneMgr;};
     SharkEngine::Core::TimeManager* GetTimeManager() {return timeMgr;};
+    SharkEngine::Core::DirectXTextureManger* GetTextureManager() {return textureMgr;};
+
 public:
     SharkEngine::Core::SceneManager* sceneMgr;
     SharkEngine::Core::TimeManager* timeMgr;
-
-private:
+    SharkEngine::Core::DirectXTextureManger* textureMgr;
 
 };

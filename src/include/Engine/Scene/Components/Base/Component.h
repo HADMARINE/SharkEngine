@@ -26,8 +26,6 @@ namespace SharkEngine::Core {
         static void Destroy(Component *compo) { compo->Destroy(); }
         bool GetIsDestroy() const { return isDestroy; }
 
-        EntityID GetEntityID() const { return m_EntityID; }
-
         void SetActive(bool isActive) { this->isActive = isActive; }
         bool GetActive() const { return isActive; }
 
@@ -37,7 +35,6 @@ namespace SharkEngine::Core {
         bool GetIsStarted() { return isStarted; }
 
     protected:
-        EntityID m_EntityID;
         Entity *m_Owner;
         bool isDestroy;
         bool isActive;

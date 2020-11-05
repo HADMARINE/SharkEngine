@@ -16,24 +16,27 @@ LRESULT WindowsApplication::WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPA
     return DefWindowProc(hWnd, iMessage, wParam, lParam);
 }
 HWND WindowsApplication::FloatWindow(int cmdShow) {
+    hInstance = GetModuleHandle(NULL);
+
     hWnd = CreateWindow(
-            GlobalPreferences::APPLICATION_NAME,
-            GlobalPreferences::APPLICATION_NAME,
-            (!GlobalPreferences::FULL_SCREEN) ? WS_SYSMENU : WS_EX_TOPMOST | WS_POPUP,
-            (!GlobalPreferences::FULL_SCREEN) ? CW_USEDEFAULT : 0 ,
-            (!GlobalPreferences::FULL_SCREEN) ? CW_USEDEFAULT : 0,
+            TEXT(GlobalPreferences::ENGINE_NAME),
+            TEXT(GlobalPreferences::APPLICATION_NAME),
+            WS_OVERLAPPEDWINDOW,
+            CW_USEDEFAULT,
+            CW_USEDEFAULT,
             GlobalPreferences::SCREEN_WIDTH,
             GlobalPreferences::SCREEN_HEIGHT,
-            nullptr,
-            (HMENU)nullptr,
+            NULL,
+            (HMENU)NULL,
             hInstance,
-            nullptr
+            NULL
     );
 
     ShowWindow(hWnd, cmdShow);
     return hWnd;
 }
 void WindowsApplication::Initialize() {
+    ZeroMemory(&hInstance, sizeof(hInstance));
     hInstance = GetModuleHandle(NULL);
 
     WNDCLASS wndClass;
@@ -45,13 +48,9 @@ void WindowsApplication::Initialize() {
     wndClass.hIcon = LoadIcon(NULL, IDI_APPLICATION);
     wndClass.hInstance = hInstance;
     wndClass.lpfnWndProc = WndProc;
-    wndClass.lpszClassName = GlobalPreferences::APPLICATION_NAME;
+    wndClass.lpszClassName = GlobalPreferences::ENGINE_NAME;
     wndClass.lpszMenuName = NULL;
     wndClass.style = CS_HREDRAW | CS_VREDRAW;
-
-    if(GlobalPreferences::FULL_SCREEN)
-        wndClass.hbrBackground = (HBRUSH)COLOR_WINDOW;
-
     RegisterClass(&wndClass);
 
     msg = {0, };

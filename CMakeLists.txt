@@ -47,7 +47,7 @@ add_executable(
         src/InGame/GameObjects/TestObject.h
         src/InGame/Scripts/TestComponent.cpp
         src/InGame/Scripts/TestComponent.h
-        src/include/Graphic/VulkanDrawable.h src/core/Graphic/VulkanDrawableManager.cpp src/include/Graphic/VulkanDrawableManager.h src/include/Graphic/VulkanGraphicsCore.cpp src/include/Graphic/VulkanTextureManager.cpp src/include/Graphic/VulkanTextureManager.h src/core/Graphic/DirectX9Core/DirectXCore.cpp src/include/Graphic/DirectX9Core/DirectXCore.h src/core/Graphic/DirectX9Core/WindowsApplication.cpp src/include/Graphic/DirectX9Core/WindowsApplication.h)
+        src/include/Graphic/VulkanDrawable.h src/core/Graphic/VulkanDrawableManager.cpp src/include/Graphic/VulkanDrawableManager.h src/include/Graphic/VulkanGraphicsCore.cpp src/include/Graphic/VulkanTextureManager.cpp src/include/Graphic/VulkanTextureManager.h src/core/Graphic/DirectX9Core/DirectXCore.cpp src/include/Graphic/DirectX9Core/DirectXCore.h src/core/Graphic/DirectX9Core/WindowsApplication.cpp src/include/Graphic/DirectX9Core/WindowsApplication.h src/core/Engine/Scene/Components/Sprite2DRenderer.cpp src/include/Engine/Scene/Components/Sprite2DRenderer.h src/core/Graphic/DirectX9Core/DirectXTextureManger.cpp src/include/Engine/SystemManager/DirectXTextureManger.h)
 
 target_include_directories(main PRIVATE src)
 
@@ -83,35 +83,67 @@ find_package(gli CONFIG REQUIRED)
 target_link_libraries(main PRIVATE gli)
 
 target_include_directories(main PUBLIC lib/directx/Include)
+target_link_libraries(main PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/lib/directx/Lib/d3d9.lib)
+target_link_libraries(main PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/lib/directx/Lib/dxguid.lib)
+target_link_libraries(main PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/lib/directx/Lib/d3dxof.lib)
+target_link_libraries(main PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/lib/directx/Lib/d3dx9.lib)
 
-IF( WIN32 )
-    SET( PSDK_PATH "C:/Program Files/Microsoft Platform SDK/Bin" )
-    SET( PSDK_INC "C:/Program Files/Microsoft Platform SDK/Include" )
-
-    FIND_PATH(DX9_INCLUDE_PATH d3d9.h
-            PATHS
-            "$ENV{DXSDK_DIR}/Include"
-            "$ENV{PROGRAMFILES}/Microsoft DirectX SDK/Include"
-            DOC "The directory where D3D9.h resides")
-
-
-    FIND_LIBRARY(D3D9_LIBRARY d3d9.lib
-            PATHS
-            "$ENV{DXSDK_DIR}/Lib/x86"
-            "$ENV{PROGRAMFILES}/Microsoft DirectX SDK/Lib/x86"
-            DOC "The directory where d3d9.lib resides")
-
-    FIND_LIBRARY(D3DX9_LIBRARY d3dx9.lib
-            PATHS
-            "$ENV{DXSDK_DIR}/Lib/x86"
-            "$ENV{PROGRAMFILES}/Microsoft DirectX SDK/Lib/x86"
-            DOC "The directory where d3dx9.lib resides")
-
-    SET( DX9_LIBRARIES ${D3D9_LIBRARY} ${D3DX9_LIBRARY} )
-
-    FIND_LIBRARY( WIN32_COMCTRL comctl32.lib
-            PATHS
-            "C:/Programme/Microsoft Platform SDK for Windows Server 2003 R2/Lib"
-            DOC "Path to psdk"
-            )
-ENDIF( WIN32 )
+#---------------------------------------------------------------------------------
+#message("Looking for DirectX9...")
+#
+#set(DXSDK_DIR "C:/Program Files (x86)/Microsoft DirectX SDK (June 2010)/")
+#set(DIRECTX_ROOT_DIR "C:/Program Files (x86)/Microsoft DirectX SDK (June 2010)/")
+#
+#file(GLOB DX9_SEARCH_PATHS
+#        "$ENV{DXSDK_DIR}/Include"
+#        "$ENV{PROGRAMFILES}/Microsoft DirectX SDK (June 2010)/Include"
+#        "$ENV{PROGRAMFILES}/Microsoft SDKs/Windows/*/Include"
+#        "C:/Program Files (x86)/Windows Kits/*/include/um"
+#        "C:/Program Files/Windows Kits/*/include/um"
+#        "C:/Program Files (x86)/Windows Kits/10/Include/10.0.*.0/um"
+#        "C:/Program Files/Windows Kits/10/Include/10.0.*.0/um"
+#        )
+#
+#find_path(DIRECTX_INCLUDE_DIRS
+#        NAMES d3d9.h
+#        PATHS ${DX9_SEARCH_PATHS})
+#
+#if(CMAKE_SIZEOF_VOID_P EQUAL 8)
+#    SET(DX9_LIBRARY_PATHS
+#            "C:/Program Files (x86)/Microsoft DirectX SDK (June 2010)/Include"
+#            "C:/Program Files (x86)/Windows Kits/8.1/Lib/winv6.3/um/x64/"
+#            "C:/Program Files (x86)/Windows Kits/8.0/Lib/win8/um/x64/"
+#            "C:/Program Files (x86)/Windows Kits/10/Lib/10.0.14393.0/um/x64/"
+#            "C:/Program Files (x86)/Windows Kits/10/Lib/10.0.10586.0/um/x64/"
+#            "C:/Program Files (x86)/Windows Kits/10/Lib/10.0.15063.0/um/x64/"
+#            "C:/Program Files (x86)/Windows Kits/10/Lib/10.0.16299.0/um/x64/"
+#            "C:/Program Files (x86)/Windows Kits/10/Lib/10.0.19041.0/um/x64/"
+#            )
+#else()
+#    SET(DX9_LIBRARY_PATHS
+#            "C:/Program Files (x86)/Microsoft DirectX SDK (June 2010)/Lib/x86/"
+#            "C:/Program Files (x86)/Windows Kits/8.1/lib/winv6.3/um/x86/"
+#            "C:/Program Files (x86)/Windows Kits/8.0/lib/win8/um/x86/"
+#            "C:/Program Files (x86)/Windows Kits/10/lib/10.0.14393.0/um/x86/"
+#            "C:/Program Files (x86)/Windows Kits/10/lib/10.0.10586.0/um/x86/"
+#            "C:/Program Files (x86)/Windows Kits/10/Lib/10.0.15063.0/um/x86/"
+#            "C:/Program Files (x86)/Windows Kits/10/Lib/10.0.16299.0/um/x86/"
+#            "C:/Program Files (x86)/Windows Kits/10/Lib/10.0.19041.0/um/x86/"
+#            )
+#endif()
+#
+#find_library(DX9_LIB d3dx9 ${DX9_LIBRARY_PATHS} NO_DEFAULT_PATH)
+#set(DIRECTX_LIBRARIES ${DX9_LIB})
+#
+#message("Include: ${DIRECTX_INCLUDE_DIRS}")
+#message("Libs: ${DIRECTX_LIBRARIES}")
+#
+#include(FindPackageHandleStandardArgs)
+#FIND_PACKAGE_HANDLE_STANDARD_ARGS(DIRECTX9
+#        DEFAULT_MSG DIRECTX_ROOT_DIR
+#        DIRECTX_INCLUDE_DIRS DIRECTX_LIBRARIES
+#        )
+#mark_as_advanced(DIRECTX_INCLUDE_DIRS DX9_LIB)
+#
+#target_include_directories(main PRIVATE ${DXSDK_DIR})
+#message("${DXSDK_DIR}")

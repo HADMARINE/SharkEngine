@@ -11,6 +11,9 @@
 
 class WindowsApplication {
 public:
+    WindowsApplication(){}
+    ~WindowsApplication(){}
+
     static LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam);
     HWND FloatWindow(int cmdShow);
 
@@ -19,8 +22,8 @@ public:
 
     static WindowsApplication* Instance();
 
-    HWND& GetHWND()             {return hWnd;}
-    HINSTANCE& GetHINSTANCE()   {return hInstance;}
+    HWND GetHWND()             {return hWnd;}
+    HINSTANCE GetHINSTANCE()   {return hInstance;}
 
 private:
     HWND hWnd;

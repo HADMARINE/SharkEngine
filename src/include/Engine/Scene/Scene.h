@@ -9,6 +9,7 @@
 #include "../CoreTypes.h"
 #include <set>
 #include <vector>
+#include "Entity/Entity.h"
 
 namespace SharkEngine::Core {
     //--------------------------------------------------------------------------------------
