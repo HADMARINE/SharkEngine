@@ -5,6 +5,7 @@
 #include "../../../include/Engine/Scene/Scene.h"
 #include "include/Engine/Scene/Components/Transform.h"
 #include "include/Engine/Scene/Components/Sprite2DRenderer.h"
+#include "include/Engine/Physics/RigidBody2D.hpp"
 
 SharkEngine::Core::Scene::Scene() {
 }
@@ -34,4 +35,8 @@ void SharkEngine::Core::Scene::Render() {
 void SharkEngine::Core::Scene::EndScene() {
     //Destroy Entity Objects
     m_ComponentManager->EndScene();
+}
+
+std::vector<SharkEngine::Core::Component *> SharkEngine::Core::Scene::FindEntityComponents(SharkEngine::Core::EntityID _id) {
+    return m_ComponentManager->FindEntityComponents(_id);
 }

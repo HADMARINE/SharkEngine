@@ -16,6 +16,7 @@ void TestObject::Init() {
 
     testComponent = new TestComponent();
     m_Scene->AddComponent<TestComponent>(this, testComponent);
+
     Sprite2DRenderer* tmp = AddComponent<Sprite2DRenderer>();
     tmp->SetTexture("source/viking_room.png");
 

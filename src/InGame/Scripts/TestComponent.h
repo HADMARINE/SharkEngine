@@ -7,6 +7,7 @@
 
 #include "../../CLogger.hpp"
 #include "../../include/Engine/Scene/Components/Base/Component.h"
+#include "include/Engine/Scene/GameObject/GameObject.h"
 
 class TestComponent : public SharkEngine::Core::Component {
 public:
@@ -16,6 +17,10 @@ public:
     virtual void Start() override {
         Component::Start();
         CLogger::Debug("%d Test Start", (int)m_Owner->GetEntityID());
+
+        dynamic_cast<SharkEngine::Core::GameObject *>(m_Owner)->GetComponent<SharkEngine::Core::Transform>();
+
+        m_Owner->GetScene()->GetComponent<SharkEngine::Core::Transform>(m_Owner->GetEntityID());
     }
 
     virtual void Update() override {

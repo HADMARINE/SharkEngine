@@ -76,6 +76,8 @@ namespace SharkEngine::Core {
             return std::static_pointer_cast<ComponentArray<T>>(m_ComponentArrays[typeName]);
         }
 
+        std::vector<Component*> FindEntityComponents(EntityID _id);
+
     private:
         std::unordered_map<const char*, ComponentID>m_ComponentIDs{};
         std::unordered_map<const char*, std::shared_ptr<IComponentArray>> m_ComponentArrays{};

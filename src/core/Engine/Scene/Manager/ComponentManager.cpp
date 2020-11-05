@@ -80,3 +80,21 @@ ComponentManager::~ComponentManager() {
         }
     }
 }
+std::vector<Component *> ComponentManager::FindEntityComponents(EntityID _id) {
+    std::vector<Component *> compos;
+
+    for(auto const& pair : m_ComponentArrays) {
+        auto const& components = pair.second;
+
+        auto const& componentArray = components->GetComponentArray();
+
+        for(auto compoIter : componentArray) {
+            if(compoIter->GetOwner()->GetEntityID() == _id) {
+                compos.push_back(compoIter);
+                continue;
+            }
+        }
+    }
+
+    return compos;
+}

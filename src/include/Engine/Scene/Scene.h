@@ -93,6 +93,8 @@ namespace SharkEngine::Core {
             return m_ComponentManager->GetComponentArray<T>().GetComponentArray();
         }
 
+        std::vector<Component*> FindEntityComponents(EntityID _id);
+
         std::map<EntityID, Entity*> m_EntityList;
 
     private:
