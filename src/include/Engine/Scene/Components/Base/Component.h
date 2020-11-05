@@ -11,6 +11,7 @@
 namespace SharkEngine::Core {
     class ComponentManager;
     class Collision;
+    class GameObject;
 
     class Component {
     public:
@@ -29,7 +30,7 @@ namespace SharkEngine::Core {
         void SetActive(bool isActive) { this->isActive = isActive; }
         bool GetActive() const { return isActive; }
 
-        Entity *GetOwner() const { return m_Owner; }
+        GameObject *GetOwner();
         void SetOwner(Entity *owner) { m_Owner = owner; }
 
         bool GetIsStarted() { return isStarted; }
