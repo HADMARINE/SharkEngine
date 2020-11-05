@@ -132,12 +132,12 @@ find_package(gli CONFIG REQUIRED)
 target_link_libraries(main PRIVATE gli)
 
 target_include_directories(main PUBLIC lib/directx/Include)
-target_link_libraries(main PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/lib/directx/Lib/d3d9.lib)
+target_link_libraries(main PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/lib/directx/Lib/d3dx9.lib)
 target_link_libraries(main PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/lib/directx/Lib/dxguid.lib)
 target_link_libraries(main PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/lib/directx/Lib/d3dxof.lib)
-target_link_libraries(main PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/lib/directx/Lib/d3dx9.lib)
+target_link_libraries(main PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/lib/directx/Lib/d3d9.lib)
 
-#---------------------------------------------------------------------------------
+##---------------------------------------------------------------------------------
 #message("Looking for DirectX9...")
 #
 #set(DXSDK_DIR "C:/Program Files (x86)/Microsoft DirectX SDK (June 2010)/")
