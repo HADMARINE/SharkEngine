@@ -5,13 +5,13 @@
 #ifndef SHARKENGINE_TESTOBJECT_H
 #define SHARKENGINE_TESTOBJECT_H
 
-#include "../../include/Engine/Scene/Entity/Entity.h"
+#include "include/Engine/Scene/GameObject/GameObject.h"
 
 class TestComponent;
 
-class TestObject : public SharkEngine::Core::Entity {
+class TestObject : public SharkEngine::Core::GameObject {
 public:
-    TestObject() : Entity() {};
+    TestObject() : GameObject() {};
     ~TestObject(){};
 
     void Init() override;

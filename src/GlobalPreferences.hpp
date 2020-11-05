@@ -12,7 +12,7 @@ namespace GlobalPreferences {
     constexpr const char * APPLICATION_VERSION = "1.0.0";
     constexpr const char * ENGINE_VERSION = "1.0.0";
     constexpr const char * ENGINE_NAME = "SharkEngine";
-    constexpr const bool DEBUG = true;
+    constexpr const bool DEBUG = false;
 
     constexpr const uint32_t SCREEN_WIDTH = 1280;
     constexpr const uint32_t SCREEN_HEIGHT = 720;

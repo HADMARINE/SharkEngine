@@ -3,6 +3,7 @@
 //
 
 #include "../../../include/Engine/Scene/Scene.h"
+#include "include/Engine/Scene/Components/Transform.h"
 
 SharkEngine::Core::Scene::Scene() {
 }
@@ -14,6 +15,7 @@ void SharkEngine::Core::Scene::Init() {
     m_EntityIDManager = std::make_unique<EntityIDManager>();
 
     //Register Component(Transform, RigidBody, 2D Renderer, Collider . . .)
+    RegisterComponent<Transform>();
 }
 void SharkEngine::Core::Scene::Start() {
     m_ComponentManager->Start();

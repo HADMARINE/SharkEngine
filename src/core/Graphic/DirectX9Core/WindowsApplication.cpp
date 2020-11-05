@@ -59,7 +59,7 @@ WindowsApplication *WindowsApplication::Instance() {
     static WindowsApplication* iter = new WindowsApplication();
     return iter;
 }
-MSG& WindowsApplication::CheckMessage() {
+MSG WindowsApplication::CheckMessage() {
     if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE)) {
         TranslateMessage(&msg);
         DispatchMessage(&msg);

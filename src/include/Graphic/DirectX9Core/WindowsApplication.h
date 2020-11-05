@@ -18,7 +18,7 @@ public:
     HWND FloatWindow(int cmdShow);
 
     void Initialize();
-    MSG& CheckMessage();
+    MSG CheckMessage();
 
     static WindowsApplication* Instance();
 

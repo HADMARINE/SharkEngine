@@ -9,13 +9,14 @@
 using namespace SharkEngine::Core;
 
 void TestObject::Init() {
-    Entity::Init();
+    GameObject::Init();
 
     CLogger::Info("Test Object Initialize");
 
     testComponent = new TestComponent();
     m_Scene->AddComponent<TestComponent>(this, testComponent);
 
-    if(m_Scene->GetComponent<TestComponent>(0)->GetOwner() == this)
-        CLogger::Error("GetComponent Test");
+    //if(m_Scene->GetComponent<Transform>(0)->GetOwner() == this)
+    if(transform)
+        CLogger::Error("Transform Test");
 };
