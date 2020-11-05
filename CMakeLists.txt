@@ -96,7 +96,7 @@ add_executable(
         src/core/Engine/SystemManager/InputManager.cpp
         src/core/Engine/SystemManager/LineDebuggerManager.cpp
         src/include/Engine/SystemManager/LineDebuggerManager.h
-)
+    src/core/Engine/SystemManager/ColliderManager.cpp src/include/Engine/SystemManager/ColliderManager.hpp)
 
 target_include_directories(main PRIVATE src)
 
