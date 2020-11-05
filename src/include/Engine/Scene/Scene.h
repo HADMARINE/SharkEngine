@@ -43,7 +43,7 @@ namespace SharkEngine::Core {
         void EndScene();
 
         EntityID CreateEntity(Entity* iter){
-            m_EntityList.push_back(iter);
+            m_EntityList.insert(std::pair<EntityID, Entity*>(iter->GetEntityID(), iter));
             iter->Init();
             return m_EntityIDManager->CreateEntityID();
         }
@@ -51,6 +51,9 @@ namespace SharkEngine::Core {
         void DestroyEntity(EntityID _id){
             m_EntityIDManager->DestroyEntityID(_id);
             m_ComponentManager->EntityDestroyed(_id);
+
+            SAFE_DELETE(m_EntityList[_id]);
+            m_EntityList.erase(_id);
         }
 
         template <typename T>
@@ -90,8 +93,7 @@ namespace SharkEngine::Core {
             return m_ComponentManager->GetComponentArray<T>().GetComponentArray();
         }
 
-        std::set<EntityID> m_EntityIDList;
-        std::vector<Entity*> m_EntityList;
+        std::map<EntityID, Entity*> m_EntityList;
 
     private:
         std::unique_ptr<ComponentManager> m_ComponentManager;

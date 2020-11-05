@@ -4,31 +4,34 @@
 
 #pragma once
 
-#include <GLFW/glfw3.h>
+#include <Windows.h>
 
 namespace SharkEngine::Core {
     class TimeManager {
     public:
-        TimeManager() : oldTime(0), currentTime(0) {}
+        TimeManager() {}
         ~TimeManager() {}
 
         void Init() {
-            oldTime = glfwGetTime();
-            currentTime = glfwGetTime();
+            QueryPerformanceCounter(&beforeInterval);
+            QueryPerformanceCounter(&currentInterval);
+            QueryPerformanceFrequency(&Frequency);
         }
 
         void Update() {
-            currentTime = glfwGetTime();
-            deltaTime = currentTime - oldTime;
-            oldTime = currentTime;
+            QueryPerformanceCounter(&currentInterval);
+            LONGLONG interval = (currentInterval.QuadPart - beforeInterval.QuadPart);
+
+            float dTime = (float)interval / (float)Frequency.QuadPart;
+
+            beforeInterval = currentInterval;
+            deltaTime = dTime;
         }
 
         double GetDeltaTime() { return deltaTime; }
-    private:
-        GLFWwindow* window;
-        double oldTime;
-        double currentTime;
 
+    private:
         double deltaTime;
+        LARGE_INTEGER beforeInterval, currentInterval, Frequency;
     };
 }

@@ -8,6 +8,7 @@
 #include "SystemManager/SceneManager.h"
 #include "SystemManager/TimeManager.h"
 #include "SystemManager/DirectXTextureManger.h"
+#include "SystemManager/InputManager.h"
 #include "../Graphic/DirectX9Core/DirectXCore.h"
 #include "../Graphic/DirectX9Core/WindowsApplication.h"
 
@@ -39,6 +40,7 @@ public:
         sceneMgr = new SharkEngine::Core::SceneManager();
         timeMgr = new SharkEngine::Core::TimeManager();
         textureMgr = new SharkEngine::Core::DirectXTextureManger();
+        inputMgr = new SharkEngine::Core::InputManager();
 
         SHARK_WINDOWS->Initialize();
         SHARK_WINDOWS->FloatWindow(10);
@@ -46,12 +48,14 @@ public:
     };
 
     void Start()        { sceneMgr->Start(); }
-    void Update()       { timeMgr->Update(); sceneMgr->Update(); }
+    void Update()       { timeMgr->Update(); inputMgr->Update(); sceneMgr->Update(); }
     void LateUpdate()   { sceneMgr->LateUpdate(); }
     void Render()       { SHARK_DIRECT3D->BeginRender(); sceneMgr->Render(); SHARK_DIRECT3D->EndRender();}
     void EndScene()     { sceneMgr->EndScene(); }
 
     void Release()      {
+        textureMgr->Release();
+
         SAFE_DELETE(sceneMgr);
         SAFE_DELETE(timeMgr);
         SAFE_DELETE(textureMgr);
@@ -68,6 +72,7 @@ public:
 public:
     SharkEngine::Core::SceneManager* sceneMgr;
     SharkEngine::Core::TimeManager* timeMgr;
+    SharkEngine::Core::InputManager* inputMgr;
     SharkEngine::Core::DirectXTextureManger* textureMgr;
 
 };

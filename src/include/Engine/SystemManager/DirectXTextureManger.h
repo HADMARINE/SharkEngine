@@ -16,6 +16,8 @@ namespace SharkEngine::Core {
     public:
         DirectXTextureManger(){};
         ~DirectXTextureManger();
+         void Release();
+
 
         LPDIRECT3DTEXTURE9* LoadTextureFormFile(const char* path);
     };

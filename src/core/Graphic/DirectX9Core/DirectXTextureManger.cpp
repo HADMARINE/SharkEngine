@@ -8,8 +8,6 @@
 using namespace SharkEngine::Core;
 
 DirectXTextureManger::~DirectXTextureManger() {
-    for(auto iter : textureMap)
-        SAFE_DELETE(iter.second);
 }
 LPDIRECT3DTEXTURE9 *DirectXTextureManger::LoadTextureFormFile(const char *path) {
     if (textureMap[path] == NULL) {
@@ -33,4 +31,10 @@ LPDIRECT3DTEXTURE9 *DirectXTextureManger::LoadTextureFormFile(const char *path) 
     }
 
     return textureMap[path];
+}
+void DirectXTextureManger::Release() {
+    for(auto iter : textureMap) {
+        SAFE_RELEASE(*(iter.second));
+        SAFE_DELETE(iter.second);
+    }
 }
