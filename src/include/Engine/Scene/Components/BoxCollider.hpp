@@ -6,13 +6,14 @@
 #define VULKAN_ENGINE_BOXCOLLIDER_HPP
 
 #include "Base/Component.h"
+#include "include/Engine/Scene/GameObject/GameObject.h"
 
 namespace SharkEngine::Core {
     class BoxCollider : public Component {
     public:
         BoxCollider() = default;
         void test() {
-            GetOwner()
+            auto transform = GetOwner()->GetComponent<Transform>();
         }
     };
 }

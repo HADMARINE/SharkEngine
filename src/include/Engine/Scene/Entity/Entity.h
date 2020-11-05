@@ -10,23 +10,28 @@
 
 namespace SharkEngine::Core {
     class Component;
+
     class Scene;
+
     class Transform;
 
     class Entity {
     public:
         Entity();
+
         ~Entity();
 
         virtual void Init();
 
         bool GetIsDestroy();
+
         void SetIsDestroy(bool);
 
         bool GetIsActive();
+
         void SetIsActive(bool);
 
-        Scene* GetScene(){return m_Scene;}
+        Scene *GetScene() { return m_Scene; }
 
         EntityID GetEntityID();
 

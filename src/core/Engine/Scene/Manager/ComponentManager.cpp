@@ -4,9 +4,9 @@
 
 #include "../../../../include/Engine/Scene/Manager/ComponentManager.h"
 #include "../../../../include/Engine/CoreDefine.h"
-#include "../../../../include/Engine/Scene/Components/Base/Component.h"
-#include "../../../../CLogger.hpp"
+#include "include/Engine/Scene/Components/Base/Component.h"
 #include "include/Engine/Scene/GameObject/GameObject.h"
+#include "CLogger.hpp"
 
 using namespace SharkEngine::Core;
 
