@@ -30,7 +30,7 @@ namespace SharkEngine::Core {
             return m_Scene->GetComponent<T>(GetEntityID());
         }
 
-    protected:
+    public:
         Transform* transform;
     };
 

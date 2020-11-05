@@ -20,7 +20,7 @@
 #define SHARK_TIME_MGR      SHARK_ENGINE->SharkSystem::GetTimeManager()
 #define SHARK_SCENE_MGR     SHARK_ENGINE->SharkSystem::GetSceneManager()
 #define SHARK_TEXTURE_MGR   SHARK_ENGINE->SharkSystem::GetTextureManager()
-#define SHARK_LINE_MGR   SHARK_ENGINE->SharkSystem::GetLineDebuggerManager()
+#define SHARK_LINE_MGR      SHARK_ENGINE->SharkSystem::GetLineDebuggerManager()
 
 class SharkSystem {
 public:
@@ -39,20 +39,36 @@ public:
     void InitializeEngine() {
         using namespace SharkEngine;
 
+        SHARK_WINDOWS->Initialize();
+        SHARK_WINDOWS->FloatWindow(10);
+        SHARK_DIRECT3D->Initialize(SHARK_WINDOWS->GetHWND());
+
         sceneMgr = new SharkEngine::Core::SceneManager();
         timeMgr = new SharkEngine::Core::TimeManager();
         textureMgr = new SharkEngine::Core::DirectXTextureManger();
         inputMgr = new SharkEngine::Core::InputManager();
+        lineMgr = new SharkEngine::Core::LineDebuggerManager();
 
-        SHARK_WINDOWS->Initialize();
-        SHARK_WINDOWS->FloatWindow(10);
-        SHARK_DIRECT3D->Initialize(SHARK_WINDOWS->GetHWND());
+        //Initialize Managers
+        timeMgr->Init();
     };
 
     void Start()        { sceneMgr->Start(); }
     void Update()       { timeMgr->Update(); inputMgr->Update(); sceneMgr->Update(); }
     void LateUpdate()   { sceneMgr->LateUpdate(); }
-    void Render()       { SHARK_DIRECT3D->BeginRender(); sceneMgr->Render(); SHARK_DIRECT3D->EndRender(); lineMgr->Render();}
+    void Render()       {
+        SHARK_DIRECT3D->BeginRender();
+
+        SHARK_DIRECT3D->GetSprite()->Begin(D3DXSPRITE_ALPHABLEND);
+        sceneMgr->Render();
+        SHARK_DIRECT3D->GetSprite()->End();
+
+        SHARK_DIRECT3D->GetLine()->Begin();
+        lineMgr->Render();
+        SHARK_DIRECT3D->GetLine()->End();
+
+        SHARK_DIRECT3D->EndRender();
+    }
     void EndScene()     { sceneMgr->EndScene(); }
 
     void Release()      {
@@ -61,6 +77,8 @@ public:
         SAFE_DELETE(sceneMgr);
         SAFE_DELETE(timeMgr);
         SAFE_DELETE(textureMgr);
+        SAFE_DELETE(inputMgr);
+        SAFE_DELETE(lineMgr);
 
         SHARK_DIRECT3D->Release();
     }

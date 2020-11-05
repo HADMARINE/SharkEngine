@@ -28,10 +28,10 @@ namespace SharkEngine::Core {
             deltaTime = dTime;
         }
 
-        double GetDeltaTime() { return deltaTime; }
+        float GetDeltaTime() { return deltaTime; }
 
     private:
-        double deltaTime;
+        float deltaTime;
         LARGE_INTEGER beforeInterval, currentInterval, Frequency;
     };
 }

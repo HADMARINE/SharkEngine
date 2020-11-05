@@ -21,10 +21,11 @@ namespace SharkEngine::Core {
 
         void Render() override;
 
-        int GetWidth(){return width;}
-        int GetHeight(){return height;};
-        D3DXCOLOR GetColor(){return color;}
-        RECT GetVisibleRect(){return visibleRect;}
+        int GetWidth()          { return width; }
+        int GetHeight()         { return height; }
+        Vec2 GetTextureSize()   { return Vec2(width, height); }
+        D3DXCOLOR GetColor()    { return color; }
+        RECT GetVisibleRect()   { return visibleRect; }
 
         void SetColor(D3DXCOLOR color) {this->color = color;}
         void SetTexture(LPDIRECT3DTEXTURE9* texture) {this->texture = texture;}

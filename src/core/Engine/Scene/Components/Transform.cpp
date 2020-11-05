@@ -39,7 +39,7 @@ void Transform::UpdateTransformation() {
 
     if (parent) {
         mat *= parent->mat;
-        worldPos += parent->GetLocalPos();
+        worldPos += parent->GetWorldPos();
     }
 
     if (children.size() > 0)

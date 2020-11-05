@@ -24,7 +24,7 @@ namespace SharkEngine::Core {
         void Render();
 
     private:
-        std::vector<Vec2[2]> drawLineList;
+        std::vector<LineStruct> drawLineList;
     };
 }// namespace SharkEngine::Core
 

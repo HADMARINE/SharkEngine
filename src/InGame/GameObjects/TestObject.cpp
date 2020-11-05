@@ -19,8 +19,4 @@ void TestObject::Init() {
 
     Sprite2DRenderer* tmp = AddComponent<Sprite2DRenderer>();
     tmp->SetTexture("source/viking_room.png");
-
-    //if(m_Scene->GetComponent<Transform>(0)->GetOwner() == this)
-    if(transform)
-        CLogger::Error("Transform Test");
 };
