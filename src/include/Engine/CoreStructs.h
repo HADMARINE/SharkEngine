@@ -14,8 +14,4 @@
 
 /*************** Collision **************/
 namespace SharkEngine::Core {
-    struct Collision {
-        Entity *entity;
-        std::vector<glm::vec3> contacts;//Contact points
-    };
 }// namespace SharkEngine::Core
