@@ -31,6 +31,3 @@ void SharkEngine::Core::Entity::SetIsActive(bool isActive) {
 SharkEngine::Core::EntityID SharkEngine::Core::Entity::GetEntityID() {
     return m_id;
 }
-SharkEngine::Core::Scene *SharkEngine::Core::Entity::GetCurrentScene() {
-    return m_Scene;
-}

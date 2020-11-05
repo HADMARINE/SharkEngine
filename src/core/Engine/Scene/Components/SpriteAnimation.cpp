@@ -32,7 +32,7 @@ void SharkEngine::Core::SpriteAnimation::Update() {
 void SharkEngine::Core::SpriteAnimation::AddTextures(std::string root, int textureCount) {
     currentFrame = textureCount;
     for(int i = 0; i < textureCount; i++) {
-        textures.push_back(SHARK_TEXTURE_MGR->LoadTextureFormFile((root + "/" + std::to_string(i) + ".png").c_str());
+        textures.push_back(SHARK_TEXTURE_MGR->LoadTextureFormFile((root + "/" + std::to_string(i) + ".png").c_str()));
     }
 }
 void SharkEngine::Core::SpriteAnimation::AddTexture(const char *path) {

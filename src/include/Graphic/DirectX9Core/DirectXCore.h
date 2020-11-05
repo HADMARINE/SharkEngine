@@ -24,6 +24,7 @@ public:
     D3DPRESENT_PARAMETERS &GetD3DParams()   { return p_d3d_params; }
     LPDIRECT3DDEVICE9 &GetDirect3DDevice()  { return p_d3d_device; }
     LPD3DXSPRITE &GetSprite()               { return p_d3d_sprite; }
+    LPD3DXLINE &GetLine()                   { return p_d3d_line; }
     LPD3DXEFFECT &GetD3DEffect()            { return p_d3d_effect; }
 
 private:
@@ -31,7 +32,9 @@ private:
     D3DPRESENT_PARAMETERS   p_d3d_params;
     LPDIRECT3DDEVICE9       p_d3d_device;
     LPD3DXSPRITE            p_d3d_sprite;
+    LPD3DXLINE              p_d3d_line;
     LPD3DXEFFECT            p_d3d_effect;
+
 };
 
 

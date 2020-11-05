@@ -18,7 +18,10 @@ public:
         Component::Start();
         CLogger::Debug("%d Test Start", (int)m_Owner->GetEntityID());
 
-        dynamic_cast<SharkEngine::Core::GameObject *>(m_Owner)->GetComponent<SharkEngine::Core::Transform>();
+        SharkEngine::Core::Transform* tmp = dynamic_cast<SharkEngine::Core::GameObject *>(m_Owner)->GetComponent<SharkEngine::Core::Transform>();
+
+        if(tmp != nullptr)
+            CLogger::Error("tmp");
 
         m_Owner->GetScene()->GetComponent<SharkEngine::Core::Transform>(m_Owner->GetEntityID());
     }

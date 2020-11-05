@@ -27,7 +27,7 @@ namespace SharkEngine::Core {
 
         template<typename T>
         T* GetComponent() {
-            return m_Scene->GetComponent<T>(_id);
+            return m_Scene->GetComponent<T>(GetEntityID());
         }
 
     protected:

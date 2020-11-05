@@ -30,7 +30,9 @@ void DirectXCore::Release() {
 void DirectXCore::BeginRender() {
     p_d3d_device->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_ARGB(0, 0, 0, 0), 1.0f, 0);
     p_d3d_device->BeginScene();
+
     p_d3d_sprite->Begin(D3DXSPRITE_ALPHABLEND);
+
 
     p_d3d_device->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_NONE);
     p_d3d_device->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_NONE);
@@ -38,6 +40,7 @@ void DirectXCore::BeginRender() {
 }
 void DirectXCore::EndRender() {
     p_d3d_sprite->End();
+
     p_d3d_device->EndScene();
     p_d3d_device->Present(NULL, NULL, NULL, NULL);
 }
