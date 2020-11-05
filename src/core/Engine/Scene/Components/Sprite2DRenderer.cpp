@@ -4,19 +4,16 @@
 
 #include "include/Engine/Scene/Components/Sprite2DRenderer.h"
 #include "include/Engine/SharkSystem.hpp"
-#include "include/Engine/SystemManager/DirectXTextureManger.h"
 #include "include/Engine/Scene/Components/Transform.h"
 
 SharkEngine::Core::Sprite2DRenderer::Sprite2DRenderer(const char *path) {
-    texture = SHARK_TEXTURE_MGR->LoadTextureFormFile(path);
-    Initialize();
+    SetTexture(path);
 }
 SharkEngine::Core::Sprite2DRenderer::Sprite2DRenderer(std::string path) {
-    texture = SHARK_TEXTURE_MGR->LoadTextureFormFile(path.c_str());
-    Initialize();
+    SetTexture(path.c_str());
 }
-void SharkEngine::Core::Sprite2DRenderer::Initialize() {
-    //texture = textureManager->LoadTextureFromFile(path);
+void SharkEngine::Core::Sprite2DRenderer::SetTexture(const char * path) {
+    texture = SHARK_TEXTURE_MGR->LoadTextureFormFile(path);
 
     D3DSURFACE_DESC desc;
     (*texture)->GetLevelDesc(0, &desc);

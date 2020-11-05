@@ -17,7 +17,7 @@ namespace SharkEngine::Core {
         Sprite2DRenderer(std::string path);
         ~Sprite2DRenderer(){}
 
-        void Initialize();
+        void SetTexture(const char * path);
 
         void Render() override;
 

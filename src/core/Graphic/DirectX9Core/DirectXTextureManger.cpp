@@ -13,6 +13,7 @@ DirectXTextureManger::~DirectXTextureManger() {
 }
 LPDIRECT3DTEXTURE9 *DirectXTextureManger::LoadTextureFormFile(const char *path) {
     if (textureMap[path] == NULL) {
+        textureMap[path] = new LPDIRECT3DTEXTURE9();
         D3DXCreateTextureFromFileExA(
                 DIRECTX_CORE->GetDirect3DDevice(),
                 path,

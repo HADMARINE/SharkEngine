@@ -4,6 +4,7 @@
 
 #include "../../../include/Engine/Scene/Scene.h"
 #include "include/Engine/Scene/Components/Transform.h"
+#include "include/Engine/Scene/Components/Sprite2DRenderer.h"
 
 SharkEngine::Core::Scene::Scene() {
 }
@@ -16,6 +17,7 @@ void SharkEngine::Core::Scene::Init() {
 
     //Register Component(Transform, RigidBody, 2D Renderer, Collider . . .)
     RegisterComponent<Transform>();
+    RegisterComponent<Sprite2DRenderer>();
 }
 void SharkEngine::Core::Scene::Start() {
     m_ComponentManager->Start();
