@@ -39,7 +39,7 @@ namespace SharkEngine {
         glm::mat4 getModel() { return model; };
         float getFieldOfView() { return fieldOfView; };
 
-        Camera(glm::vec3 eye, glm::vec3 center, glm::vec3 upVector, glm::mat4 model, float fieldOfView) : camProp(eye, center, upVector, model, fieldOfView){
+        Camera(glm::vec3 eye, glm::vec3 center, glm::vec3 upVector, glm::mat4 model, float fieldOfView) : camProp(eye, center, upVector, model, fieldOfView) {
             this->eye = eye;
             this->center = center;
             this->upVector = upVector;

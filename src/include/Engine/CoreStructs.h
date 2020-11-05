@@ -4,6 +4,7 @@
 
 #pragma once
 
+#include "Scene/Entity/Entity.h"
 #include <vector>
 #include <glm/glm.hpp>
 
@@ -12,11 +13,9 @@
 //#include <glm/gtx/transform.hpp>
 
 /*************** Collision **************/
-namespace SharkEngine::Core{
-    class Entity;
-
+namespace SharkEngine::Core {
     struct Collision {
         Entity *entity;
-        std::vector<glm::vec3> contacts;   //Contact points
+        std::vector<glm::vec3> contacts;//Contact points
     };
-}
+}// namespace SharkEngine::Core

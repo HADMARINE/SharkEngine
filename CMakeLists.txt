@@ -6,6 +6,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
 set(ROOTSRC ${CMAKE_CURRENT_SOURCE_DIR}/src)
+
 add_executable(
         main
         src/main.cpp
@@ -48,6 +49,15 @@ add_executable(
         src/InGame/Scripts/TestComponent.cpp
         src/InGame/Scripts/TestComponent.h
         src/include/Graphic/VulkanDrawable.h src/core/Graphic/VulkanDrawableManager.cpp src/include/Graphic/VulkanDrawableManager.h src/include/Graphic/VulkanGraphicsCore.cpp src/include/Graphic/VulkanTextureManager.cpp src/include/Graphic/VulkanTextureManager.h src/core/Graphic/DirectX9Core/DirectXCore.cpp src/include/Graphic/DirectX9Core/DirectXCore.h src/core/Graphic/DirectX9Core/WindowsApplication.cpp src/include/Graphic/DirectX9Core/WindowsApplication.h src/core/Engine/Scene/Components/Sprite2DRenderer.cpp src/include/Engine/Scene/Components/Sprite2DRenderer.h src/core/Graphic/DirectX9Core/DirectXTextureManger.cpp src/include/Engine/SystemManager/DirectXTextureManger.h src/include/Engine/Scene/GameObject/GameObject.cpp src/include/Engine/Scene/GameObject/GameObject.h src/core/Engine/Scene/Components/SpriteAnimation.cpp src/include/Engine/Scene/Components/SpriteAnimation.h src/core/Engine/SystemManager/InputManager.cpp)
+        src/core/Engine/Scene/Components/Transform.cpp
+        src/include/Engine/Scene/Components/Transform.h
+        src/InGame/GameObjects/TestObject.cpp
+        src/InGame/GameObjects/TestObject.h
+        src/InGame/Scripts/TestComponent.cpp
+        src/InGame/Scripts/TestComponent.h
+        src/include/Engine/Physics/Physics2D.hpp
+        src/include/Engine/Physics/RigidBody2D.hpp
+)
 
 target_include_directories(main PRIVATE src)
 
