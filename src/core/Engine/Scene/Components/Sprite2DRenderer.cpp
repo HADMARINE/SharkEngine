@@ -29,6 +29,6 @@ void SharkEngine::Core::Sprite2DRenderer::SetTexture(const char * path) {
 void SharkEngine::Core::Sprite2DRenderer::Render() {
     Component::Render();
     Transform* transform = m_Owner->GetScene()->GetComponent<SharkEngine::Core::Transform>(m_Owner->GetEntityID());
-    SHARK_DIRECT3D->GetSprite()->SetTransform((const D3DXMATRIX *) transform->GetMatrix());
+    SHARK_DIRECT3D->GetSprite()->SetTransform(&transform->GetMatrix());
     SHARK_DIRECT3D->GetSprite()->Draw(*texture, &visibleRect, NULL, NULL, color);
 }

@@ -54,7 +54,16 @@ public:
     };
 
     void Start()        { sceneMgr->Start(); }
-    void Update()       { timeMgr->Update(); inputMgr->Update(); sceneMgr->Update(); }
+    bool Update()       {
+        if(SHARK_WINDOWS->CheckMessage().message == WM_QUIT)
+            return false;
+
+        timeMgr->Update();
+        inputMgr->Update();
+        sceneMgr->Update();
+
+        return true;
+    }
     void LateUpdate()   { sceneMgr->LateUpdate(); }
     void Render()       {
         SHARK_DIRECT3D->BeginRender();

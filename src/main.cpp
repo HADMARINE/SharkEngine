@@ -55,7 +55,9 @@ int main() {
 
         SHARK_ENGINE->Start();
         //appObj->Update();
-        SHARK_ENGINE->Update();
+        if(!SHARK_ENGINE->Update())
+            break;
+
         SHARK_ENGINE->LateUpdate();
         SHARK_ENGINE->Render();
 
@@ -64,8 +66,6 @@ int main() {
         //isWindowOpen = VULKAN_CORE->Render();
 
         SHARK_ENGINE->EndScene();
-
-
     }
 
     //VULKAN_DRAW_MANAGER->ReleaseAll();
