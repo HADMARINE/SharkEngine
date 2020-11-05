@@ -18,7 +18,7 @@ namespace SharkEngine::Core::Physics {
     };
 
     template<class CTA>
-    void setMinMax(RigidBody2D<AABB, CTA> rigid, XYMinMax xymm) {
+    void setMinMax(RigidBody2D<AABB, CTA> rigid, XYMinMax& xymm) {
         xymm.max.x = rigid.object.pos.x + rigid.object.scale.x;
         xymm.max.y = rigid.object.pos.y + rigid.object.scale.y;
         xymm.min.x = rigid.object.pos.x - rigid.object.scale.x;

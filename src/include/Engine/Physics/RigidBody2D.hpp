@@ -47,8 +47,6 @@ namespace SharkEngine::Core::Physics {
             Component aComp = ownerA->GetCurrentScene()->template GetComponent<CTA>(ownerA->GetEntityID());
             Component bComp = ownerB->GetCurrentScene()->template GetComponent<CTB>(ownerB->GetEntityID());
 
-            Collision aCol;
-            Collision bCol;
 
             if (!a.isTrigger) {
                 if (!b.isTrigger) {
@@ -62,26 +60,26 @@ namespace SharkEngine::Core::Physics {
 
             if (result) {
                 if (!a.isCollided) {
-                    aComp.OnCollisionEnter(&aCol);
+                    aComp.OnCollisionEnter();
                 } else {
-                    aComp.OnCollisionStay(&aCol);
+                    aComp.OnCollisionStay();
                 }
 
                 if (!b.isCollided) {
-                    bComp.OnCollisionEnter(&bCol);
+                    bComp.OnCollisionEnter();
                 } else {
-                    bComp.OnCollisionStay(&bCol);
+                    bComp.OnCollisionStay();
                 }
 
                 a->isCollided = true;
                 b->isCollided = true;
             } else {
                 if (a.isCollided) {
-                    aComp.OnCollisionExit(&aCol);
+                    aComp.OnCollisionExit();
                 }
 
                 if (b.isCollided) {
-                    bComp.OnCollisionExit(&bCol);
+                    bComp.OnCollisionExit();
                 }
 
                 a->isCollided = false;

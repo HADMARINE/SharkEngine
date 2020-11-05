@@ -5,14 +5,14 @@
 #ifndef SHARKENGINE_TRANSFORM_H
 #define SHARKENGINE_TRANSFORM_H
 
-#include "../../../../stdafx.hpp"
-#include "../../CoreDefine.h"
-#include "../../CoreTypes.h"
+#include "stdafx.hpp"
+#include "include/Engine/CoreDefine.h"
+#include "include/Engine/CoreTypes.h"
 #include "Base/Component.h"
 #include <d3dx9.h>
 
 namespace SharkEngine::Core {
-    class Transform : public SharkEngine::Core::Component {
+    class Transform : public Component {
     public:
         Transform() :
                 localPos(0, 0),
@@ -21,7 +21,7 @@ namespace SharkEngine::Core {
                 scale(1, 1),
                 rotationCenter(0, 0),
                 rotation(0),
-                parent(nullptr) {}
+                parent(nullptr) {};
 
         ~Transform() {};
 
