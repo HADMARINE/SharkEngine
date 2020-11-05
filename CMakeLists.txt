@@ -75,7 +75,7 @@ add_executable(
     src/InGame/Scripts/TestComponent.h
     src/include/Engine/Physics/Physics2D.hpp
     src/include/Engine/Physics/RigidBody2D.hpp
-)
+    src/include/Engine/Scene/Components/BoxCollider.hpp)
 
 target_include_directories(main PRIVATE src)
 
