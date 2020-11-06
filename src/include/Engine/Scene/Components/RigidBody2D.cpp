@@ -21,4 +21,12 @@ namespace SharkEngine::Core {
 
         GetOwner()->transform->Translate(Vec2(deltaTime * GetVelocity().x, deltaTime * GetVelocity().y));
     }
+
+    float RigidBody2D::GetGravity() {
+        if(GetOwner()->GetComponent<BoxCollider>()->GetIsCollided()) {
+            return 0.0f;
+        }
+
+        return this->gravity;
+    }
 }

@@ -48,7 +48,7 @@ int main() {
     //VULKAN_DRAW_MANAGER->AddVulkanDrawable(tmp);
     //VULKAN_DRAW_MANAGER->AddVulkanDrawable(tmp_2);
 
-    SHARK_ENGINE->GetSceneManager()->ChangeScene(new StartScene());
+    SHARK_ENGINE->GetSceneManager()->ChangeScene(new TestScene());
 
     bool isWindowOpen = true;
     while (isWindowOpen) {

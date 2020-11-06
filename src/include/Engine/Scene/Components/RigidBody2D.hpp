@@ -29,9 +29,7 @@ namespace SharkEngine::Core {
             return this->restitution;
         }
 
-        float GetGravity() {
-            return this->gravity;
-        }
+        float GetGravity();
 
         void SetVelocity(Vec2 v) {
             this->velocity = v;

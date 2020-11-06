@@ -19,7 +19,7 @@ void FloorObject::Init() {
     Sprite2DRenderer* tmp = AddComponent<Sprite2DRenderer>();
     tmp->SetTexture("source/viking_room.png");
     RigidBody2D* rigidBody = AddComponent<RigidBody2D>();
-    transform->SetLocalPos(Vec2(100, 300));
+    transform->SetLocalPos(Vec2(100, 2000));
     rigidBody->SetGravity(0.0f);
     BoxCollider* boxCollider = AddComponent<BoxCollider>();
     boxCollider->SetLeftTopPos(transform->GetLocalPos());

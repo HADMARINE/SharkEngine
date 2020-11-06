@@ -31,5 +31,5 @@ void TestObject::Init() {
     RigidBody2D* rigidBody = AddComponent<RigidBody2D>();
     BoxCollider* boxCollider = AddComponent<BoxCollider>();
     boxCollider->SetLeftTopPos(transform->GetLocalPos());
-    boxCollider->SetRightBottomPos(transform->GetLocalPos() + Vec2(1024, 1024) * transform->GetScale().x);
+    boxCollider->SetRightBottomPos(transform->GetLocalPos() + Vec2(1024, 1024));
 };

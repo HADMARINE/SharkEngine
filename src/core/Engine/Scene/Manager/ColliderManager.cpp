@@ -128,8 +128,12 @@ namespace SharkEngine::Core {
 
         // Apply impulse
         Vec2 impulse = j * normal;
-        A->AddVelocity(- (1 / A->GetMass() * impulse));
-//        B->AddVelocity((1 / A->GetMass() * impulse));
+//        A->SetVelocity(- (1 / A->GetMass() * impulse));
+//        B->SetVelocity((1 / B->GetMass() * impulse));
+        auto aVel = A->GetVelocity();
+        auto bVel = B->GetVelocity();
+        A->SetVelocity(Vec2(aVel.x,0));
+        B->SetVelocity(Vec2(bVel.x,0));
     }
 
     bool EvalAABB(BoxCollider *A, BoxCollider *B) {
@@ -193,7 +197,7 @@ namespace SharkEngine::Core {
             }
 
             if (isCollided) {
-                if (!valA->GetIsTrigger() || !valB->GetIsTrigger()) {
+                if (!valA->GetIsTrigger() && !valB->GetIsTrigger()) {
                     evalCollision(valA, valB);
                     if (!valA->GetIsCollided()) {
                         valA->OnCollisionEnter();
@@ -223,7 +227,7 @@ namespace SharkEngine::Core {
                 valA->SetIsCollided(true);
                 valB->SetIsCollided(true);
             } else {
-                if (!valA->GetIsTrigger() || !valB->GetIsTrigger()) {
+                if (!valA->GetIsTrigger() && !valB->GetIsTrigger()) {
                     if (valA->GetIsCollided()) {
                         valA->OnCollisionExit();
                     }

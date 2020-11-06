@@ -8,7 +8,7 @@ void TestComponent::Update() {
     Component::Update();
     CLogger::Debug("%d Test Update", (int) m_Owner->GetEntityID());
 
-    GetOwner()->transform->SetScale(Vec2(0.2, 0.2));//Translate(Vec2(20.0f, 20.0f) * SHARK_TIME_MGR->GetDeltaTime());
+    //GetOwner()->transform->SetScale(Vec2(0.2, 0.2));//Translate(Vec2(20.0f, 20.0f) * SHARK_TIME_MGR->GetDeltaTime());
 
     SHARK_LINE_MGR->DrawBox(GetOwner()->GetComponent<SharkEngine::Core::Transform>()->GetWorldPos(),
                             GetOwner()->GetComponent<SharkEngine::Core::Transform>()->GetWorldPos() +
