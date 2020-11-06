@@ -13,6 +13,7 @@ namespace SharkEngine::Core {
 
     void ColliderManager::MountCollider(BoxCollider *colA,
                                         BoxCollider *colB) {
+        CLogger::Info("MOUNT COLLIDER");
         unordered_set<BoxCollider *> colliderSet;
         colliderSet.insert(colA);
         colliderSet.insert(colB);
