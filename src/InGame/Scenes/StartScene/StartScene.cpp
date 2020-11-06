@@ -11,6 +11,8 @@
 #include "include/Engine/SharkSystem.hpp"
 #include "InGame/Scenes/Test/TestScene.h"
 #include "include/Engine/Audio/SharkAudio.hpp"
+
+
 using namespace SharkEngine::Core;
 
 StartScene::StartScene() {
@@ -21,9 +23,8 @@ void StartScene::Init() {
     Scene::Init();
     Audio::Init();
 
-    Audio audio{};
     Audio::SourcePreferences sf{};
-    audio.load("source/main.wav", sf);
+    Audio audio("main.wav", sf);
     audio.play();
 
 
@@ -49,7 +50,7 @@ void StartScene::Init() {
     //ButtonObj* btn_help = new ButtonObj(); btn_help->Init();
 
     btn_start->GetComponent<Button>()->SetTextureImage("source/UI/Button/GameStart.png");
-    btn_start->GetComponent<Button>()->SetOnClick([=]{
+    btn_start->GetComponent<Button>()->SetOnClick([&](){
         CLogger::Info("StartScene");
         audio.stop();
         SHARK_SCENE_MGR->ChangeScene(new TestScene());

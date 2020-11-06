@@ -11,8 +11,6 @@
 #include <cstdio>
 #include <glm/glm.hpp>
 #include <thread>
-#include <unistd.h>
-
 
 
 namespace SharkEngine::Core {
@@ -189,19 +187,18 @@ namespace SharkEngine::Core {
 
             alGenBuffers(1, &audStruct.buffer);
             checkAudioErrorVoid("Buffer generation");
-
+#if defined(WIN32) || defined(WIN64)
+            alutLoadWAVFile((ALbyte *) ("../src/source/audio/" + std::string(filename)).c_str(), &format, &data, &size, &freq, &loop);
+#elif
             alutLoadWAVFile((ALbyte *) ("../src/source/audio/" + std::string(filename)).c_str(), &format, &data, &size, &freq);
+#endif
             checkAudioErrorVoid("Load wav file");
 
             alBufferData(audStruct.buffer, format, data, size, freq);
             checkAudioErrorVoid("Buffer copy");
 
-#if defined(_WIN32) || defined(_WIN64)
-            alutLoadWAVFile((ALbyte *) filename, &format, &data, &size, &freq, &loop);
-#elif
-            alutLoadWAVFile((ALbyte *) filename, &format, &data, &size, &freq);
-#endif
-            checkAudioError("Load wav file");
+            alSourcei(audStruct.source, AL_BUFFER, audStruct.buffer);
+            checkAudioErrorVoid("Buffer binding");
 
             sources.push_back(audStruct);
 
