@@ -10,6 +10,7 @@
 #include "include/Engine/Scene/Components/CameraComponent.h"
 #include "include/Engine/SharkSystem.hpp"
 #include "InGame/Scenes/Test/TestScene.h"
+#include "InGame/Scenes/GameScene/GameScene.h"
 using namespace SharkEngine::Core;
 
 StartScene::StartScene() {
@@ -43,7 +44,7 @@ void StartScene::Init() {
     btn_start->GetComponent<Button>()->SetTextureImage("source/UI/Button/GameStart.png");
     btn_start->GetComponent<Button>()->SetOnClick([=]{
         CLogger::Info("StartScene");
-        SHARK_SCENE_MGR->ChangeScene(new TestScene());
+        SHARK_SCENE_MGR->ChangeScene(new GameScene());
     });
     btn_start->GetComponent<Transform>()->SetLocalPos(
             Vec2(1280, 720) / 2.0f -

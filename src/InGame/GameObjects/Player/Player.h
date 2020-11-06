@@ -5,8 +5,17 @@
 #ifndef SHARKENGINE_PLAYER_H
 #define SHARKENGINE_PLAYER_H
 
+#include "include/Engine/Scene/GameObject/GameObject.h"
+#include "InGame/Scripts/Player/PlayerMovement.h"
 
-class Player {
+class Player : public SharkEngine::Core::GameObject {
+public:
+    Player() : GameObject(){};
+    ~Player(){};
+
+    void Init() override;
+
+    PlayerMovement* playerMovement;
 };
 
 

@@ -16,19 +16,21 @@
 
 class PlayerMovement : public SharkEngine::Core::Component {
 public:
-    PlayerMovement(){};
+    PlayerMovement() : isMove(false), moveSpeed(200.0f) {};
     ~PlayerMovement();
 
     void Start() override;
     void Update() override;
     void LateUpdate() override;
+    void Render() override;
 
 public:
     float moveSpeed;
+    bool isMove;
 
     SharkEngine::Core::SpriteAnimation* currentFrame;
     SharkEngine::Core::SpriteAnimation* Idle;
     SharkEngine::Core::SpriteAnimation* Move;
-}
+};
 
 #endif//SHARKENGINE_PLAYERMOVEMENT_H

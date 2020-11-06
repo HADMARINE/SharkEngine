@@ -1,19 +1,18 @@
 //
-// Created by joonl on 2020-11-06.
+// Created by EunwooSong on 2020-11-06.
 //
+#include <include/Engine/Scene/Components/BoxCollider.hpp>
+#include <include/Engine/Scene/Components/Transform.h>
 
-#include "include/Engine/Scene/Components/BoxCollider.hpp"
+Vec2 SharkEngine::Core::BoxCollider::GetLeftTopPos(){
+    Transform *transform = GetOwner()->GetComponent<Transform>();
+    return transform->GetWorldPos();
+}
+Vec2 SharkEngine::Core::BoxCollider::GetRightBottomPos() {
+    Transform *transform = GetOwner()->GetComponent<Transform>();
+    return this->relativeRightBottomPos - this->relativeLeftTopPos + transform->GetWorldPos();
+}
 
-//void SharkEngine::Core::BoxCollider::Update() {
-//    // TODO : MOUNT ALL COLLIDERS
-//    auto colliderArray = GetOwner()->GetScene()->GetComponentArray<BoxCollider>();
-//
-//    CLogger::Info("[BoxCollider] : colliderArray length : %d", colliderArray->size());
-//
-//    for(auto iter : *colliderArray) {
-//        if(iter == this) {
-//            continue;
-//        }
-////        GetOwner()->GetScene()->RegisterCollider(iter, this);
-//    }
-//}
+void SharkEngine::Core::BoxCollider::Update() {
+    Component::Update();
+}

@@ -2,7 +2,7 @@
 // Created by HADMARINE on 2020-11-06.
 //
 
-#include <include/Engine/Scene/Components/BoxCollider.hpp>
+#include "include/Engine/Scene/Components/BoxCollider.hpp"
 #include "include/Engine/Scene/Manager/ColliderManager.hpp"
 #include "include/Engine/Scene/Components/Base/Component.h"
 #include "include/Engine/Scene/Components/RigidBody2D.hpp"
@@ -15,7 +15,7 @@ namespace SharkEngine::Core {
                                         BoxCollider *colB) {
         if (!colA || !colB) return;
 
-        CLogger::Info("MOUNT COLLIDER");
+        //CLogger::Info("MOUNT COLLIDER");
         unordered_set<BoxCollider *> colliderSet;
         colliderSet.insert(colA);
         colliderSet.insert(colB);

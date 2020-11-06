@@ -16,5 +16,4 @@ void TestUIObject::Init() {
     AddComponent<Button>()->SetTextureImage("source/GameStart.png");
 
     transform->SetLocalPos(Vec2(1280, 720) / 2.0f);
-
 }

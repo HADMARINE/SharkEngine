@@ -119,7 +119,7 @@ add_executable(
         src/core/Engine/Scene/Components/BoxCollider.cpp
         src/core/Engine/Scene/Components/Button.cpp
         src/include/Engine/Scene/Components/Button.h
-        src/InGame/Scenes/GameScene/GameScene.cpp src/InGame/Scenes/GameScene/GameScene.h src/InGame/Scripts/Player/PlayerMovement.cpp src/InGame/Scripts/Player/PlayerMovement.h)
+        src/InGame/Scenes/GameScene/GameScene.cpp src/InGame/Scenes/GameScene/GameScene.h src/InGame/Scripts/Player/PlayerMovement.cpp src/InGame/Scripts/Player/PlayerMovement.h src/InGame/GameObjects/Player/Player.cpp src/InGame/GameObjects/Player/Player.h)
 
 target_include_directories(main PRIVATE src)
 

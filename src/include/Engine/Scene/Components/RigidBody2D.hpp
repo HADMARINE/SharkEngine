@@ -9,7 +9,6 @@
 #include "Base/Component.h"
 #include "include/Engine/Scene/GameObject/GameObject.h"
 
-
 namespace SharkEngine::Core {
     class RigidBody2D : public Component {
     public:
