@@ -3,6 +3,8 @@
 //
 
 #include "GameObject.h"
+#include "include/Engine/Scene/Components/Transform.h"
+
 using namespace SharkEngine::Core;
 
 void GameObject::Init() {

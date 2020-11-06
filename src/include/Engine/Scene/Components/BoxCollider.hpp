@@ -14,15 +14,9 @@ namespace SharkEngine::Core {
     public:
         BoxCollider() = default;
 
-        Vec2 GetLeftTopPos() {
-            Transform *transform = GetOwner()->GetComponent<Transform>();
-            return this->relativeLeftTopPos + transform->GetWorldPos();
-        }
+        Vec2 GetLeftTopPos();
 
-        Vec2 GetRightBottomPos() {
-            Transform *transform = GetOwner()->GetComponent<Transform>();
-            return this->relativeRightBottomPos + transform->GetWorldPos();
-        }
+        Vec2 GetRightBottomPos();
 
         float GetRotation() const {
             return this->rotation;

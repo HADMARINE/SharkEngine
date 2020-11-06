@@ -7,7 +7,6 @@
 
 #include "../Entity/Entity.h"
 #include "../Scene.h"
-#include "../Components/Transform.h"
 
 namespace SharkEngine::Core {
     class GameObject :

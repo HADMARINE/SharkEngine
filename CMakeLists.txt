@@ -96,7 +96,14 @@ add_executable(
         src/core/Engine/SystemManager/InputManager.cpp
         src/core/Engine/SystemManager/LineDebuggerManager.cpp
         src/include/Engine/SystemManager/LineDebuggerManager.h
-    src/core/Engine/SystemManager/ColliderManager.cpp src/include/Engine/Scene/Manager/ColliderManager.hpp src/include/Engine/Scene/Components/RigidBody2D.cpp src/include/Engine/Scene/Components/RigidBody2D.hpp)
+        src/core/Engine/SystemManager/ColliderManager.cpp
+        src/include/Engine/Scene/Manager/ColliderManager.hpp
+        src/include/Engine/Scene/Components/RigidBody2D.cpp
+        src/include/Engine/Scene/Components/RigidBody2D.hpp
+        src/include/Engine/Scene/Components/CameraComponent.h
+        src/core/Engine/Scene/Components/CameraComponent.cpp
+        src/include/Engine/Scene/Components/BoxCollider.hpp
+        src/core/Engine/Scene/Components/BoxCollider.cpp)
 
 target_include_directories(main PRIVATE src)
 
