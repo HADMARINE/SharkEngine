@@ -7,8 +7,6 @@
 
 void SharkEngine::Core::SpriteAnimation::Start() {
     Component::Start();
-
-
 }
 void SharkEngine::Core::SpriteAnimation::Update() {
     Component::Update();

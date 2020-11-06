@@ -69,6 +69,8 @@ namespace SharkEngine::Core {
 
         void PopChild(Transform *iter);
 
+        void MulMatrix(D3DXMATRIX mat) { this->mat *= mat; }
+
     private:
         //Position, Direction, Angles, Quaternion, scale, matrix
         Vec2 localPos;

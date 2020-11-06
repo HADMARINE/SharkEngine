@@ -22,6 +22,14 @@ void SceneManager::Render() {
 }
 void SceneManager::EndScene() {
     if(currentScene) currentScene->EndScene();
+
+    if(nextScene) {
+        SAFE_DELETE(currentScene);
+        currentScene = nextScene;
+        nextScene = nullptr;
+
+        currentScene->Init();
+    }
 }
 Scene *SceneManager::GetCurrentScene() {
     return currentScene;

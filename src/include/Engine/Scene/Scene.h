@@ -91,7 +91,7 @@ namespace SharkEngine::Core {
         }
 
         template <typename T>
-        std::array<Component*, MAX_COMPONENTS>* GetComponentArray(){
+        std::array<T*, MAX_COMPONENTS>* GetComponentArray(){
             return m_ComponentManager->GetComponentArray<T>().GetComponentArray();
         }
 

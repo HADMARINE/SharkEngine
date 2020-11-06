@@ -19,6 +19,7 @@
 
 #define SHARK_TIME_MGR      SHARK_ENGINE->SharkSystem::GetTimeManager()
 #define SHARK_SCENE_MGR     SHARK_ENGINE->SharkSystem::GetSceneManager()
+#define SHARK_INPUT_MGR     SHARK_ENGINE->SharkSystem::GetInputManager()
 #define SHARK_TEXTURE_MGR   SHARK_ENGINE->SharkSystem::GetTextureManager()
 #define SHARK_LINE_MGR      SHARK_ENGINE->SharkSystem::GetLineDebuggerManager()
 
@@ -96,14 +97,11 @@ public:
 
     bool IsClosed() const { return SHARK_WINDOWS->CheckMessage().message == WM_QUIT; }
 
-    SharkEngine::Core::SceneManager *GetSceneManager() { return sceneMgr; };
-
-    SharkEngine::Core::TimeManager *GetTimeManager() { return timeMgr; };
-
-    SharkEngine::Core::DirectXTextureManger *GetTextureManager() { return textureMgr; };
-
-    SharkEngine::Core::LineDebuggerManager *GetLineDebuggerManager() { return lineMgr; }
-
+    SharkEngine::Core::SceneManager* GetSceneManager() {return sceneMgr;};
+    SharkEngine::Core::TimeManager* GetTimeManager() {return timeMgr;};
+    SharkEngine::Core::InputManager* GetInputManager() {return inputMgr;};
+    SharkEngine::Core::DirectXTextureManger* GetTextureManager() {return textureMgr;};
+    SharkEngine::Core::LineDebuggerManager* GetLineDebuggerManager() {return lineMgr;}
 public:
     SharkEngine::Core::SceneManager *sceneMgr;
     SharkEngine::Core::TimeManager *timeMgr;
