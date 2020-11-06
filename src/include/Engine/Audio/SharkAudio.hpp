@@ -14,7 +14,8 @@
 #include <unistd.h>
 
 
-namespace SharkEngine {
+
+namespace SharkEngine::Core {
     class Audio {
     private:
 #define checkAudioError(_msg)                             \
@@ -90,7 +91,7 @@ namespace SharkEngine {
             return listenerPref;
         }
 
-        static int initialize() {
+        static int Init() {
             ALboolean enumeration;
             const ALCchar *defaultDeviceName;
 
@@ -195,8 +196,12 @@ namespace SharkEngine {
             alBufferData(audStruct.buffer, format, data, size, freq);
             checkAudioErrorVoid("Buffer copy");
 
-            alSourcei(audStruct.source, AL_BUFFER, audStruct.buffer);
-            checkAudioErrorVoid("Buffer binding");
+#if defined(_WIN32) || defined(_WIN64)
+            alutLoadWAVFile((ALbyte *) filename, &format, &data, &size, &freq, &loop);
+#elif
+            alutLoadWAVFile((ALbyte *) filename, &format, &data, &size, &freq);
+#endif
+            checkAudioError("Load wav file");
 
             sources.push_back(audStruct);
 
