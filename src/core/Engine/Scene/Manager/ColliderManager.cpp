@@ -13,7 +13,7 @@ namespace SharkEngine::Core {
 
     void ColliderManager::MountCollider(BoxCollider *colA,
                                         BoxCollider *colB) {
-        if(!colA || !colB) return;
+        if (!colA || !colB) return;
 
         CLogger::Info("MOUNT COLLIDER");
         unordered_set<BoxCollider *> colliderSet;
@@ -88,11 +88,17 @@ namespace SharkEngine::Core {
             xy max;
         };
 
-        void setMinMax(BoxCollider *collider, XYMinMax &xymm) {
-            xymm.max.x = collider->GetLeftTopPos().x;
-            xymm.max.y = collider->GetLeftTopPos().y;
-            xymm.min.x = collider->GetRightBottomPos().x;
-            xymm.min.y = collider->GetRightBottomPos().y;
+        XYMinMax setMinMax(BoxCollider *collider) {
+            XYMinMax xymm;
+
+            xymm.min.x = collider->GetLeftTopPos().x;
+            xymm.min.y = collider->GetLeftTopPos().y;
+            xymm.max.x = collider->GetRightBottomPos().x;
+            xymm.max.y = collider->GetRightBottomPos().y;
+
+            std::cout << xymm.max.y << std::endl;
+
+            return xymm;
         }
     }
 
@@ -122,6 +128,8 @@ namespace SharkEngine::Core {
 
         // Apply impulse
         Vec2 impulse = j * normal;
+        A->AddVelocity(- (1 / A->GetMass() * impulse));
+//        B->AddVelocity((1 / A->GetMass() * impulse));
     }
 
     bool EvalAABB(BoxCollider *A, BoxCollider *B) {
@@ -129,8 +137,13 @@ namespace SharkEngine::Core {
 
         XYMinMax a{}, b{};
 
-        setMinMax(A, a);
-        setMinMax(B, b);
+        a = setMinMax(A);
+        b = setMinMax(B);
+
+        std::cout << a.max.x << " " << a.min.x << std::endl;
+        std::cout << a.max.y << " " << a.min.y << std::endl;
+        std::cout << b.max.x << " " << b.min.x << std::endl;
+        std::cout << b.max.y << " " << b.min.y << std::endl;
 
         if (a.max.x < b.min.x || a.min.x > b.max.x) return false;
         if (a.max.y < b.min.y || a.min.y > b.max.y) return false;
@@ -190,7 +203,9 @@ namespace SharkEngine::Core {
 
                     if (!valB->GetIsCollided()) {
                         valB->OnCollisionEnter();
-                    } else {\
+                    } else {
+                        valB->OnCollisionStay();
+
                     }
                 } else {
                     if (!valA->GetIsCollided()) {
@@ -228,31 +243,31 @@ namespace SharkEngine::Core {
                 valA->SetIsCollided(false);
                 valB->SetIsCollided(false);
             }
+//            CLogger::Debug("[ColliderManager] Collider started : status : %s",  );
+            std::cout << (isCollided ? "true" : "false") << std::endl;
 
         }
+
     }
 
     void ColliderManager::Update() {
         auto colliderArray = SHARK_SCENE_MGR->GetCurrentScene()->GetComponentArray<BoxCollider>();
-        CLogger::Info("[BoxCollider] : colliderArray length : %d", colliderArray.size());
-
-        if(colliderArray.size() == 0) {
+        if (colliderArray.size() == 0) {
             return;
         }
 
+        this->colliderQueue.clear();
+        this->colliderQueue.resize(0);
+
         for (auto iter : colliderArray) {
             for (auto _iter : colliderArray) {
-                if(iter == _iter) {
+                if (iter == _iter) {
                     continue;
                 }
                 this->MountCollider(iter, _iter);
             }
         }
     }
-
-//    void ColliderManager::TestObject() {
-//        auto component = SHARK_SCENE_MGR->GetCurrentScene()->GetComponentArray<Component>();
-//    }
 }
 
 

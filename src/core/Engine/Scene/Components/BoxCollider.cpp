@@ -6,9 +6,13 @@
 
 Vec2 SharkEngine::Core::BoxCollider::GetLeftTopPos(){
     Transform *transform = GetOwner()->GetComponent<Transform>();
-    return this->relativeLeftTopPos + transform->GetWorldPos();
+    return transform->GetWorldPos();
 }
 Vec2 SharkEngine::Core::BoxCollider::GetRightBottomPos() {
     Transform *transform = GetOwner()->GetComponent<Transform>();
-    return this->relativeRightBottomPos + transform->GetWorldPos();
+    return this->relativeRightBottomPos - this->relativeLeftTopPos + transform->GetWorldPos();
+}
+
+void SharkEngine::Core::BoxCollider::Update() {
+    Component::Update();
 }
