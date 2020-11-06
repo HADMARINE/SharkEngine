@@ -6,6 +6,7 @@
 #include "../Scripts/TestComponent.h"
 #include "../../include/Engine/Scene/Scene.h"
 #include "include/Engine/Scene/Components/Sprite2DRenderer.h"
+#include "include/Engine/Scene/Components/RigidBody2D.hpp"
 #include "../../CLogger.hpp"
 using namespace SharkEngine::Core;
 
@@ -19,4 +20,6 @@ void TestObject::Init() {
 
     Sprite2DRenderer* tmp = AddComponent<Sprite2DRenderer>();
     tmp->SetTexture("source/viking_room.png");
+//    BoxCollider* boxCollider = AddComponent<BoxCollider>();
+    RigidBody2D* rigidBody = AddComponent<RigidBody2D>();
 };

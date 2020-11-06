@@ -9,7 +9,7 @@
 
 namespace SharkEngine::Core {
     void SharkEngine::Core::RigidBody2D::LateUpdate() {
-        auto *collider = GetOwner()->GetComponent<BoxCollider>();
+//        auto *collider = GetOwner()->GetComponent<BoxCollider>();
 
         auto deltaTime = SHARK_ENGINE->GetTimeManager()->GetDeltaTime();
 
@@ -18,11 +18,7 @@ namespace SharkEngine::Core {
         vel.y += deltaTime * GetGravity();
 
         AddVelocity(vel);
-
-        Transform *transform = GetOwner()->GetComponent<Transform>();
-        auto localPos = transform->GetLocalPos();
-        localPos.x = localPos.x + deltaTime * GetVelocity().x;
-        localPos.y = localPos.y + deltaTime * GetVelocity().y;
-        transform->SetLocalPos(localPos);
+        
+        GetOwner()->transform->Translate(Vec2(deltaTime * GetVelocity().x, deltaTime * GetVelocity().y));
     }
 }

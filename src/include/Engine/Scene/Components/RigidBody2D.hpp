@@ -57,7 +57,7 @@ namespace SharkEngine::Core {
         Vec2 velocity;
         float mass;
         float restitution;
-        float gravity;
+        float gravity = 9.8f;
     };
 };
 

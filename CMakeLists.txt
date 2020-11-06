@@ -73,8 +73,6 @@ add_executable(
     src/InGame/GameObjects/TestObject.h
     src/InGame/Scripts/TestComponent.cpp
     src/InGame/Scripts/TestComponent.h
-    src/include/Engine/Physics/Physics2D.hpp
-    src/include/Engine/Physics/RigidBody2D.hpp
     src/include/Graphic/VulkanDrawable.h
     src/core/Graphic/VulkanDrawableManager.cpp
     src/include/Graphic/VulkanDrawableManager.h
@@ -96,7 +94,7 @@ add_executable(
     src/core/Engine/SystemManager/InputManager.cpp
     src/core/Engine/SystemManager/LineDebuggerManager.cpp
     src/include/Engine/SystemManager/LineDebuggerManager.h
-    src/core/Engine/SystemManager/ColliderManager.cpp
+    src/core/Engine/Scene/Manager/ColliderManager.cpp
     src/include/Engine/Scene/Manager/ColliderManager.hpp
     src/include/Engine/Scene/Components/RigidBody2D.cpp
     src/include/Engine/Scene/Components/RigidBody2D.hpp
@@ -104,7 +102,7 @@ add_executable(
     src/core/Engine/Scene/Components/CameraComponent.cpp
     src/include/Engine/Scene/Components/BoxCollider.hpp
     src/core/Engine/Scene/Components/BoxCollider.cpp
-    src/core/Engine/SystemManager/ColliderManager.cpp
+    src/core/Engine/Scene/Manager/ColliderManager.cpp
     src/include/Engine/Scene/Manager/ColliderManager.hpp
     src/include/Engine/Scene/Components/RigidBody2D.cpp
     src/include/Engine/Scene/Components/RigidBody2D.hpp
