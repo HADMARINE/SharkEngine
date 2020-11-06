@@ -15,7 +15,7 @@ namespace SharkEngine::Core {
     public:
         RigidBody2D() = default;
 
-        void eval();
+        void LateUpdate() override;
 
         Vec2 GetVelocity() {
             return this->velocity;

@@ -9,12 +9,13 @@
 #include <vector>
 #include <unordered_set>
 
-namespace SharkEngine::Core::Physics {
+namespace SharkEngine::Core {
+    class BoxCollider;
     class ColliderManager{
     public:
         void MountCollider(BoxCollider *colA, BoxCollider *colB);
         std::vector<std::unordered_set<BoxCollider *>> GetColliderQueue();
-        void eval();
+        void LateUpdate();
     private:
          std::vector<std::unordered_set<BoxCollider*>> colliderQueue;
     };

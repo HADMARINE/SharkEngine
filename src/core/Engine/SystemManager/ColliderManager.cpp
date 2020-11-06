@@ -157,7 +157,7 @@ namespace SharkEngine::Core::Physics {
         return true;
     }
 
-    void ColliderManager::eval() {
+    void ColliderManager::LateUpdate() {
         for (auto iter : this->colliderQueue) {
             BoxCollider *valA = *iter.begin();
             BoxCollider *valB = *++iter.begin();

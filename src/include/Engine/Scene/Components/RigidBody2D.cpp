@@ -7,7 +7,7 @@
 #include "include/Engine/SharkSystem.hpp"
 
 namespace SharkEngine::Core {
-    void SharkEngine::Core::RigidBody2D::eval() {
+    void SharkEngine::Core::RigidBody2D::LateUpdate() {
         auto *collider = GetOwner()->GetComponent<BoxCollider>();
 
         auto deltaTime = SHARK_ENGINE->GetTimeManager()->GetDeltaTime();
@@ -19,5 +19,9 @@ namespace SharkEngine::Core {
         AddVelocity(vel);
 
         auto *transform = GetOwner()->GetComponent<Transform>();
+        auto localPos = transform->GetLocalPos();
+        localPos.x = localPos.x + deltaTime * GetVelocity().x;
+        localPos.y = localPos.y + deltaTime * GetVelocity().y;
+        transform->SetLocalPos(localPos);
     }
 }
