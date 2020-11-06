@@ -3,7 +3,7 @@
 //
 
 #include <include/Engine/Scene/Components/BoxCollider.hpp>
-#include "include/Engine/SystemManager/ColliderManager.hpp"
+#include "include/Engine/Scene/Manager/ColliderManager.hpp"
 #include "include/Engine/Scene/Components/Base/Component.h"
 #include "include/Engine/Scene/Components/RigidBody2D.hpp"
 

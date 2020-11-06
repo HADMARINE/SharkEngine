@@ -9,7 +9,9 @@
 #include "../CoreTypes.h"
 #include <set>
 #include <vector>
+#include <include/Engine/Scene/Components/BoxCollider.hpp>
 #include "Entity/Entity.h"
+#include "Manager/ColliderManager.hpp"
 
 namespace SharkEngine::Core {
     //--------------------------------------------------------------------------------------
@@ -93,6 +95,10 @@ namespace SharkEngine::Core {
             return m_ComponentManager->GetComponentArray<T>().GetComponentArray();
         }
 
+        void RegisterCollider(BoxCollider *a, BoxCollider *b) {
+            m_ColliderManager->MountCollider(a, b);
+        }
+
         std::vector<Component*> FindEntityComponents(EntityID _id);
 
         std::map<EntityID, Entity*> m_EntityList;
@@ -100,6 +106,7 @@ namespace SharkEngine::Core {
     private:
         std::unique_ptr<ComponentManager> m_ComponentManager;
         std::unique_ptr<EntityIDManager> m_EntityIDManager;
+        std::unique_ptr<Physics::ColliderManager> m_ColliderManager;
 //        std::unique_ptr
     };
 }

@@ -5,7 +5,8 @@
 #include "../../../include/Engine/Scene/Scene.h"
 #include "include/Engine/Scene/Components/Transform.h"
 #include "include/Engine/Scene/Components/Sprite2DRenderer.h"
-#include "include/Engine/Physics/RigidBody2D.hpp"
+#include "include/Engine/Scene/Components/RigidBody2D.hpp"
+#include "include/Engine/Scene/Components/BoxCollider.hpp"
 
 SharkEngine::Core::Scene::Scene() {
 }
@@ -19,6 +20,8 @@ void SharkEngine::Core::Scene::Init() {
     //Register Component(Transform, RigidBody, 2D Renderer, Collider . . .)
     RegisterComponent<Transform>();
     RegisterComponent<Sprite2DRenderer>();
+    RegisterComponent<RigidBody2D>();
+    RegisterComponent<BoxCollider>();
 }
 void SharkEngine::Core::Scene::Start() {
     m_ComponentManager->Start();
@@ -28,6 +31,7 @@ void SharkEngine::Core::Scene::Update() {
 }
 void SharkEngine::Core::Scene::LateUpdate() {
     m_ComponentManager->LateUpdate();
+    m_ColliderManager->eval();
 }
 void SharkEngine::Core::Scene::Render() {
     m_ComponentManager->Render();
