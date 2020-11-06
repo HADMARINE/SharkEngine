@@ -49,9 +49,14 @@ void SharkEngine::Core::Scene::EndScene() {
     //Destroy Entity Objects
     m_ComponentManager->EndScene();
 
-    for(auto iter : m_EntityList) {
-        if(iter.second->GetIsDestroy())
-            DestroyEntity(iter.first);
+    for(auto iter = m_EntityList.begin(); iter != m_EntityList.end(); ++iter) {
+        if(iter->second->GetIsDestroy()) {
+            auto tmp = iter++;
+            DestroyEntity(tmp->first);
+
+            if(iter == m_EntityList.end())
+                break;
+        }
     }
 }
 

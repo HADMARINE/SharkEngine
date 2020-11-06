@@ -37,7 +37,7 @@ namespace SharkEngine::Core {
         }
 
         void DestroyComponent(EntityID _id) {
-            assert(m_EntityToIndexMap.find(_id) == m_EntityToIndexMap.end() && "Removing non-existent component");
+            assert(m_EntityToIndexMap.find(_id) != m_EntityToIndexMap.end() && "Removing non-existent component");
 
             size_t indexOfRemovedEntity = m_EntityToIndexMap[_id];
             size_t indexOfLastElement = m_Size - 1;

@@ -41,7 +41,7 @@ namespace SharkEngine::Core {
         ~Scene();
 
         //Hierarchy, Initialize gameObject
-        //Ex, Player* player = new Player();
+        //Ex, PlayerMovement* player = new PlayerMovement();
         virtual void Init() = 0;
         void Start();
         void Update();
@@ -50,9 +50,10 @@ namespace SharkEngine::Core {
         void EndScene();
 
         EntityID CreateEntity(Entity* iter){
-            m_EntityList.insert(std::pair<EntityID, Entity*>(iter->GetEntityID(), iter));
+            EntityID tmp = m_EntityIDManager->CreateEntityID();
+            m_EntityList.insert(std::pair<EntityID, Entity*>(tmp, iter));
             iter->Init();
-            return m_EntityIDManager->CreateEntityID();
+            return tmp;
         }
 
         void DestroyEntity(EntityID _id){

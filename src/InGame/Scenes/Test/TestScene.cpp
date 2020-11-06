@@ -33,5 +33,4 @@ void TestScene::Init() {
 //    tmp1->Init();
 //    tmp2->Init();
     //tmp1->transform->SetLocalPos(Vec2(500, 500));
-
 }

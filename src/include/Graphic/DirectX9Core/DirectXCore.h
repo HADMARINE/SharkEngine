@@ -34,7 +34,6 @@ private:
     LPD3DXSPRITE            p_d3d_sprite;
     LPD3DXLINE              p_d3d_line;
     LPD3DXEFFECT            p_d3d_effect;
-
 };
 
 

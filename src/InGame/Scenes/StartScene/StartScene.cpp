@@ -67,9 +67,10 @@ void StartScene::Init() {
     btn_option->GetComponent<Button>()->SetTextureImage("source/UI/Button/Option.png");
     btn_option->GetComponent<Button>()->SetOnClick([=]{
         btn_option->SetIsDestroy(true);
+        CLogger::Info("Test Destroy!");
     });
     btn_option->GetComponent<Transform>()->SetLocalPos(
-            Vec2(1200, 650) -
+            Vec2(1150, 625) -
                     btn_option->GetComponent<Sprite2DRenderer>()->GetTextureSize() / 2.0f);
     btn_option->GetComponent<Button>()->SetDefScale(Vec2(0.831f, 0.831f));
     btn_option->GetComponent<Button>()->SetUpScale(Vec2(1.0f, 1.0f));
