@@ -3,8 +3,9 @@
 //
 
 #include "RigidBody2D.hpp"
-#include "BoxCollider.hpp"
+//#include "BoxCollider.hpp"
 #include "include/Engine/SharkSystem.hpp"
+#include "Transform.h"
 
 namespace SharkEngine::Core {
     void SharkEngine::Core::RigidBody2D::LateUpdate() {
@@ -18,7 +19,7 @@ namespace SharkEngine::Core {
 
         AddVelocity(vel);
 
-        auto *transform = GetOwner()->GetComponent<Transform>();
+        Transform *transform = GetOwner()->GetComponent<Transform>();
         auto localPos = transform->GetLocalPos();
         localPos.x = localPos.x + deltaTime * GetVelocity().x;
         localPos.y = localPos.y + deltaTime * GetVelocity().y;

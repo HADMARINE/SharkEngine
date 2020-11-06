@@ -8,7 +8,7 @@
 #include "include/Engine/Scene/Components/RigidBody2D.hpp"
 #include "include/Engine/SharkSystem.hpp"
 
-namespace SharkEngine::Core::Physics {
+namespace SharkEngine::Core {
     using namespace std;
 
     void ColliderManager::MountCollider(BoxCollider *colA,

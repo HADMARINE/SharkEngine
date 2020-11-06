@@ -11,13 +11,17 @@
 
 namespace SharkEngine::Core {
     class BoxCollider;
-    class ColliderManager{
+
+    class ColliderManager {
     public:
         void MountCollider(BoxCollider *colA, BoxCollider *colB);
+
         std::vector<std::unordered_set<BoxCollider *>> GetColliderQueue();
+
         void LateUpdate();
+
     private:
-         std::vector<std::unordered_set<BoxCollider*>> colliderQueue;
+        std::vector<std::unordered_set<BoxCollider *>> colliderQueue;
 
 //         void TestObject();
     };
