@@ -6,11 +6,8 @@
 #include <string>
 
 void SharkEngine::Core::SpriteAnimation::Start() {
-    Component::Start();
 }
 void SharkEngine::Core::SpriteAnimation::Update() {
-    Component::Update();
-
     currentFrame += SHARK_TIME_MGR->GetDeltaTime() * fps;
 
     if(isLoopEnd)

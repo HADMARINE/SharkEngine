@@ -109,7 +109,7 @@ add_executable(
     src/include/Engine/Scene/Components/RigidBody2D.cpp
     src/include/Engine/Scene/Components/RigidBody2D.hpp
     src/include/Engine/Scene/Components/BoxCollider.cpp
-)
+        src/core/Engine/Scene/Components/BoxCollider.cpp src/include/Engine/Scene/Components/Button.cpp src/include/Engine/Scene/Components/Button.h)
 
 target_include_directories(main PRIVATE src)
 
