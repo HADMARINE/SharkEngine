@@ -76,6 +76,18 @@ namespace SharkEngine::Core {
             return std::static_pointer_cast<ComponentArray<T>>(m_ComponentArrays[typeName]);
         }
 
+        template<typename T>
+        std::vector<T*> GetTypeComponentList() {
+            std::vector<T*> iter;
+            const char* typeName = typeid(T).name();
+
+            for(auto j : m_ComponentArrays[typeName]->GetComponentArray())
+                iter.push_back(dynamic_cast<T*>(j));
+
+            return iter;
+        }
+
+
         std::vector<Component*> FindEntityComponents(EntityID _id);
 
     private:

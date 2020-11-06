@@ -96,8 +96,8 @@ namespace SharkEngine::Core {
         }
 
         template <typename T>
-        std::array<T*, MAX_COMPONENTS>* GetComponentArray(){
-            return m_ComponentManager->GetComponentArray<T>().GetComponentArray();
+        std::vector<T*>* GetComponentArray(){
+            return &m_ComponentManager->GetTypeComponentList<T>();
         }
 
         void RegisterCollider(BoxCollider *a, BoxCollider *b) {
