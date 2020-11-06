@@ -97,7 +97,7 @@ add_executable(
         src/include/Engine/SystemManager/LineDebuggerManager.h
         src/core/Engine/Scene/Manager/ColliderManager.cpp
         src/include/Engine/Scene/Manager/ColliderManager.hpp
-        src/include/Engine/Scene/Components/RigidBody2D.cpp
+        src/core/Engine/Scene/Components/RigidBody2D.cpp
         src/include/Engine/Scene/Components/RigidBody2D.hpp
         src/include/Engine/Scene/Components/CameraComponent.h
         src/core/Engine/Scene/Components/CameraComponent.cpp
@@ -105,9 +105,9 @@ add_executable(
         src/core/Engine/Scene/Components/BoxCollider.cpp
         src/core/Engine/Scene/Manager/ColliderManager.cpp
         src/include/Engine/Scene/Manager/ColliderManager.hpp
-        src/include/Engine/Scene/Components/RigidBody2D.cpp
+        src/core/Engine/Scene/Components/RigidBody2D.cpp
         src/include/Engine/Scene/Components/RigidBody2D.hpp
-        src/include/Engine/Scene/Components/BoxCollider.cpp
+        src/core/Engine/Scene/Components/BoxCollider.cpp
         src/InGame/Scripts/FloorComponent.hpp
         src/InGame/Scripts/FloorComponent.cpp
         src/InGame/GameObjects/FloorObject.hpp
@@ -117,7 +117,7 @@ add_executable(
         src/InGame/GameObjects/Buttons/ButtonObj.h
         src/InGame/GameObjects/Buttons/ButtonObj.cpp
         src/core/Engine/Scene/Components/BoxCollider.cpp
-        src/include/Engine/Scene/Components/Button.cpp
+        src/core/Engine/Scene/Components/Button.cpp
         src/include/Engine/Scene/Components/Button.h
         src/InGame/Scenes/GameScene/GameScene.cpp src/InGame/Scenes/GameScene/GameScene.h src/InGame/Scripts/Player/PlayerMovement.cpp src/InGame/Scripts/Player/PlayerMovement.h)
 

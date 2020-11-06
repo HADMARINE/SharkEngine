@@ -2,11 +2,11 @@
 // Created by EunwooSong on 2020-11-06.
 //
 
-#include "Button.h"
-#include "../GameObject/GameObject.h"
-#include "../../SharkSystem.hpp"
-#include "Transform.h"
-#include "Sprite2DRenderer.h"
+#include "include/Engine/Scene/Components/Button.h"
+#include "include/Engine/Scene/Components/Sprite2DRenderer.h"
+#include "include/Engine/Scene/Components/Transform.h"
+#include "include/Engine/Scene/GameObject/GameObject.h"
+#include "include/Engine/SharkSystem.hpp"
 
 SharkEngine::Core::Button::~Button() {
 }

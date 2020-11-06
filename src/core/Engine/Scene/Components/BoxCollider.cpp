@@ -2,7 +2,7 @@
 // Created by joonl on 2020-11-06.
 //
 
-#include "BoxCollider.hpp"
+#include "include/Engine/Scene/Components/BoxCollider.hpp"
 
 //void SharkEngine::Core::BoxCollider::Update() {
 //    // TODO : MOUNT ALL COLLIDERS

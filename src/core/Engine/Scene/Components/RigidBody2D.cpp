@@ -2,10 +2,10 @@
 // Created by HADMARINE on 2020-11-06.
 //
 
-#include "RigidBody2D.hpp"
+#include "include/Engine/Scene/Components/RigidBody2D.hpp"
 //#include "BoxCollider.hpp"
+#include "include/Engine/Scene/Components/Transform.h"
 #include "include/Engine/SharkSystem.hpp"
-#include "Transform.h"
 
 namespace SharkEngine::Core {
     void SharkEngine::Core::RigidBody2D::LateUpdate() {
