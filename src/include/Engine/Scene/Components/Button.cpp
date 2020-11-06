@@ -48,7 +48,7 @@ void SharkEngine::Core::Button::Update() {
         else {
             GetOwner()->transform->SetScale(
                     Lerp(GetOwner()->transform->GetScale(),
-                         Vec2(1.0f, 1.0f),
+                         defScale,
                          upSpeed * SHARK_TIME_MGR->GetDeltaTime()));
 
         }

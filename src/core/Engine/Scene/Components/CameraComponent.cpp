@@ -10,6 +10,7 @@ void SharkEngine::Core::CameraComponent::Render() {
     D3DXMATRIX mat = GetOwner()->transform->GetMatrix();
 
     for(auto iter : mul) {
-        iter->MulMatrix(mat);
+        if(iter->GetOwner() != nullptr)
+            iter->MulMatrix(mat);
     }
 }

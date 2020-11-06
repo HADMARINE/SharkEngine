@@ -8,6 +8,7 @@
 #include "include/Engine/Scene/Components/RigidBody2D.hpp"
 #include "include/Engine/Scene/Components/BoxCollider.hpp"
 #include "include/Engine/Scene/Components/Button.h"
+#include "include/Engine/Scene/Components/CameraComponent.h"
 
 SharkEngine::Core::Scene::Scene() {
 }
@@ -24,8 +25,9 @@ void SharkEngine::Core::Scene::Init() {
 
     //Register Component(Transform, RigidBody, 2D Renderer, Collider . . .)
     RegisterComponent<Transform>();
-    RegisterComponent<Sprite2DRenderer>();
+    RegisterComponent<CameraComponent>();
     RegisterComponent<RigidBody2D>();
+    RegisterComponent<Sprite2DRenderer>();
     RegisterComponent<BoxCollider>();
     RegisterComponent<Button>();
 }

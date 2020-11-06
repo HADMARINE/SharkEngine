@@ -112,6 +112,10 @@ add_executable(
         src/InGame/Scripts/FloorComponent.cpp
         src/InGame/GameObjects/FloorObject.hpp
         src/InGame/GameObjects/FloorObject.cpp
+        src/InGame/Scenes/StartScene/StartScene.cpp
+        src/InGame/Scenes/StartScene/StartScene.h
+        src/InGame/GameObjects/Buttons/ButtonObj.h
+        src/InGame/GameObjects/Buttons/ButtonObj.cpp
         src/core/Engine/Scene/Components/BoxCollider.cpp
         src/include/Engine/Scene/Components/Button.cpp
         src/include/Engine/Scene/Components/Button.h
