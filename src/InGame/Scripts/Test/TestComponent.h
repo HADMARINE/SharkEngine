@@ -5,13 +5,13 @@
 #ifndef SHARKENGINE_TESTCOMPONENT_H
 #define SHARKENGINE_TESTCOMPONENT_H
 
-#include "../../CLogger.hpp"
-#include "../../include/Engine/Scene/Components/Base/Component.h"
+#include "CLogger.hpp"
+#include "InGame/Scenes/Test/TestScene.h"
+#include "include/Engine/Scene/Components/Base/Component.h"
+#include "include/Engine/Scene/Components/Sprite2DRenderer.h"
+#include "include/Engine/Scene/Components/Transform.h"
 #include "include/Engine/Scene/GameObject/GameObject.h"
 #include "include/Engine/SharkSystem.hpp"
-#include "include/Engine/Scene/Components/Transform.h"
-#include "include/Engine/Scene/Components/Sprite2DRenderer.h"
-#include "InGame/Scenes/TestScene.h"
 
 class TestComponent : public SharkEngine::Core::Component {
 public:

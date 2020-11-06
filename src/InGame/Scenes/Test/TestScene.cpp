@@ -3,10 +3,16 @@
 //
 
 #include "TestScene.h"
+<<<<<<< Updated upstream:src/InGame/Scenes/TestScene.cpp
 #include "../Scripts/TestComponent.h"
 #include "../Scripts/FloorComponent.hpp"
 #include "../GameObjects/TestObject.h"
 #include "../GameObjects/FloorObject.hpp"
+=======
+#include "InGame/GameObjects/TEst/TestObject.h"
+#include "InGame/GameObjects/TEst/TestUIObject.h"
+#include "InGame/Scripts/Test/TestComponent.h"
+>>>>>>> Stashed changes:src/InGame/Scenes/Test/TestScene.cpp
 
 using namespace SharkEngine;
 
@@ -16,6 +22,7 @@ void TestScene::Init() {
     this->RegisterComponent<FloorComponent>();
 
     TestObject* tmp = new TestObject();
+<<<<<<< Updated upstream:src/InGame/Scenes/TestScene.cpp
     FloorObject* floor = new FloorObject();
 //    TestObject* tmp1 = new TestObject();
 //    TestObject* tmp2 = new TestObject();
@@ -24,9 +31,15 @@ void TestScene::Init() {
     floor->Init();
 //    tmp1->Init();
 //    tmp2->Init();
+=======
+    TestObject* tmp1 = new TestObject();
+    TestUIObject* uiObj = new TestUIObject();
 
-    //DestroyComponent<TestObject>(tmp2->GetEntityID());
+    tmp->Init();
+    tmp1->Init();
+    uiObj->Init();
+>>>>>>> Stashed changes:src/InGame/Scenes/Test/TestScene.cpp
 
-    //if(GetComponent<TestObject>(tmp2->GetEntityID()) == nullptr)
-    //    CLogger::Error("real bug.!");
+    tmp1->transform->SetLocalPos(Vec2(500, 500));
+
 }

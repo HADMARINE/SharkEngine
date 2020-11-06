@@ -7,11 +7,15 @@
 #include "include/Engine/Scene/Components/Sprite2DRenderer.h"
 #include "include/Engine/Scene/Components/RigidBody2D.hpp"
 #include "include/Engine/Scene/Components/BoxCollider.hpp"
+#include "include/Engine/Scene/Components/Button.h"
 
 SharkEngine::Core::Scene::Scene() {
 }
 SharkEngine::Core::Scene::~Scene() {
     //Reset Signature
+    for(auto iter : m_EntityList) {
+        SAFE_DELETE(iter.second);
+    }
 }
 void SharkEngine::Core::Scene::Init() {
     m_ComponentManager = std::make_unique<ComponentManager>();
@@ -23,6 +27,7 @@ void SharkEngine::Core::Scene::Init() {
     RegisterComponent<Sprite2DRenderer>();
     RegisterComponent<RigidBody2D>();
     RegisterComponent<BoxCollider>();
+    RegisterComponent<Button>();
 }
 void SharkEngine::Core::Scene::Start() {
     m_ComponentManager->Start();

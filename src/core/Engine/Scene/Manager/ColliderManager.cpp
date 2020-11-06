@@ -190,8 +190,7 @@ namespace SharkEngine::Core {
 
                     if (!valB->GetIsCollided()) {
                         valB->OnCollisionEnter();
-                    } else {
-                        valB->OnCollisionStay();
+                    } else {\
                     }
                 } else {
                     if (!valA->GetIsCollided()) {

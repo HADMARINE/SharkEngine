@@ -5,7 +5,7 @@
 #ifndef SHARKENGINE_TESTSCENE_H
 #define SHARKENGINE_TESTSCENE_H
 
-#include "../../include/Engine/Scene/Scene.h"
+#include "include/Engine/Scene/Scene.h"
 class TestScene : public SharkEngine::Core::Scene {
 public:
     TestScene(){};

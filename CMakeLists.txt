@@ -38,16 +38,16 @@ add_executable(
     src/include/Engine/Audio/SharkAudio.hpp
     src/include/Engine/UniformBufferCamera/Camera.hpp
     src/core/Engine/Scene/CoreStructs.cpp
-    src/include/Engine/CoreStructs.h src/InGame/Scenes/TestScene.cpp
-    src/InGame/Scenes/TestScene.h
+    src/include/Engine/CoreStructs.h src/InGame/Scenes/Test/TestScene.cpp
+        src/InGame/Scenes/Test/TestScene.h
     src/core/Engine/SystemManager/TimeManager.cpp
     src/include/Engine/SystemManager/TimeManager.h
     src/core/Engine/Scene/Components/Transform.cpp
     src/include/Engine/Scene/Components/Transform.h
-    src/InGame/GameObjects/TestObject.cpp
-    src/InGame/GameObjects/TestObject.h
-    src/InGame/Scripts/TestComponent.cpp
-    src/InGame/Scripts/TestComponent.h
+        src/InGame/GameObjects/TEst/TestObject.cpp
+        src/InGame/GameObjects/TEst/TestObject.h
+        src/InGame/Scripts/Test/TestComponent.cpp
+        src/InGame/Scripts/Test/TestComponent.h
     src/include/Graphic/VulkanDrawable.h
     src/core/Graphic/VulkanDrawableManager.cpp
     src/include/Graphic/VulkanDrawableManager.h
@@ -69,10 +69,19 @@ add_executable(
     src/core/Engine/SystemManager/InputManager.cpp
     src/core/Engine/Scene/Components/Transform.cpp
     src/include/Engine/Scene/Components/Transform.h
+<<<<<<< Updated upstream
     src/InGame/GameObjects/TestObject.cpp
     src/InGame/GameObjects/TestObject.h
     src/InGame/Scripts/TestComponent.cpp
     src/InGame/Scripts/TestComponent.h
+=======
+        src/InGame/GameObjects/TEst/TestObject.cpp
+        src/InGame/GameObjects/TEst/TestObject.h
+        src/InGame/Scripts/Test/TestComponent.cpp
+        src/InGame/Scripts/Test/TestComponent.h
+    src/include/Engine/Physics/Physics2D.hpp
+    src/include/Engine/Physics/RigidBody2D.hpp
+>>>>>>> Stashed changes
     src/include/Graphic/VulkanDrawable.h
     src/core/Graphic/VulkanDrawableManager.cpp
     src/include/Graphic/VulkanDrawableManager.h
@@ -107,7 +116,11 @@ add_executable(
     src/include/Engine/Scene/Components/RigidBody2D.cpp
     src/include/Engine/Scene/Components/RigidBody2D.hpp
     src/include/Engine/Scene/Components/BoxCollider.cpp
+<<<<<<< Updated upstream
         src/core/Engine/Scene/Components/BoxCollider.cpp src/include/Engine/Scene/Components/Button.cpp src/include/Engine/Scene/Components/Button.h src/InGame/GameObjects/FloorObject.cpp src/InGame/GameObjects/FloorObject.hpp src/InGame/Scripts/FloorComponent.cpp src/InGame/Scripts/FloorComponent.hpp)
+=======
+        src/core/Engine/Scene/Components/BoxCollider.cpp src/include/Engine/Scene/Components/Button.cpp src/include/Engine/Scene/Components/Button.h src/InGame/GameObjects/TEst/TestUIObject.cpp src/InGame/GameObjects/TEst/TestUIObject.h src/InGame/Scenes/StartScene/StartScene.cpp src/InGame/Scenes/StartScene/StartScene.h src/InGame/GameObjects/Buttons/ButtonObj.cpp src/InGame/GameObjects/Buttons/ButtonObj.h)
+>>>>>>> Stashed changes
 
 target_include_directories(main PRIVATE src)
 
