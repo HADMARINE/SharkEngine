@@ -11,7 +11,7 @@ using namespace SharkEngine::Core;
 void InputManager::Update() {
     for (int i = 0; i < 256; i++) {
         lastKeys[i] = currentKeys[i];
-        currentKeys[i] = GetKeyState(i) & 0x8000;
+        currentKeys[i] = ::GetKeyState(i) & 0x8000;
     }
 
     ::GetCursorPos(&cursorPos);

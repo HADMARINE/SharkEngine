@@ -11,7 +11,7 @@
 namespace SharkEngine::Core {
     class SceneManager {
     public:
-        SceneManager() : currentScene(nullptr) {};
+        SceneManager() : currentScene(nullptr), nextScene(nullptr) {};
         ~SceneManager() {};
 
         Scene* GetCurrentScene();
@@ -27,12 +27,17 @@ namespace SharkEngine::Core {
                 throw std::runtime_error("This is not supported type(Scene Manager)");
             }
 
-            if(this->currentScene) SAFE_DELETE(this->currentScene);
-            this->currentScene = scene;
-            currentScene->Init();
+            if(currentScene) {
+                nextScene = scene;
+            }
+            else {
+                currentScene = scene;
+                currentScene->Init();
+            }
         }
 
     private:
         Scene* currentScene;
+        Scene* nextScene;
     };
 }

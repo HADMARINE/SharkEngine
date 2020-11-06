@@ -11,6 +11,7 @@
 #include "include/Engine/SharkSystem.hpp"
 #include "include/Engine/Scene/Components/Transform.h"
 #include "include/Engine/Scene/Components/Sprite2DRenderer.h"
+#include "InGame/Scenes/TestScene.h"
 
 class TestComponent : public SharkEngine::Core::Component {
 public:
@@ -29,17 +30,7 @@ public:
         m_Owner->GetScene()->GetComponent<SharkEngine::Core::Transform>(m_Owner->GetEntityID());
     }
 
-    virtual void Update() override {
-        Component::Update();
-        CLogger::Debug("%d Test Update", (int)m_Owner->GetEntityID());
-
-        GetOwner()->transform->Translate(Vec2(20.0f, 20.0f) * SHARK_TIME_MGR->GetDeltaTime());
-
-        SHARK_LINE_MGR->DrawBox(GetOwner()->GetComponent<SharkEngine::Core::Transform>()->GetWorldPos(),
-                                GetOwner()->GetComponent<SharkEngine::Core::Transform>()->GetWorldPos() + GetOwner()->GetComponent<SharkEngine::Core::Sprite2DRenderer>()->GetTextureSize(),
-                                D3DCOLOR_ARGB(255,255,0,0));
-                                //GetOwner()->transform->GetMatrix());
-    }
+    void Update() override;
 };
 
 #endif//SHARKENGINE_TESTCOMPONENT_H
