@@ -6,13 +6,12 @@
 #include "CLogger.hpp"
 #include "InGame/Scripts/Test/TestComponent.h"
 #include "include/Engine/Scene/Components/Sprite2DRenderer.h"
-<<<<<<< Updated upstream:src/InGame/GameObjects/TestObject.cpp
+
 #include "include/Engine/Scene/Components/RigidBody2D.hpp"
 #include "include/Engine/Scene/Components/BoxCollider.hpp"
-#include "../../CLogger.hpp"
-=======
+
 #include "include/Engine/Scene/Scene.h"
->>>>>>> Stashed changes:src/InGame/GameObjects/TEst/TestObject.cpp
+
 using namespace SharkEngine::Core;
 
 void TestObject::Init() {

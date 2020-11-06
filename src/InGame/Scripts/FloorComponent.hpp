@@ -8,10 +8,8 @@
 #include "../../CLogger.hpp"
 #include "../../include/Engine/Scene/Components/Base/Component.h"
 #include "include/Engine/Scene/GameObject/GameObject.h"
-#include "include/Engine/SharkSystem.hpp"
 #include "include/Engine/Scene/Components/Transform.h"
 #include "include/Engine/Scene/Components/Sprite2DRenderer.h"
-#include "InGame/Scenes/TestScene.h"
 
 class FloorComponent : public SharkEngine::Core::Component {
 public:

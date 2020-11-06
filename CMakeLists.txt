@@ -8,119 +8,114 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 set(ROOTSRC ${CMAKE_CURRENT_SOURCE_DIR}/src)
 
 add_executable(
-    main
-    src/main.cpp
-    src/stdafx.hpp
-    src/GlobalPreferences.hpp
-    src/util/CLogger.cpp
-    src/CLogger.hpp
-    src/util/Assets.cpp
-    src/Assets.hpp
-    src/include/Graphic/IncludeVulkan.h
-    src/include/Graphic/VulkanGraphicCore.h
-    src/include/Engine/CoreDefine.h
-    src/core/Engine/Scene/Manager/EntityIDManager.cpp
-    src/include/Engine/Scene/Manager/EntityIDManager.h
-    src/include/Engine/CoreTypes.h
-    src/include/Engine/Scene/Manager/ComponentArray.hpp
-    src/core/Engine/Scene/Manager/ComponentManager.cpp
-    src/include/Engine/Scene/Manager/ComponentManager.h
-    src/core/Engine/SystemManager/SceneManager.cpp
-    src/include/Engine/SystemManager/SceneManager.h
-    src/core/Engine/Scene/Entity/Entity.cpp
-    src/include/Engine/Scene/Entity/Entity.h
-    src/include/Engine/SharkSystem.hpp
-    src/include/Engine/SystemManager/InputManager.h
-    src/core/Engine/Scene/Scene.cpp
-    src/include/Engine/Scene/Scene.h
-    src/core/Engine/Scene/Components/Base/Component.cpp
-    src/include/Engine/Scene/Components/Base/Component.h
-    src/include/Engine/Audio/SharkAudio.hpp
-    src/include/Engine/UniformBufferCamera/Camera.hpp
-    src/core/Engine/Scene/CoreStructs.cpp
-    src/include/Engine/CoreStructs.h src/InGame/Scenes/Test/TestScene.cpp
+        main
+        src/main.cpp
+        src/stdafx.hpp
+        src/GlobalPreferences.hpp
+        src/util/CLogger.cpp
+        src/CLogger.hpp
+        src/util/Assets.cpp
+        src/Assets.hpp
+        src/include/Graphic/IncludeVulkan.h
+        src/include/Graphic/VulkanGraphicCore.h
+        src/include/Engine/CoreDefine.h
+        src/core/Engine/Scene/Manager/EntityIDManager.cpp
+        src/include/Engine/Scene/Manager/EntityIDManager.h
+        src/include/Engine/CoreTypes.h
+        src/include/Engine/Scene/Manager/ComponentArray.hpp
+        src/core/Engine/Scene/Manager/ComponentManager.cpp
+        src/include/Engine/Scene/Manager/ComponentManager.h
+        src/core/Engine/SystemManager/SceneManager.cpp
+        src/include/Engine/SystemManager/SceneManager.h
+        src/core/Engine/Scene/Entity/Entity.cpp
+        src/include/Engine/Scene/Entity/Entity.h
+        src/include/Engine/SharkSystem.hpp
+        src/include/Engine/SystemManager/InputManager.h
+        src/core/Engine/Scene/Scene.cpp
+        src/include/Engine/Scene/Scene.h
+        src/core/Engine/Scene/Components/Base/Component.cpp
+        src/include/Engine/Scene/Components/Base/Component.h
+        src/include/Engine/Audio/SharkAudio.hpp
+        src/include/Engine/UniformBufferCamera/Camera.hpp
+        src/core/Engine/Scene/CoreStructs.cpp
+        src/include/Engine/CoreStructs.h
+        src/InGame/Scenes/Test/TestScene.cpp
         src/InGame/Scenes/Test/TestScene.h
-    src/core/Engine/SystemManager/TimeManager.cpp
-    src/include/Engine/SystemManager/TimeManager.h
-    src/core/Engine/Scene/Components/Transform.cpp
-    src/include/Engine/Scene/Components/Transform.h
+        src/core/Engine/SystemManager/TimeManager.cpp
+        src/include/Engine/SystemManager/TimeManager.h
+        src/core/Engine/Scene/Components/Transform.cpp
+        src/include/Engine/Scene/Components/Transform.h
         src/InGame/GameObjects/TEst/TestObject.cpp
         src/InGame/GameObjects/TEst/TestObject.h
         src/InGame/Scripts/Test/TestComponent.cpp
         src/InGame/Scripts/Test/TestComponent.h
-    src/include/Graphic/VulkanDrawable.h
-    src/core/Graphic/VulkanDrawableManager.cpp
-    src/include/Graphic/VulkanDrawableManager.h
-    src/include/Graphic/VulkanGraphicsCore.cpp
-    src/include/Graphic/VulkanTextureManager.cpp
-    src/include/Graphic/VulkanTextureManager.h
-    src/core/Graphic/DirectX9Core/DirectXCore.cpp
-    src/include/Graphic/DirectX9Core/DirectXCore.h
-    src/core/Graphic/DirectX9Core/WindowsApplication.cpp
-    src/include/Graphic/DirectX9Core/WindowsApplication.h
-    src/core/Engine/Scene/Components/Sprite2DRenderer.cpp
-    src/include/Engine/Scene/Components/Sprite2DRenderer.h
-    src/core/Graphic/DirectX9Core/DirectXTextureManger.cpp
-    src/include/Engine/SystemManager/DirectXTextureManger.h
-    src/include/Engine/Scene/GameObject/GameObject.cpp
-    src/include/Engine/Scene/GameObject/GameObject.h
-    src/core/Engine/Scene/Components/SpriteAnimation.cpp
-    src/include/Engine/Scene/Components/SpriteAnimation.h
-    src/core/Engine/SystemManager/InputManager.cpp
-    src/core/Engine/Scene/Components/Transform.cpp
-    src/include/Engine/Scene/Components/Transform.h
-<<<<<<< Updated upstream
-    src/InGame/GameObjects/TestObject.cpp
-    src/InGame/GameObjects/TestObject.h
-    src/InGame/Scripts/TestComponent.cpp
-    src/InGame/Scripts/TestComponent.h
-=======
+        src/include/Graphic/VulkanDrawable.h
+        src/core/Graphic/VulkanDrawableManager.cpp
+        src/include/Graphic/VulkanDrawableManager.h
+        src/include/Graphic/VulkanGraphicsCore.cpp
+        src/include/Graphic/VulkanTextureManager.cpp
+        src/include/Graphic/VulkanTextureManager.h
+        src/core/Graphic/DirectX9Core/DirectXCore.cpp
+        src/include/Graphic/DirectX9Core/DirectXCore.h
+        src/core/Graphic/DirectX9Core/WindowsApplication.cpp
+        src/include/Graphic/DirectX9Core/WindowsApplication.h
+        src/core/Engine/Scene/Components/Sprite2DRenderer.cpp
+        src/include/Engine/Scene/Components/Sprite2DRenderer.h
+        src/core/Graphic/DirectX9Core/DirectXTextureManger.cpp
+        src/include/Engine/SystemManager/DirectXTextureManger.h
+        src/include/Engine/Scene/GameObject/GameObject.cpp
+        src/include/Engine/Scene/GameObject/GameObject.h
+        src/core/Engine/Scene/Components/SpriteAnimation.cpp
+        src/include/Engine/Scene/Components/SpriteAnimation.h
+        src/core/Engine/SystemManager/InputManager.cpp
+        src/core/Engine/Scene/Components/Transform.cpp
+        src/include/Engine/Scene/Components/Transform.h
         src/InGame/GameObjects/TEst/TestObject.cpp
         src/InGame/GameObjects/TEst/TestObject.h
         src/InGame/Scripts/Test/TestComponent.cpp
         src/InGame/Scripts/Test/TestComponent.h
-    src/include/Engine/Physics/Physics2D.hpp
-    src/include/Engine/Physics/RigidBody2D.hpp
->>>>>>> Stashed changes
-    src/include/Graphic/VulkanDrawable.h
-    src/core/Graphic/VulkanDrawableManager.cpp
-    src/include/Graphic/VulkanDrawableManager.h
-    src/include/Graphic/VulkanGraphicsCore.cpp
-    src/include/Graphic/VulkanTextureManager.cpp
-    src/include/Graphic/VulkanTextureManager.h
-    src/core/Graphic/DirectX9Core/DirectXCore.cpp
-    src/include/Graphic/DirectX9Core/DirectXCore.h
-    src/core/Graphic/DirectX9Core/WindowsApplication.cpp
-    src/include/Graphic/DirectX9Core/WindowsApplication.h
-    src/core/Engine/Scene/Components/Sprite2DRenderer.cpp
-    src/include/Engine/Scene/Components/Sprite2DRenderer.h
-    src/core/Graphic/DirectX9Core/DirectXTextureManger.cpp
-    src/include/Engine/SystemManager/DirectXTextureManger.h
-    src/include/Engine/Scene/GameObject/GameObject.cpp
-    src/include/Engine/Scene/GameObject/GameObject.h
-    src/core/Engine/Scene/Components/SpriteAnimation.cpp
-    src/include/Engine/Scene/Components/SpriteAnimation.h
-    src/core/Engine/SystemManager/InputManager.cpp
-    src/core/Engine/SystemManager/LineDebuggerManager.cpp
-    src/include/Engine/SystemManager/LineDebuggerManager.h
-    src/core/Engine/Scene/Manager/ColliderManager.cpp
-    src/include/Engine/Scene/Manager/ColliderManager.hpp
-    src/include/Engine/Scene/Components/RigidBody2D.cpp
-    src/include/Engine/Scene/Components/RigidBody2D.hpp
-    src/include/Engine/Scene/Components/CameraComponent.h
-    src/core/Engine/Scene/Components/CameraComponent.cpp
-    src/include/Engine/Scene/Components/BoxCollider.hpp
-    src/core/Engine/Scene/Components/BoxCollider.cpp
-    src/core/Engine/Scene/Manager/ColliderManager.cpp
-    src/include/Engine/Scene/Manager/ColliderManager.hpp
-    src/include/Engine/Scene/Components/RigidBody2D.cpp
-    src/include/Engine/Scene/Components/RigidBody2D.hpp
-    src/include/Engine/Scene/Components/BoxCollider.cpp
-<<<<<<< Updated upstream
-        src/core/Engine/Scene/Components/BoxCollider.cpp src/include/Engine/Scene/Components/Button.cpp src/include/Engine/Scene/Components/Button.h src/InGame/GameObjects/FloorObject.cpp src/InGame/GameObjects/FloorObject.hpp src/InGame/Scripts/FloorComponent.cpp src/InGame/Scripts/FloorComponent.hpp)
-=======
-        src/core/Engine/Scene/Components/BoxCollider.cpp src/include/Engine/Scene/Components/Button.cpp src/include/Engine/Scene/Components/Button.h src/InGame/GameObjects/TEst/TestUIObject.cpp src/InGame/GameObjects/TEst/TestUIObject.h src/InGame/Scenes/StartScene/StartScene.cpp src/InGame/Scenes/StartScene/StartScene.h src/InGame/GameObjects/Buttons/ButtonObj.cpp src/InGame/GameObjects/Buttons/ButtonObj.h)
->>>>>>> Stashed changes
+        src/include/Graphic/VulkanDrawable.h
+        src/core/Graphic/VulkanDrawableManager.cpp
+        src/include/Graphic/VulkanDrawableManager.h
+        src/include/Graphic/VulkanGraphicsCore.cpp
+        src/include/Graphic/VulkanTextureManager.cpp
+        src/include/Graphic/VulkanTextureManager.h
+        src/core/Graphic/DirectX9Core/DirectXCore.cpp
+        src/include/Graphic/DirectX9Core/DirectXCore.h
+        src/core/Graphic/DirectX9Core/WindowsApplication.cpp
+        src/include/Graphic/DirectX9Core/WindowsApplication.h
+        src/core/Engine/Scene/Components/Sprite2DRenderer.cpp
+        src/include/Engine/Scene/Components/Sprite2DRenderer.h
+        src/core/Graphic/DirectX9Core/DirectXTextureManger.cpp
+        src/include/Engine/SystemManager/DirectXTextureManger.h
+        src/include/Engine/Scene/GameObject/GameObject.cpp
+        src/include/Engine/Scene/GameObject/GameObject.h
+        src/core/Engine/Scene/Components/SpriteAnimation.cpp
+        src/include/Engine/Scene/Components/SpriteAnimation.h
+        src/core/Engine/SystemManager/InputManager.cpp
+        src/core/Engine/SystemManager/LineDebuggerManager.cpp
+        src/include/Engine/SystemManager/LineDebuggerManager.h
+        src/core/Engine/Scene/Manager/ColliderManager.cpp
+        src/include/Engine/Scene/Manager/ColliderManager.hpp
+        src/include/Engine/Scene/Components/RigidBody2D.cpp
+        src/include/Engine/Scene/Components/RigidBody2D.hpp
+        src/include/Engine/Scene/Components/CameraComponent.h
+        src/core/Engine/Scene/Components/CameraComponent.cpp
+        src/include/Engine/Scene/Components/BoxCollider.hpp
+        src/core/Engine/Scene/Components/BoxCollider.cpp
+        src/core/Engine/Scene/Manager/ColliderManager.cpp
+        src/include/Engine/Scene/Manager/ColliderManager.hpp
+        src/include/Engine/Scene/Components/RigidBody2D.cpp
+        src/include/Engine/Scene/Components/RigidBody2D.hpp
+        src/include/Engine/Scene/Components/BoxCollider.cpp
+        src/InGame/Scripts/FloorComponent.hpp
+        src/InGame/Scripts/FloorComponent.cpp
+        src/InGame/GameObjects/FloorObject.hpp
+        src/InGame/GameObjects/FloorObject.cpp
+        src/core/Engine/Scene/Components/BoxCollider.cpp
+        src/include/Engine/Scene/Components/Button.cpp
+        src/include/Engine/Scene/Components/Button.h
+)
 
 target_include_directories(main PRIVATE src)
 

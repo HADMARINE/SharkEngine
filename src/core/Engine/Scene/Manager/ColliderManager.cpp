@@ -233,7 +233,7 @@ namespace SharkEngine::Core {
     }
 
     void ColliderManager::Update() {
-        auto colliderArray = *SHARK_SCENE_MGR->GetCurrentScene()->GetComponentArray<BoxCollider>();
+        auto colliderArray = SHARK_SCENE_MGR->GetCurrentScene()->GetComponentArray<BoxCollider>();
         CLogger::Info("[BoxCollider] : colliderArray length : %d", colliderArray.size());
 
         if(colliderArray.size() == 0) {

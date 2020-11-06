@@ -6,7 +6,7 @@
 #include "include/Engine/SharkSystem.hpp"
 #include "include/Engine/Scene/Components/Transform.h"
 void SharkEngine::Core::CameraComponent::Render() {
-    auto mul = *SHARK_SCENE_MGR->GetCurrentScene()->GetComponentArray<Transform>();
+    auto mul = SHARK_SCENE_MGR->GetCurrentScene()->GetComponentArray<Transform>();
     D3DXMATRIX mat = GetOwner()->transform->GetMatrix();
 
     for(auto iter : mul) {

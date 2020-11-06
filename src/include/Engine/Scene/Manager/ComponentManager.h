@@ -81,6 +81,8 @@ namespace SharkEngine::Core {
             std::vector<T*> iter;
             const char* typeName = typeid(T).name();
 
+            CLogger::Info(typeName);
+
             for(auto j : m_ComponentArrays[typeName]->GetComponentArray())
                     if(dynamic_cast<T*>(j) != nullptr)
                         iter.push_back(dynamic_cast<T*>(j));

@@ -3,6 +3,7 @@
 //
 
 #include "FloorComponent.hpp"
+#include "include/Engine/SharkSystem.hpp"
 
 void FloorComponent::Update() {
     Component::Update();

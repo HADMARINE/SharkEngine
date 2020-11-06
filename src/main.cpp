@@ -5,6 +5,7 @@
 ////#include "include/Graphic/VulkanApplication.h"
 //#include "include/Graphic/VulkanGraphicCore.h"
 #include "InGame/Scenes/StartScene/StartScene.h"
+#include "InGame/Scenes/Test/TestScene.h"
 #include "include/Engine/SharkSystem.hpp"
 //#include "include/Graphic/VulkanDrawableManager.h"
 //#include "include/Graphic/VulkanDrawable.h"
@@ -47,7 +48,7 @@ int main() {
     //VULKAN_DRAW_MANAGER->AddVulkanDrawable(tmp);
     //VULKAN_DRAW_MANAGER->AddVulkanDrawable(tmp_2);
 
-    SHARK_ENGINE->GetSceneManager()->ChangeScene(new StartScene());
+    SHARK_ENGINE->GetSceneManager()->ChangeScene(new TestScene());
 
     bool isWindowOpen = true;
     while (isWindowOpen) {
