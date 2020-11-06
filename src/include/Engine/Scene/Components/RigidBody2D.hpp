@@ -33,11 +33,11 @@ namespace SharkEngine::Core {
             return this->gravity;
         }
 
-        void SetVelocity(Vec2& v) {
+        void SetVelocity(Vec2 v) {
             this->velocity = v;
         }
 
-        void AddVelocity(Vec2& v) {
+        void AddVelocity(Vec2 v) {
             this->velocity += v;
         }
 

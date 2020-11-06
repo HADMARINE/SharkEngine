@@ -191,7 +191,7 @@ void CLogger::Error(const char *mes, ...) {
   SetConsoleTextColor("error");
   cout << " ERRR ";
   SetConsoleTextColor("error_i");
-  cout << buf << endl;
+  cout << " " << buf << endl;
   SetConsoleTextColor();
 #else
   fprintf(stderr, "%s\x1b[30;41m ERRR \x1b[31;40m %s\x1b[0m\n",
