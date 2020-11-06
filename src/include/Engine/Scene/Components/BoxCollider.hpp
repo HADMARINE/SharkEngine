@@ -24,12 +24,16 @@ namespace SharkEngine::Core {
             return this->relativeRightBottomPos + transform->GetWorldPos();
         }
 
-        float GetRotation() {
+        float GetRotation() const {
             return this->rotation;
         }
 
-        bool GetIsCollided() {
+        bool GetIsCollided() const {
             return this->isCollided;
+        }
+
+        bool GetIsTrigger() const {
+            return this->isTrigger;
         }
 
         void SetLeftTopPos(Vec2 &v) {
@@ -48,11 +52,16 @@ namespace SharkEngine::Core {
             this->isCollided = b;
         }
 
+        void SetIsTrigger(bool b) {
+            this->isTrigger = b;
+        }
+
     private:
         Vec2 relativeLeftTopPos{};
         Vec2 relativeRightBottomPos{};
         float rotation = 0.0f;
         bool isCollided = false;
+        bool isTrigger = false;
     };
 }
 

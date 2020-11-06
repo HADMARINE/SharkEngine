@@ -5,6 +5,7 @@
 #include <include/Engine/Scene/Components/BoxCollider.hpp>
 #include "include/Engine/SystemManager/ColliderManager.hpp"
 #include "include/Engine/Scene/Components/Base/Component.h"
+#include "include/Engine/Scene/Components/RigidBody2D.hpp"
 
 namespace SharkEngine::Core::Physics {
     using namespace std;
@@ -66,7 +67,7 @@ namespace SharkEngine::Core::Physics {
             return l.x * r.x + l.y * r.y;
         }
 
-        Vec2 crossProduct(Vec2 &l, Vec2 &r) {
+        Vec2 crossProduct(Vec2 l, Vec2 r) {
             // TODO : TEST THIS
             Vec2 v;
             v.x = l.x * r.y;
@@ -89,6 +90,34 @@ namespace SharkEngine::Core::Physics {
             xymm.min.x = collider->GetRightBottomPos().x;
             xymm.min.y = collider->GetRightBottomPos().y;
         }
+    }
+
+    void evalCollision(BoxCollider *_A, BoxCollider *_B) {
+        using namespace CalculateFunctions;
+
+        auto A = _A->GetOwner()->GetComponent<RigidBody2D>();
+        auto B = _B->GetOwner()->GetComponent<RigidBody2D>();
+
+        Vec2 rv = B->GetVelocity() - A->GetVelocity();
+        auto normal = crossProduct((_A->GetLeftTopPos() + _A->GetRightBottomPos()) / 2,
+                                   (_A->GetLeftTopPos() + _A->GetRightBottomPos()) / 2);
+
+        // Calculate relative velocity in terms of the normal direction
+        float velAlongNormal = dotProduct(rv, normal);
+
+        // Do not resolve if velocities are separating
+        if (velAlongNormal > 0)
+            return;
+
+        // Calculate restitution
+        float e = min(A->GetRestitution(), B->GetRestitution());
+
+        // Calculate impulse scalar
+        float j = -(1 + e) * velAlongNormal;
+        j /= 1 / A->GetMass() + 1 / B->GetMass();
+
+        // Apply impulse
+        Vec2 impulse = j * normal;
     }
 
     bool EvalAABB(BoxCollider *A, BoxCollider *B) {
@@ -146,29 +175,51 @@ namespace SharkEngine::Core::Physics {
                 isCollided = EvalOBB(valA, valB);
             }
 
-
             if (isCollided) {
-                if (!valA->GetIsCollided()) {
-                    valA->OnCollisionEnter();
-                } else {
-                    valA->OnCollisionStay();
-                }
+                if (!valA->GetIsTrigger() || !valB->GetIsTrigger()) {
+                    evalCollision(valA, valB);
+                    if (!valA->GetIsCollided()) {
+                        valA->OnCollisionEnter();
+                    } else {
+                        valA->OnCollisionStay();
+                    }
 
-                if (!valB->GetIsCollided()) {
-                    valB->OnCollisionEnter();
+                    if (!valB->GetIsCollided()) {
+                        valB->OnCollisionEnter();
+                    } else {
+                        valB->OnCollisionStay();
+                    }
                 } else {
-                    valB->OnCollisionStay();
-                }
+                    if (!valA->GetIsCollided()) {
+                        valA->OnTriggerEnter();
+                    } else {
+                        valA->OnTriggerStay();
+                    }
 
+                    if (!valB->GetIsCollided()) {
+                        valB->OnTriggerEnter();
+                    } else {
+                        valB->OnTriggerStay();
+                    }
+                }
                 valA->SetIsCollided(true);
                 valB->SetIsCollided(true);
             } else {
-                if (valA->GetIsCollided()) {
-                    valA->OnCollisionExit();
-                }
+                if (!valA->GetIsTrigger() || !valB->GetIsTrigger()) {
+                    if (valA->GetIsCollided()) {
+                        valA->OnCollisionExit();
+                    }
+                    if (valB->GetIsCollided()) {
+                        valB->OnCollisionExit();
+                    }
+                } else {
+                    if (valA->GetIsCollided()) {
+                        valA->OnTriggerExit();
+                    }
 
-                if (valB->GetIsCollided()) {
-                    valB->OnCollisionExit();
+                    if (valB->GetIsCollided()) {
+                        valB->OnTriggerExit();
+                    }
                 }
 
                 valA->SetIsCollided(false);
@@ -177,7 +228,6 @@ namespace SharkEngine::Core::Physics {
 
         }
     }
-
 }
 
 

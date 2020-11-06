@@ -28,10 +28,11 @@ public:
     static std::once_flag onlyOnce;
 
     SharkSystem() = default;
+
     ~SharkSystem() = default;
 
-    static SharkSystem* Instance() {
-        std::call_once(onlyOnce, [](){instance.reset(new SharkSystem()); });
+    static SharkSystem *Instance() {
+        std::call_once(onlyOnce, []() { instance.reset(new SharkSystem()); });
 
         return instance.get();
     };
@@ -53,10 +54,17 @@ public:
         timeMgr->Init();
     };
 
-    void Start()        { sceneMgr->Start(); }
-    void Update()       { timeMgr->Update(); inputMgr->Update(); sceneMgr->Update(); }
-    void LateUpdate()   { sceneMgr->LateUpdate(); }
-    void Render()       {
+    void Start() { sceneMgr->Start(); }
+
+    void Update() {
+        timeMgr->Update();
+        inputMgr->Update();
+        sceneMgr->Update();
+    }
+
+    void LateUpdate() { sceneMgr->LateUpdate(); }
+
+    void Render() {
         SHARK_DIRECT3D->BeginRender();
 
         SHARK_DIRECT3D->GetSprite()->Begin(D3DXSPRITE_ALPHABLEND);
@@ -69,9 +77,10 @@ public:
 
         SHARK_DIRECT3D->EndRender();
     }
-    void EndScene()     { sceneMgr->EndScene(); }
 
-    void Release()      {
+    void EndScene() { sceneMgr->EndScene(); }
+
+    void Release() {
         textureMgr->Release();
 
         SAFE_DELETE(sceneMgr);
@@ -85,15 +94,19 @@ public:
 
     bool IsClosed() const { return SHARK_WINDOWS->CheckMessage().message == WM_QUIT; }
 
-    SharkEngine::Core::SceneManager* GetSceneManager() {return sceneMgr;};
-    SharkEngine::Core::TimeManager* GetTimeManager() {return timeMgr;};
-    SharkEngine::Core::DirectXTextureManger* GetTextureManager() {return textureMgr;};
-    SharkEngine::Core::LineDebuggerManager* GetLineDebuggerManager() {return lineMgr;}
+    SharkEngine::Core::SceneManager *GetSceneManager() { return sceneMgr; };
+
+    SharkEngine::Core::TimeManager *GetTimeManager() { return timeMgr; };
+
+    SharkEngine::Core::DirectXTextureManger *GetTextureManager() { return textureMgr; };
+
+    SharkEngine::Core::LineDebuggerManager *GetLineDebuggerManager() { return lineMgr; }
+
 public:
-    SharkEngine::Core::SceneManager* sceneMgr;
-    SharkEngine::Core::TimeManager* timeMgr;
-    SharkEngine::Core::InputManager* inputMgr;
-    SharkEngine::Core::DirectXTextureManger* textureMgr;
-    SharkEngine::Core::LineDebuggerManager* lineMgr;
+    SharkEngine::Core::SceneManager *sceneMgr;
+    SharkEngine::Core::TimeManager *timeMgr;
+    SharkEngine::Core::InputManager *inputMgr;
+    SharkEngine::Core::DirectXTextureManger *textureMgr;
+    SharkEngine::Core::LineDebuggerManager *lineMgr;
 
 };
