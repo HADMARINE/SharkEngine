@@ -32,7 +32,7 @@ HWND WindowsApplication::FloatWindow(int cmdShow) {
             NULL
     );
 
-    ShowWindow(hWnd, cmdShow);
+    ShowWindow(hWnd, 10);
     return hWnd;
 }
 void WindowsApplication::Initialize() {
@@ -48,7 +48,7 @@ void WindowsApplication::Initialize() {
     wndClass.hIcon = LoadIcon(NULL, IDI_APPLICATION);
     wndClass.hInstance = hInstance;
     wndClass.lpfnWndProc = WndProc;
-    wndClass.lpszClassName = GlobalPreferences::ENGINE_NAME;
+    wndClass.lpszClassName = TEXT(GlobalPreferences::ENGINE_NAME);
     wndClass.lpszMenuName = NULL;
     wndClass.style = CS_HREDRAW | CS_VREDRAW;
     RegisterClass(&wndClass);

@@ -49,7 +49,7 @@ namespace SharkEngine::Core {
 
         Transform *GetParent() { return parent; }
 
-        const D3DXMATRIX *GetMatrix() { return &mat; }
+        const D3DXMATRIX& GetMatrix() { return mat; }
 
         void SetParent(Transform *iter) { parent = iter; };
 

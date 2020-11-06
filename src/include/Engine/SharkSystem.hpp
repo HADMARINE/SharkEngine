@@ -54,17 +54,19 @@ public:
         timeMgr->Init();
     };
 
-    void Start() { sceneMgr->Start(); }
+    void Start()        { sceneMgr->Start(); }
+    bool Update()       {
+        if(SHARK_WINDOWS->CheckMessage().message == WM_QUIT)
+            return false;
 
-    void Update() {
         timeMgr->Update();
         inputMgr->Update();
         sceneMgr->Update();
+
+        return true;
     }
-
-    void LateUpdate() { sceneMgr->LateUpdate(); }
-
-    void Render() {
+    void LateUpdate()   { sceneMgr->LateUpdate(); }
+    void Render()       {
         SHARK_DIRECT3D->BeginRender();
 
         SHARK_DIRECT3D->GetSprite()->Begin(D3DXSPRITE_ALPHABLEND);
