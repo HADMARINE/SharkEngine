@@ -230,9 +230,9 @@ namespace SharkEngine::Core::Physics {
         }
     }
 
-    void ColliderManager::TestObject() {
-        auto component = SHARK_SCENE_MGR->GetCurrentScene()->GetComponentArray<Component>();
-    }
+//    void ColliderManager::TestObject() {
+//        auto component = SHARK_SCENE_MGR->GetCurrentScene()->GetComponentArray<Component>();
+//    }
 }
 
 

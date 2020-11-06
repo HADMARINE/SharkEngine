@@ -19,7 +19,7 @@ namespace SharkEngine::Core {
     private:
          std::vector<std::unordered_set<BoxCollider*>> colliderQueue;
 
-         void TestObject();
+//         void TestObject();
     };
 };
 
