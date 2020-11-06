@@ -5,8 +5,6 @@
 #include "include/Engine/Scene/Components/SpriteAnimation.h"
 #include <string>
 
-//void SharkEngine::Core::SpriteAnimation::Start() {
-//}
 void SharkEngine::Core::SpriteAnimation::Update() {
     currentFrame += SHARK_TIME_MGR->GetDeltaTime() * fps;
 

@@ -5,7 +5,7 @@
 #ifndef SHARKENGINE_CAMERACOMPONENT_H
 #define SHARKENGINE_CAMERACOMPONENT_H
 
-#include "include/Engine/Scene/Components/CameraComponent.h"
+#include "include/Engine/Scene/Components/Base/Component.h"
 
 namespace SharkEngine::Core {
     class CameraComponent : public Component {

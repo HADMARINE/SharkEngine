@@ -17,11 +17,21 @@ namespace SharkEngine::Core {
         void Start() override;
         void Update() override;
 
-
         void SetTextureImage(const char* path);
 
-        Rect GetBoundaryRect();
-        void SetBoundaryRect(Rect boundaryRect);
+        Rect GetBoundaryRect() {return boundaryRect;}
+        void SetBoundaryRect(Rect boundaryRect) {this->boundaryRect = boundaryRect;}
+
+        bool GetIsOnCursor() {return isOnCursor;}
+        bool GetIsOnClick() {return isOnClick;}
+        bool GetIsEndClick() {return isEndClick;}
+
+    private:
+        bool isOnCursor;
+        bool isOnClick;
+        bool isEndClick;
+
+        Rect boundaryRect;
     };
 }
 
