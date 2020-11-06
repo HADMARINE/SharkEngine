@@ -50,6 +50,8 @@ namespace SharkEngine::Core {
             this->isTrigger = b;
         }
 
+        void Update() override;
+
     private:
         Vec2 relativeLeftTopPos{};
         Vec2 relativeRightBottomPos{};

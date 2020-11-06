@@ -13,6 +13,11 @@
 #include "Entity/Entity.h"
 #include "Manager/ColliderManager.hpp"
 
+class ColliderManager;
+
+class ColliderManager;
+
+class ColliderManager;
 namespace SharkEngine::Core {
     //--------------------------------------------------------------------------------------
     // Scene
@@ -106,7 +111,7 @@ namespace SharkEngine::Core {
     private:
         std::unique_ptr<ComponentManager> m_ComponentManager;
         std::unique_ptr<EntityIDManager> m_EntityIDManager;
-        std::unique_ptr<Physics::ColliderManager> m_ColliderManager;
+        std::unique_ptr<ColliderManager> m_ColliderManager;
 //        std::unique_ptr
     };
 }

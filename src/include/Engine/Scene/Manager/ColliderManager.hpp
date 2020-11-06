@@ -18,6 +18,8 @@ namespace SharkEngine::Core {
         void LateUpdate();
     private:
          std::vector<std::unordered_set<BoxCollider*>> colliderQueue;
+
+         void TestObject();
     };
 };
 

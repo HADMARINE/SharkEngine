@@ -6,6 +6,7 @@
 #include "include/Engine/Scene/Manager/ColliderManager.hpp"
 #include "include/Engine/Scene/Components/Base/Component.h"
 #include "include/Engine/Scene/Components/RigidBody2D.hpp"
+#include "include/Engine/SharkSystem.hpp"
 
 namespace SharkEngine::Core::Physics {
     using namespace std;
@@ -227,6 +228,10 @@ namespace SharkEngine::Core::Physics {
             }
 
         }
+    }
+
+    void ColliderManager::TestObject() {
+        auto component = SHARK_SCENE_MGR->GetCurrentScene()->GetComponentArray<Component>();
     }
 }
 
