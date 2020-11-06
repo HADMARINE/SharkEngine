@@ -7,6 +7,7 @@
 #include "../../include/Engine/Scene/Scene.h"
 #include "include/Engine/Scene/Components/Sprite2DRenderer.h"
 #include "include/Engine/Scene/Components/RigidBody2D.hpp"
+#include "include/Engine/Scene/Components/BoxCollider.hpp"
 #include "../../CLogger.hpp"
 using namespace SharkEngine::Core;
 
@@ -18,8 +19,14 @@ void TestObject::Init() {
     testComponent = new TestComponent();
     m_Scene->AddComponent<TestComponent>(this, testComponent);
 
+
+//    transform->SetLocalPos(Vec2(1000, 1000));
+
     Sprite2DRenderer* tmp = AddComponent<Sprite2DRenderer>();
     tmp->SetTexture("source/viking_room.png");
 //    BoxCollider* boxCollider = AddComponent<BoxCollider>();
     RigidBody2D* rigidBody = AddComponent<RigidBody2D>();
+    BoxCollider* boxCollider = AddComponent<BoxCollider>();
+    boxCollider->SetLeftTopPos(transform->GetLocalPos());
+    boxCollider->SetRightBottomPos(transform->GetLocalPos() + Vec2(1024, 1024) * transform->GetScale().x);
 };

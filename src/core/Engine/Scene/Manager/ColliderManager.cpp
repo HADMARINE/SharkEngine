@@ -13,6 +13,8 @@ namespace SharkEngine::Core {
 
     void ColliderManager::MountCollider(BoxCollider *colA,
                                         BoxCollider *colB) {
+        if(!colA || !colB) return;
+
         CLogger::Info("MOUNT COLLIDER");
         unordered_set<BoxCollider *> colliderSet;
         colliderSet.insert(colA);
@@ -228,6 +230,24 @@ namespace SharkEngine::Core {
                 valB->SetIsCollided(false);
             }
 
+        }
+    }
+
+    void ColliderManager::Update() {
+        auto colliderArray = *SHARK_SCENE_MGR->GetCurrentScene()->GetComponentArray<BoxCollider>();
+        CLogger::Info("[BoxCollider] : colliderArray length : %d", colliderArray.size());
+
+        if(colliderArray.size() == 0) {
+            return;
+        }
+
+        for (auto iter : colliderArray) {
+            for (auto _iter : colliderArray) {
+                if(iter == _iter) {
+                    continue;
+                }
+                this->MountCollider(iter, _iter);
+            }
         }
     }
 

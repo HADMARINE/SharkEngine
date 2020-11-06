@@ -82,7 +82,8 @@ namespace SharkEngine::Core {
             const char* typeName = typeid(T).name();
 
             for(auto j : m_ComponentArrays[typeName]->GetComponentArray())
-                iter.push_back(dynamic_cast<T*>(j));
+                    if(dynamic_cast<T*>(j) != nullptr)
+                        iter.push_back(dynamic_cast<T*>(j));
 
             return iter;
         }

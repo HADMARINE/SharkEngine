@@ -107,7 +107,7 @@ add_executable(
     src/include/Engine/Scene/Components/RigidBody2D.cpp
     src/include/Engine/Scene/Components/RigidBody2D.hpp
     src/include/Engine/Scene/Components/BoxCollider.cpp
-        src/core/Engine/Scene/Components/BoxCollider.cpp src/include/Engine/Scene/Components/Button.cpp src/include/Engine/Scene/Components/Button.h)
+        src/core/Engine/Scene/Components/BoxCollider.cpp src/include/Engine/Scene/Components/Button.cpp src/include/Engine/Scene/Components/Button.h src/InGame/GameObjects/FloorObject.cpp src/InGame/GameObjects/FloorObject.hpp src/InGame/Scripts/FloorComponent.cpp src/InGame/Scripts/FloorComponent.hpp)
 
 target_include_directories(main PRIVATE src)
 

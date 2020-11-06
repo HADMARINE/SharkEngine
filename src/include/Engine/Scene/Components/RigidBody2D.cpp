@@ -18,7 +18,7 @@ namespace SharkEngine::Core {
         vel.y += deltaTime * GetGravity();
 
         AddVelocity(vel);
-        
+
         GetOwner()->transform->Translate(Vec2(deltaTime * GetVelocity().x, deltaTime * GetVelocity().y));
     }
 }

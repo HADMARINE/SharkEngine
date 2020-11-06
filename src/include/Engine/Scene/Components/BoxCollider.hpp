@@ -30,11 +30,11 @@ namespace SharkEngine::Core {
             return this->isTrigger;
         }
 
-        void SetLeftTopPos(Vec2 &v) {
+        void SetLeftTopPos(Vec2 v) {
             this->relativeLeftTopPos = v;
         }
 
-        void SetRightBottomPos(Vec2 &v) {
+        void SetRightBottomPos(Vec2 v) {
             this->relativeRightBottomPos = v;
         }
 
@@ -50,7 +50,7 @@ namespace SharkEngine::Core {
             this->isTrigger = b;
         }
 
-        void Update() override;
+//        void Update() override;
 
     private:
         Vec2 relativeLeftTopPos{};

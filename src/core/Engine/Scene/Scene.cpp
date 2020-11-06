@@ -29,6 +29,7 @@ void SharkEngine::Core::Scene::Start() {
 }
 void SharkEngine::Core::Scene::Update() {
     m_ComponentManager->Update();
+    m_ColliderManager->Update();
 }
 void SharkEngine::Core::Scene::LateUpdate() {
     m_ComponentManager->LateUpdate();

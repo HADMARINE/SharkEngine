@@ -4,14 +4,16 @@
 
 #include "BoxCollider.hpp"
 
-void SharkEngine::Core::BoxCollider::Update() {
-    // TODO : MOUNT ALL COLLIDERS
-    auto colliderArray = GetOwner()->GetScene()->GetComponentArray<BoxCollider>();
-
-    for(auto iter : *colliderArray) {
-        if(iter == this) {
-            continue;
-        }
-        GetOwner()->GetScene()->RegisterCollider(iter, this);
-    }
-}
+//void SharkEngine::Core::BoxCollider::Update() {
+//    // TODO : MOUNT ALL COLLIDERS
+//    auto colliderArray = GetOwner()->GetScene()->GetComponentArray<BoxCollider>();
+//
+//    CLogger::Info("[BoxCollider] : colliderArray length : %d", colliderArray->size());
+//
+//    for(auto iter : *colliderArray) {
+//        if(iter == this) {
+//            continue;
+//        }
+////        GetOwner()->GetScene()->RegisterCollider(iter, this);
+//    }
+//}

@@ -17,7 +17,7 @@ namespace SharkEngine::Core {
         void MountCollider(BoxCollider *colA, BoxCollider *colB);
 
         std::vector<std::unordered_set<BoxCollider *>> GetColliderQueue();
-
+        void Update();
         void LateUpdate();
 
     private:
