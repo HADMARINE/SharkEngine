@@ -123,9 +123,9 @@ add_executable(
 
 target_include_directories(main PRIVATE src)
 
-add_subdirectory(lib/freealut)
-target_include_directories(main PRIVATE lib/freealut/include)
-target_link_libraries(main PRIVATE alut)
+#add_subdirectory(lib/freealut)
+#target_include_directories(main PRIVATE lib/freealut/include)
+#target_link_libraries(main PRIVATE alut)
 
 find_package(glm CONFIG REQUIRED)
 target_link_libraries(main PRIVATE glm)
