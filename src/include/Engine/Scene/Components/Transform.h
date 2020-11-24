@@ -26,10 +26,15 @@ namespace SharkEngine::Core {
 
         //Get Methods
         vec3 GetPosition()          { return position; };
+        void SetPosition(vec3 pos)  { position = vec4(pos, 1.0f); }
         vec3 GetLocalPosition()     { return localPosition; };
+        void SetLocalPosition(vec3 pos)     { localPosition = vec4(pos, 1.0f); }
         vec3 GetRightDirection()    { return right; }
+        vec3 GetLeftDirection()     { return right * vec3(-1.0f, -1.0f, -1.0f); }
         vec3 GetUpDirection()       { return up; }
         vec3 GetForwardDirection()  { return forward; }
+        vec3 GetBackwardDirection()  { return forward * vec3(-1.0f, -1.0f, -1.0f); }
+
         vec3 GetEulerAngles()       { return eulerAngles; }
         vec3 GetLocalEulerAngles()  { return localEulerAngles; }
         vec3 GetLossyScale()        { return lossyScale; }
@@ -39,23 +44,25 @@ namespace SharkEngine::Core {
         Transform *GetParent()      { return parent; };
         Transform *GetChild(int index = 0)  { if (0 <= index && index < children.size()) return children[index]; }
 
-        vec3 TransformDirection(vec3);
-        vec3 TransformDirection(vec4);
-        vec3 TransformDirection(float, float, float);
-        vec3 InverseTransformDirection(vec3);
-        vec3 InverseTransformDirection(vec4);
-        vec3 InverseTransformDirection(float, float, float);
-        vec3 TransformPoint(vec3);
-        vec3 TransformPoint(float, float, float);
-        vec3 InverseTransformPoint(vec3);
-        vec3 InverseTransformPoint(float, float, float);
-        void LookAt(Transform *);
-        void LookAt(vec3);
-        void Rotate(vec3);
-        void Rotate(float, float, float);
-        void RotateAround(vec3, vec3, float);
-        void RotateAround(vec3, float);
-        void RotateAroundLocal(vec3, float);
+        //Controll ChildMethods
+        void AddChild(Transform* iter);
+        void SetParent(Transform* target, Transform* children);
+
+        //Transform Method
+        vec3 TransformDirection(vec3 position);
+        vec3 TransformDirection(vec4 position);
+        vec3 TransformDirection(float x, float y, float z);
+        vec3 InverseTransformDirection(vec3 position);
+        vec3 InverseTransformDirection(vec4 position);
+        vec3 InverseTransformDirection(float x, float y, float z);
+        vec3 TransformPoint(vec3 point);
+        vec3 TransformPoint(float x, float y, float z);
+        vec3 InverseTransformPoint(vec3 point);
+        vec3 InverseTransformPoint(float x, float y, float z);
+        void LookAt(Transform * transform);
+        void LookAt(vec3 position);
+        void Rotate(vec3 rotate);
+        void Rotate(float x, float y, float z);
         void Translate(vec3);
 
     private:
@@ -63,9 +70,9 @@ namespace SharkEngine::Core {
         vec4 localPosition; //Local
         vec4 position;      //World
 
-        vec4 right;
-        vec4 up;
-        vec4 forward;
+        vec3 right;
+        vec3 up;
+        vec3 forward;
 
         vec3 localEulerAngles;
         vec3 eulerAngles;

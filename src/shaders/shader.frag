@@ -13,5 +13,5 @@ void main() {
     if(color.w < 1) { discard; }
     outColor = color;
 
-//    outColor = vec4(fragColor * texture(texSampler, fragTexCoord));
+    //    outColor = vec4(fragColor * texture(texSampler, fragTexCoord));
 }

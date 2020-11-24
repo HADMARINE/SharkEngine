@@ -13,6 +13,15 @@ void TestScene::Init() {
     this->RegisterComponent<TestComponent>();
 
     TestObject* tmp = new TestObject();
+    TestObject* tmp1 = new TestObject();
+    TestObject* tmp2 = new TestObject();
 
     tmp->Init();
+    tmp1->Init();
+    tmp2->Init();
+
+    //DestroyComponent<TestObject>(tmp2->GetEntityID());
+
+    //if(GetComponent<TestObject>(tmp2->GetEntityID()) == nullptr)
+    //    CLogger::Error("real bug.!");
 }

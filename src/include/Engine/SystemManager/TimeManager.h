@@ -4,8 +4,6 @@
 
 #pragma once
 
-#include "../../Graphic/VulkanApplication.h"
-
 #include <GLFW/glfw3.h>
 
 namespace SharkEngine::Core {

@@ -1,15 +1,9 @@
 //
-// Created by EunwooSong on 2020-10-27.
+// Created by EunwooSong on 2020-11-03.
 //
 
 #ifndef SHARKENGINE_INCLUDEVULKAN_H
 #define SHARKENGINE_INCLUDEVULKAN_H
-
-
-#pragma warning(disable : 4819)
-
-#include "../Engine/CoreDefine.h"
-/*********** C/C++ HEADER FILES ***********/
 
 /*********** COMPILER SPECIFIC PREPROCESSORS ***********/
 #if defined(_WIN32) || defined(_WIN64)

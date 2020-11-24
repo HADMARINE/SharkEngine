@@ -37,7 +37,7 @@ namespace SharkEngine::Core {
         }
 
         template<typename T>
-        void AddComponent(EntityID _id, Component* component) {
+        void AddComponent(EntityID _id, T* component) {
             GetComponentArray<T>()->AddComponent(_id, component);
         }
 

@@ -66,9 +66,9 @@ namespace SharkEngine::Core {
         }
 
         template <typename T>
-        void AddComponent(Entity* _id, Component* iter) {
+        void AddComponent(Entity* _id, T* iter) {
             m_ComponentManager->AddComponent<T>(_id->GetEntityID(), iter);
-            iter->SetOwner(_id);
+            dynamic_cast<Component*>(iter)->SetOwner(_id);
             auto signature = m_EntityIDManager->GetSignature(_id->GetEntityID());
             signature.set(m_ComponentManager->GetComponentID<T>(), true);
             m_EntityIDManager->SetSignature(_id->GetEntityID(), signature);

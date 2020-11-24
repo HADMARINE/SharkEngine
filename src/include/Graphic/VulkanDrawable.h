@@ -1,90 +1,75 @@
 //
-// Created by EunwooSong on 2020-10-27.
+// Created by HADMARINE on 2020-11-04.
 //
 
-#ifndef SHARKENGINE_VULKANDRAWABLE_H
-#define SHARKENGINE_VULKANDRAWABLE_H
-
-#define NUMBER_OF_VIEWPORTS 1
-#define NUMBER_OF_SCISSORS NUMBER_OF_VIEWPORTS
-
 #pragma once
-#include "IncludeVulkan.h"
-#include "VulkanDescriptor.h"
-#include "VulkanStructs.h"
-
-class VulkanRenderer;
-class VulkanDrawable : public VulkanDescriptor
-{
-public:
-    VulkanDrawable(VulkanRenderer* parent = 0);
-    ~VulkanDrawable();
-
-    void CreateVertexBuffer(const void *vertexData, uint32_t dataSize, uint32_t dataStride, bool useTexture);
-    void Prepare();
-    void Update();
-    void Render();
-
-    void SetPipeline(VkPipeline* vulkanPipeline) { pipeline = vulkanPipeline; }
-    VkPipeline* GetPipeline() { return pipeline; }
-
-    void CreateUniformBuffer();
-    void CreateDescriptorPool(bool useTexture = true);
-    void CreateDescriptorResources();
-    void CreateDescriptorSet(bool useTexture = true);
-    void CreateDescriptorSetLayout(bool useTexture = true);
-    void CreatePipelineLayout();
-
-    void InitViewports(VkCommandBuffer* cmd);
-    void InitScissors(VkCommandBuffer* cmd);
-
-    void DestroyVertexBuffer();
-    void DestroyCommandBuffer();
-    void DestroySynchronizationObjects();
-    void DestroyUniformBuffer();
-
-    void SetTextures(TextureData* tex);
-public:
-    /***************DRAWABLE WRAPPERS***************/
-    struct UniformData {
-        VkBuffer						buffer;			// Buffer resource object
-        VkDeviceMemory					memory;			// Buffer resourece object's allocated device memory
-        VkDescriptorBufferInfo			bufferInfo;		// Buffer info that need to supplied into write descriptor set (VkWriteDescriptorSet)
-        VkMemoryRequirements			memRqrmnt;		// Store the queried memory requirement of the uniform buffer
-        std::vector<VkMappedMemoryRange>mappedRange;	// Metadata of memory mapped objects
-        uint8_t*						pData;			// Host pointer containing the mapped device address which is used to write data into.
-    } UniformData;
-
-    // Structure storing vertex buffer metadata
-    struct VertexBuffer {
-        VkBuffer buf;
-        VkDeviceMemory mem;
-        VkDescriptorBufferInfo bufferInfo;
-    } VertexBuffer;
-
-    // Stores the vertex input rate
-    VkVertexInputBindingDescription		viIpBinding;
-    // Store metadata helpful in data interpretation
-    VkVertexInputAttributeDescription	viIpAttribute[2];
-
-private:
-    void recordCommandBuffer(int currentImage, VkCommandBuffer* cmdDraw);
-
-    std::vector<VkCommandBuffer> vecCmdDraw;			// Command buffer for drawing
-    VkViewport viewport;
-    VkRect2D   scissor;
-    VkSemaphore presentCompleteSemaphore;
-    VkSemaphore drawingCompleteSemaphore;
-    TextureData* textures;
-
-    glm::mat4 Projection;
-    glm::mat4 View;
-    glm::mat4 Model;
-    glm::mat4 MVP;
-
-    VulkanRenderer* rendererObj;
-    VkPipeline*		pipeline;
-};
+#include "VulkanGraphicsCore.h"
+#include "VulkanTextureManager.h"
 
 
-#endif//SHARKENGINE_VULKANDRAWABLE_H
+namespace SharkEngine {
+    VkImageView createImageView(VkImage image, VkFormat format,
+                                VkImageAspectFlags aspectFlags) {
+        VkImageViewCreateInfo viewInfo{};
+        viewInfo.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
+        viewInfo.image = image;
+        viewInfo.viewType = VK_IMAGE_VIEW_TYPE_2D;
+        viewInfo.format = format;
+        viewInfo.subresourceRange.aspectMask = aspectFlags;
+        viewInfo.subresourceRange.baseMipLevel = 0;
+        viewInfo.subresourceRange.levelCount = 1;
+        viewInfo.subresourceRange.baseArrayLayer = 0;
+        viewInfo.subresourceRange.layerCount = 1;
+
+        VkImageView imageView;
+        if (vkCreateImageView(reinterpret_cast<VkDevice>(VULKAN_CORE), &viewInfo, nullptr, &imageView) != VK_SUCCESS) {
+            CLogger::Error("Failed to create texture image view");
+            throw std::runtime_error("Failed to create texture image view");
+        }
+
+        return imageView;
+    }
+
+    class Drawable {
+    public:
+        VkImage textureImage;
+        VkDeviceMemory textureImageMemory;
+        VkImageView textureImageView;
+        std::vector<VkDescriptorSet> descriptorSet;
+        std::vector<Vertex> vertices;
+        std::vector<uint32_t> indices;
+
+        struct DrawableVertexValue {
+            std::vector<Vertex> vertices;
+            std::vector<uint32_t> indices;
+        };
+
+
+        static std::vector<Drawable *> drawables;
+        static uint32_t indexCount;
+
+        static DrawableVertexValue returnVertexValue() {
+            DrawableVertexValue dv{};
+            return dv;
+        };
+
+        Drawable(std::string uri, const std::vector<Vertex> &vertices) {
+            this->vertices = vertices;
+
+            TextureImageStruct *texture = SharkEngine::VULKAN_TEXTURE_MANAGER->GetTextureImage(uri);
+            for (int i = 0; i < vertices.size() - 2; i++) {
+                this->indices.push_back(indexCount);
+                this->indices.push_back(indexCount + i + 1);
+                this->indices.push_back(indexCount + i + 2);
+            }
+            indexCount += vertices.size();
+
+            this->textureImage = reinterpret_cast<VkImage>(texture->image);
+            this->textureImageMemory = reinterpret_cast<VkDeviceMemory>(texture->deviceMemory);
+            //            this->textureImageView =
+        }
+    };
+
+    uint32_t Drawable::indexCount = 0;
+    std::vector<Drawable *> drawables = {};
+};// namespace SharkEngine

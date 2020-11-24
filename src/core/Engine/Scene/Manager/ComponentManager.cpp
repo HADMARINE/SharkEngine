@@ -14,7 +14,7 @@ void ComponentManager::Start()
     for(auto const& pair : m_ComponentArrays) {
         auto const& components = pair.second;
 
-        for (auto compoIter : *components->GetComponentArray()) {
+        for (auto compoIter : components->GetComponentArray()) {
             if (compoIter)
                 if (!compoIter->GetIsStarted())
                     compoIter->Start();
@@ -27,7 +27,7 @@ void ComponentManager::Update() {
 
         auto const& componentArray = components->GetComponentArray();
 
-        for (auto compoIter : *componentArray) {
+        for (auto compoIter : componentArray) {
             if(compoIter)
                 compoIter->Update();
         }
@@ -39,7 +39,7 @@ void ComponentManager::LateUpdate() {
 
         auto const& componentArray = components->GetComponentArray();
 
-        for (auto compoIter : *componentArray) {
+        for (auto compoIter : componentArray) {
             if (compoIter)
                 compoIter->LateUpdate();
         }
@@ -51,7 +51,7 @@ void ComponentManager::Render() {
 
         auto const& componentArray = components->GetComponentArray();
 
-        for (auto compoIter : *componentArray) {
+        for (auto compoIter : componentArray) {
             if (compoIter)
                 compoIter->Render();
         }
@@ -63,7 +63,7 @@ void ComponentManager::EndScene() {
 
         auto const& componentArray = components->GetComponentArray();
 
-        for (auto compoIter : *componentArray) {
+        for (auto compoIter : componentArray) {
             if (compoIter)
                 compoIter->EndScene();
         }
@@ -75,7 +75,7 @@ ComponentManager::~ComponentManager() {
 
         auto const& componentArray = components->GetComponentArray();
 
-        for(auto compoIter : *componentArray) {
+        for(auto compoIter : componentArray) {
             SAFE_DELETE(compoIter);
         }
     }
