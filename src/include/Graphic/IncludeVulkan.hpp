@@ -27,6 +27,10 @@
 #include <vulkan/vulkan.h>
 #include <GLFW/glfw3.h>
 
+/*********** STB LIBRARY ***********/
+#define STB_IMAGE_IMPLEMENTATION
+#include <stb_image.h>
+
 #ifdef AUTO_COMPILE_GLSL_TO_SPV
 //#include "SPIRV/GlslangToSpv.h"
 #endif

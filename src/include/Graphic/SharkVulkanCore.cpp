@@ -6,18 +6,20 @@
 
 namespace SharkEngine::Core {
 
-    SharkVulkan* SharkVulkan::getCore() {
-        static SharkVulkan *core = new SharkVulkan();
-        return core;
-    }
+    void SharkVulkan::InitWindow() {
+        glfwInit();
 
-    VkDevice *SharkVulkan::getDevice() {
-        return nullptr;
-    }
+        // GLFW SETTINGS
+        glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
+        glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
 
-    std::vector<VkCommandBuffer> SharkVulkan::getCommandBuffers() {
-        return this->commandBuffers;
+        window = glfwCreateWindow(
+                GlobalPreferences::SCREEN_WIDTH,
+                GlobalPreferences::SCREEN_HEIGHT,
+                GlobalPreferences::APPLICATION_NAME,
+                nullptr, nullptr);
+        glfwSetWindowUserPointer(window, this);
+        glfwSetFramebufferSizeCallback(window, SharkVulkan::FramebufferResizeCallback);
     }
-
 
 }// namespace SharkEngine::Core

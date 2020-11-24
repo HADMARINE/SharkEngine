@@ -2,12 +2,16 @@
 // Created by HADMARINE on 2020/11/24.
 //
 
-#ifndef SHARKENGINE_SHARKVULKANDEFINESTRUCTS_HPP
-#define SHARKENGINE_SHARKVULKANDEFINESTRUCTS_HPP
+#ifndef SHARKENGINE_SHARKVULKANDEFINE_HPP
+#define SHARKENGINE_SHARKVULKANDEFINE_HPP
+
+#define SHARK_API_CORE SharkEngine::Core::SharkVulkan::GetCore()
+#define SHARK_API_DEVICE SHARK_API_CORE->GetDevice()
 
 #include "IncludeVulkan.hpp"
 
 namespace SharkEngine::Core {
+
     struct Vertex {
         glm::vec3 pos;
         glm::vec4 color;
@@ -43,15 +47,18 @@ namespace SharkEngine::Core {
             return attributeDescriptions;
         }
     };
+
     struct UniformBufferObject {
         alignas(16) glm::mat4 model;
         alignas(16) glm::mat4 view;
         alignas(16) glm::mat4 proj;
     };
+
     struct TextureImageStruct {
         VkImage *image;
         VkDeviceMemory *deviceMemory;
     };
+
     class GraphicsObject {
     private:
         std::vector<Vertex> vertices;
@@ -73,6 +80,40 @@ namespace SharkEngine::Core {
             indexCount += vertices.size();
         }
     };
+
+    struct SwapChainSupportDetails {
+        VkSurfaceCapabilitiesKHR capabilities;
+        std::vector<VkSurfaceFormatKHR> formats;
+        std::vector<VkPresentModeKHR> presentModes;
+    };
+
+    struct QueueFamilyIndices {
+        std::optional<uint32_t> graphicsFamily;
+        std::optional<uint32_t> presentFamily;
+
+        bool isComplete() {
+            return graphicsFamily.has_value() && presentFamily.has_value();
+        }
+    };
+
+    const std::vector<const char*> validationLayers = {
+            "VK_LAYER_KHRONOS_validation"
+    };
+
+    const std::vector<const char*> deviceExtensions = {
+            VK_KHR_SWAPCHAIN_EXTENSION_NAME
+    };
+
+    VkResult CreateDebugUtilsMessengerEXT(VkInstance instance,
+                                          const VkDebugUtilsMessengerCreateInfoEXT* pCreateInfo,
+                                          const VkAllocationCallbacks* pAllocator,
+                                          VkDebugUtilsMessengerEXT* pDebugMessenger);
+
+    void DestroyDebugUtilsMessengerEXT(VkInstance instance, VkDebugUtilsMessengerEXT debugMessenger,
+                                       const VkAllocationCallbacks* pAllocator);
+
+
+
 }
 
-#endif//SHARKENGINE_SHARKVULKANDEFINESTRUCTS_HPP
+#endif//SHARKENGINE_SHARKVULKANDEFINE_HPP

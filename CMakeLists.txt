@@ -47,7 +47,7 @@ add_executable(
         src/InGame/GameObjects/TestObject.h
         src/InGame/Scripts/TestComponent.cpp
         src/InGame/Scripts/TestComponent.h
-        src/include/Graphic/VulkanDrawable.h src/core/Graphic/VulkanDrawableManager.cpp src/include/Graphic/VulkanDrawableManager.h src/include/Graphic/VulkanGraphicsCore.cpp src/include/Graphic/VulkanTextureManager.cpp src/include/Graphic/VulkanTextureManager.h src/include/Graphic/SharkVulkan.hpp src/include/Graphic/SharkVulkanCore.cpp src/include/Graphic/SharkVulkanDefineStructs.hpp)
+        src/include/Graphic/VulkanDrawable.h src/core/Graphic/VulkanDrawableManager.cpp src/include/Graphic/VulkanDrawableManager.h src/include/Graphic/VulkanGraphicsCore.cpp src/include/Graphic/VulkanTextureManager.cpp src/include/Graphic/VulkanTextureManager.h src/include/Graphic/SharkVulkan.hpp src/include/Graphic/SharkVulkanCore.cpp src/include/Graphic/SharkVulkanDefine.hpp src/include/Graphic/SharkVulkanGetters.cpp src/include/Graphic/SharkVulkanUtilFunctions.cpp src/include/Graphic/SharkVulkanDrawable.cpp src/include/Graphic/SharkVulkanDrawable.hpp)
 
 
 target_include_directories(main PRIVATE src)

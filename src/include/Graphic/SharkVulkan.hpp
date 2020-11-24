@@ -5,37 +5,115 @@
 #ifndef SHARKENGINE_SHARKVULKAN_HPP
 #define SHARKENGINE_SHARKVULKAN_HPP
 
-#include "IncludeVulkan.hpp"
-#include "SharkVulkanDefineStructs.hpp"
 #include "stdafx.hpp"
 
-#define SHARK_API_CORE SharkEngine::Core::SharkVulkan::getCore()
-#define SHARK_API_DEVICE SHARK_API_CORE->GetDevice()
+#include "IncludeVulkan.hpp"
+#include "SharkVulkanDefine.hpp"
+
 
 namespace SharkEngine::Core {
     class SharkVulkan {
     public:
         /// STATIC GETTERS
-        static SharkVulkan *getCore();
+        static SharkVulkan *GetCore();
 
 
         /// MEMBER GETTERS
-        VkDevice *getDevice();
-        std::vector<VkCommandBuffer> getCommandBuffers();
+        VkDevice *GetDevice();
+        std::vector<VkCommandBuffer> GetCommandBuffers();
+        std::vector<VkBuffer> GetUniformBuffers();
+        std::vector<VkImage> GetSwapChainImages();
+        VkDescriptorPool GetDescriptorPool();
+        VkDescriptorSetLayout GetDescriptorSetLayout();
+        VkSampler GetTextureSampler();
 
         /// CORE FUNCTIONS
 
-        void run();
-        void initWindow();
-        void initVulkan();
+        void Run();
+        void MainLoop();
+        void Cleanup();
 
-        /// UTIL FUNCTIONS
-
-        void *LoadTextures(std::string location);
-
+        void InitWindow();
+        void InitVulkan();
 
         /// GRAPHICS FUNCTIONS
 
+        void DrawFrame();
+
+        void CreateInstance();
+        void CreateSurface();
+        void CreateLogicalDevice();
+        void CreateSwapChain();
+        void CreateImageViews();
+        void CreateRenderPass();
+        void CreateDescriptorSetLayout();
+        void CreateGraphicsPipeline();
+        void CreateCommandPool();
+        void CreateDepthResources();
+        void CreateFrameBuffers();
+        void CreateTextureSampler();
+        void CreateVertexBuffer();
+        void CreateIndexBuffer();
+        void CreateUniformBuffers();
+        void CreateDescriptorPool();
+        void CreateDescriptorSets();
+        void CreateCommandBuffer();
+        void CreateSyncObjects();
+
+//        void UpdateVertexBuffer();
+        void UpdateUniformBuffer(uint32_t currentImage);
+
+        // CLEANUP
+        void CleanupSwapChain();
+        void RecreateSwapChain();
+
+
+
+        /// UTIL FUNCTIONS
+
+        static void FramebufferResizeCallback(GLFWwindow *window, int width, int height);
+
+        static std::vector<char> ReadFile(const std::string &filename);
+        void *LoadTextures(std::string location);
+
+        uint32_t FindMemoryType(uint32_t typeFilter, VkMemoryPropertyFlags properties);
+        VkFormat FindSupportedFormat(const std::vector<VkFormat> &candidates, VkImageTiling tiling,
+                                     VkFormatFeatureFlags features);
+        VkFormat FindDepthFormat();
+        bool HasStencilComponent(VkFormat format);
+        void PickPhysicalDevice();
+        VkSurfaceFormatKHR ChooseSwapSurfaceFormat(const std::vector<VkSurfaceFormatKHR>& availableFormats);
+        VkPresentModeKHR ChooseSwapPresentMode(const std::vector<VkPresentModeKHR>& availablePresentModes);
+        VkExtent2D ChooseSwapExtent(const VkSurfaceCapabilitiesKHR& capabilities);
+        bool CheckDeviceExtensionSupport(VkPhysicalDevice device);
+        SwapChainSupportDetails QuerySwapChainSupport(VkPhysicalDevice device);
+        bool IsDeviceSuitable(VkPhysicalDevice device);
+        QueueFamilyIndices FindQueueFamilies(VkPhysicalDevice device);
+        std::vector<const char*> getRequiredExtensions();
+        bool CheckValidationLayerSupport();
+
+        void CreateImage(uint32_t width, uint32_t height, VkFormat format,
+                         VkImageTiling tiling, VkImageUsageFlags usage,
+                         VkMemoryPropertyFlags properties, VkImage &image,
+                         VkDeviceMemory &imageMemory);
+        VkImageView CreateImageView(VkImage image, VkFormat format, VkImageAspectFlags aspectFlags);
+        void TransitionImageLayout(VkImage image, VkFormat format,
+                                    VkImageLayout oldLayout, VkImageLayout newLayout);
+        void CreateBuffer(VkDeviceSize size, VkBufferUsageFlags usage,
+                          VkMemoryPropertyFlags properties, VkBuffer &buffer,
+                          VkDeviceMemory &bufferMemory);
+        void CopyBuffer(VkBuffer srcBuffer, VkBuffer dstBuffer, VkDeviceSize size);
+        void CopyBufferToImage(VkBuffer buffer, VkImage image, uint32_t width, uint32_t height);
+        VkShaderModule CreateShaderModule(const std::vector<char> &code);
+
+        VkCommandBuffer BeginSingleTimeCommands();
+        void EndSingleTimeCommands(VkCommandBuffer commandBuffer);
+
+
+        /// DEBUG LAYERS
+
+        void PopulateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT &createInfo);
+        void SetupDebugMessenger();
 
     private:
         /// MEMBER VARIABLES
@@ -67,7 +145,9 @@ namespace SharkEngine::Core {
         VkRenderPass renderPass;
 
         // DESCRIPTOR
-        VkDescriptorSetLayout deescriptorSetLayout;
+        VkDescriptorPool descriptorPool;
+        VkDescriptorSetLayout descriptorSetLayout;
+        std::vector<std::vector<VkDescriptorSet>> descriptorSets;
 
         // PIPELINE
         VkPipeline graphicsPipeline;
@@ -92,8 +172,20 @@ namespace SharkEngine::Core {
         VkDeviceMemory depthImageMemory;
         VkImageView depthImageView;
 
+        // VERTEX / INDEX / UNIFORM BUFFERS
+        VkBuffer vertexBuffer;
+        VkDeviceMemory vertexBufferMemory;
+        VkBuffer indexBuffer;
+        VkDeviceMemory indexBufferMemory;
+
+        std::vector<VkBuffer> uniformBuffers;
+        std::vector<VkDeviceMemory> uniformBuffersMemory;
+
         // DEBUG
         VkDebugUtilsMessengerEXT debugMessenger;
+
+        // ETC
+        bool framebufferResized = false;
     };
 
 }// namespace SharkEngine::Core
