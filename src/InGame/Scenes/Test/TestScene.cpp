@@ -20,6 +20,7 @@ void TestScene::Init() {
 
     GameObject* obj = new GameObject(); obj->Init();
     obj->AddComponent<CameraComponent>();
+    obj->AddComponent<TestComponent>();
     obj->GetComponent<Transform>()->SetScale(Vec2(0.1f, 0.1f));
 
 

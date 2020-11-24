@@ -19,7 +19,5 @@ void Player::Init() {
     box->SetLeftTopPos(Vec2(0,0));
     box->SetRightBottomPos(GetComponent<Sprite2DRenderer>()->GetTextureSize());
 
-
-
     playerMovement = AddComponent<PlayerMovement>();
 }

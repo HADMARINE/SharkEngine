@@ -6,8 +6,9 @@
 #define VULKAN_ENGINE_COLLIDERMANAGER_HPP
 
 #include "stdafx.hpp"
-#include <vector>
+
 #include <unordered_set>
+
 
 namespace SharkEngine::Core {
     class BoxCollider;
@@ -22,8 +23,6 @@ namespace SharkEngine::Core {
 
     private:
         std::vector<std::unordered_set<BoxCollider *>> colliderQueue{};
-
-//         void TestObject();
     };
 };
 

@@ -24,27 +24,12 @@ namespace SharkEngine::Core {
         virtual void Init();
 
         bool GetIsDestroy();
-
         void SetIsDestroy(bool);
-
         bool GetIsActive();
-
         void SetIsActive(bool);
 
         Scene *GetScene() { return m_Scene; }
-
         EntityID GetEntityID();
-
-//        template<typename T>
-//        T* AddComponent() {
-//            T* tmp = new T();
-//            m_Scene->AddComponent<T>(this, tmp);
-//            return tmp;
-//        }
-//        template<typename T>
-//        T* GetComponent() {
-//            return m_Scene->GetComponent<T>(this);
-//        }
 
     protected:
         EntityID m_id;
