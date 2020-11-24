@@ -15,7 +15,7 @@ add_executable(
         src/CLogger.hpp
         src/util/Assets.cpp
         src/Assets.hpp
-        src/include/Graphic/IncludeVulkan.h
+        src/include/Graphic/IncludeVulkan.hpp
         src/include/Graphic/VulkanGraphicsCore.h
         src/include/Engine/CoreDefine.h
         src/core/Engine/Scene/Manager/EntityIDManager.cpp
@@ -47,7 +47,7 @@ add_executable(
         src/InGame/GameObjects/TestObject.h
         src/InGame/Scripts/TestComponent.cpp
         src/InGame/Scripts/TestComponent.h
-        src/include/Graphic/VulkanDrawable.h src/core/Graphic/VulkanDrawableManager.cpp src/include/Graphic/VulkanDrawableManager.h src/include/Graphic/VulkanGraphicsCore.cpp src/include/Graphic/VulkanTextureManager.cpp src/include/Graphic/VulkanTextureManager.h)
+        src/include/Graphic/VulkanDrawable.h src/core/Graphic/VulkanDrawableManager.cpp src/include/Graphic/VulkanDrawableManager.h src/include/Graphic/VulkanGraphicsCore.cpp src/include/Graphic/VulkanTextureManager.cpp src/include/Graphic/VulkanTextureManager.h src/include/Graphic/SharkVulkan.hpp src/include/Graphic/SharkVulkanCore.cpp src/include/Graphic/SharkVulkanDefineStructs.hpp)
 
 
 target_include_directories(main PRIVATE src)

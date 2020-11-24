@@ -9,7 +9,7 @@
 #define STB_IMAGE_IMPLEMENTATION
 
 #include "../../stdafx.hpp"
-#include "IncludeVulkan.h"
+#include "IncludeVulkan.hpp"
 #include <GLFW/glfw3.h>
 #include <array>
 #include <cstring>
@@ -201,12 +201,12 @@ namespace SharkEngine {
         //    Member variable
         GLFWwindow *window;
 
-        VkInstance instance;
+        VkInstance instance; //
         VkDebugUtilsMessengerEXT debugMessenger;
         VkSurfaceKHR surface;
 
         VkPhysicalDevice physicalDevice = VK_NULL_HANDLE;
-        VkDevice device;
+        VkDevice device; //
 
         VkQueue graphicsQueue;
         VkQueue presentQueue;

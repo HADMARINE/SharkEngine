@@ -2,8 +2,8 @@
 // Created by EunwooSong on 2020-11-03.
 //
 
-#ifndef SHARKENGINE_INCLUDEVULKAN_H
-#define SHARKENGINE_INCLUDEVULKAN_H
+#ifndef SHARKENGINE_INCLUDEVULKAN_HPP
+#define SHARKENGINE_INCLUDEVULKAN_HPP
 
 /*********** COMPILER SPECIFIC PREPROCESSORS ***********/
 #if defined(_WIN32) || defined(_WIN64)
@@ -31,4 +31,4 @@
 //#include "SPIRV/GlslangToSpv.h"
 #endif
 
-#endif//SHARKENGINE_INCLUDEVULKAN_H
+#endif//SHARKENGINE_INCLUDEVULKAN_HPP
