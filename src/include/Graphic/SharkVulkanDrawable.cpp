@@ -2,8 +2,8 @@
 // Created by HADMARINE on 2020/11/25.
 //
 
-#include "SharkVulkanDrawable.hpp"
 #include "SharkVulkan.hpp"
+#include "SharkVulkanDrawable.hpp"
 
 std::vector<uint32_t> SharkEngine::Core::SharkVulkanDrawable::getVertices() {
     return this->vertices;

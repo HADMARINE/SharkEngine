@@ -9,7 +9,7 @@
 
 #include "IncludeVulkan.hpp"
 #include "SharkVulkanDefine.hpp"
-
+#include "SharkVulkanDrawable.hpp"
 
 namespace SharkEngine::Core {
     class SharkVulkan {
@@ -26,6 +26,9 @@ namespace SharkEngine::Core {
         VkDescriptorPool GetDescriptorPool();
         VkDescriptorSetLayout GetDescriptorSetLayout();
         VkSampler GetTextureSampler();
+        std::vector<SharkVulkanDrawable>* GetDrawables();
+        uint32_t AppendDrawable(const SharkVulkanDrawable& drawable);
+        void DeleteDrawable(uint32_t pos);
 
         /// CORE FUNCTIONS
 
@@ -180,6 +183,9 @@ namespace SharkEngine::Core {
 
         std::vector<VkBuffer> uniformBuffers;
         std::vector<VkDeviceMemory> uniformBuffersMemory;
+
+        // DRAWABLE
+        std::vector<SharkVulkanDrawable> drawables;
 
         // DEBUG
         VkDebugUtilsMessengerEXT debugMessenger;

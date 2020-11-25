@@ -14,4 +14,14 @@ namespace SharkEngine::Core {
     void *SharkVulkan::LoadTextures(std::string location) {
         return nullptr;
     }
+
+    uint32_t SharkVulkan::AppendDrawable(const SharkVulkanDrawable& drawable) {
+        this->drawables.push_back(drawable);
+        return this->drawables.size() - 1;
+    }
+
+    void SharkVulkan::DeleteDrawable(uint32_t pos) {
+        this->drawables.erase(pos);
+    }
+
 }// namespace SharkEngine::Core

@@ -39,5 +39,7 @@ namespace SharkEngine::Core {
         return this->textureSampler;
     }
 
-
+    std::vector<SharkVulkanDrawable>* SharkVulkan::GetDrawables() {
+        return &this->drawables;
+    }
 }// namespace SharkEngine::Core
