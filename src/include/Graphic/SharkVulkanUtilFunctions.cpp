@@ -3,8 +3,8 @@
 //
 
 #include "SharkVulkan.hpp"
-#include <fstream>
 #include <String>
+#include <fstream>
 
 namespace SharkEngine::Core {
 
@@ -17,14 +17,14 @@ namespace SharkEngine::Core {
         return nullptr;
     }
 
-    uint32_t SharkVulkan::AppendDrawable(const SharkVulkanDrawable& drawable) {
+    uint32_t SharkVulkan::AppendDrawable(const SharkVulkanDrawable &drawable) {
         this->drawables.push_back(drawable);
         return this->drawables.size() - 1;
     }
 
     void SharkVulkan::DeleteDrawable(uint32_t pos) {
-        if(drawables.size() > pos || drawables.empty()) return;
-        
+        if (drawables.size() > pos || drawables.empty()) return;
+
         this->drawables.erase(this->drawables.begin() + (pos - 1));
     }
 
@@ -414,4 +414,55 @@ namespace SharkEngine::Core {
 
         vkFreeCommandBuffers(device, commandPool, 1, &commandBuffer);
     }
+
+    void SharkVulkan::SetupDebugMessenger() {
+        if (!GlobalPreferences::enableValidationLayers) return;
+
+        VkDebugUtilsMessengerCreateInfoEXT createInfo;
+        PopulateDebugMessengerCreateInfo(createInfo);
+
+        if (CreateDebugUtilsMessengerEXT(instance, &createInfo, nullptr, &debugMessenger) != VK_SUCCESS) {
+            CLogger::Error("Failed to set up debug message");
+            throw std::runtime_error("Failed to set up debug messenger");
+        }
+    }
+
+    void SharkVulkan::PopulateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT &createInfo) {
+        createInfo = {};
+        createInfo.sType = VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT;
+        createInfo.messageSeverity =
+                VK_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT |
+                VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT;
+        createInfo.messageType =
+                VK_DEBUG_UTILS_MESSAGE_TYPE_GENERAL_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_TYPE_VALIDATION_BIT_EXT |
+                VK_DEBUG_UTILS_MESSAGE_TYPE_PERFORMANCE_BIT_EXT;
+        createInfo.pfnUserCallback = DebugCallback;
+    }
+
+    VkBool32 SharkVulkan::DebugCallback(VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity, VkDebugUtilsMessageTypeFlagsEXT messageType, const VkDebugUtilsMessengerCallbackDataEXT *pCallbackData, void *pUserData) {
+        CLogger::Debug("[VK] %s", pCallbackData->pMessage);
+        return VK_FALSE;
+    }
+
+    VkResult CreateDebugUtilsMessengerEXT(VkInstance instance,
+                                          const VkDebugUtilsMessengerCreateInfoEXT* pCreateInfo,
+                                          const VkAllocationCallbacks* pAllocator,
+                                          VkDebugUtilsMessengerEXT* pDebugMessenger) {
+        auto func = (PFN_vkCreateDebugUtilsMessengerEXT) vkGetInstanceProcAddr(instance, "vkCreateDebugUtilsMessengerEXT");
+        if (func != nullptr) {
+            return func(instance, pCreateInfo, pAllocator, pDebugMessenger);
+        } else {
+            return VK_ERROR_EXTENSION_NOT_PRESENT;
+        }
+    }
+
+    void DestroyDebugUtilsMessengerdEXT(VkInstance instance, VkDebugUtilsMessengerEXT debugMessenger,
+                                        const VkAllocationCallbacks* pAllocator) {
+        auto func = (PFN_vkDestroyDebugUtilsMessengerEXT) vkGetInstanceProcAddr(instance,
+                                                                                "vkDestroyDebugUtilsMessengerEXT");
+        if (func != nullptr) {
+            func(instance, debugMessenger, pAllocator);
+        }
+    }
+
 }// namespace SharkEngine::Core

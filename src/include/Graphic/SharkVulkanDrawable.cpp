@@ -2,8 +2,12 @@
 // Created by HADMARINE on 2020/11/25.
 //
 
+#define STB_IMAGE_IMPLEMENTATION
+#include <stb_image.h>
+
 #include "SharkVulkan.hpp"
 #include "SharkVulkanDrawable.hpp"
+
 
 std::vector<SharkEngine::Core::Vertex> SharkEngine::Core::SharkVulkanDrawable::getVertices() {
     return this->vertices;
@@ -18,7 +22,7 @@ std::vector<VkDescriptorSet> SharkEngine::Core::SharkVulkanDrawable::getDescript
 }
 
 SharkEngine::Core::SharkVulkanDrawable::SharkVulkanDrawable(
-        std::vector<uint32_t> vertices, const std::string &file) {
+        const std::vector<Vertex>& vertices, const std::string &file) {
 
     this->vertices = vertices;
 
@@ -127,3 +131,5 @@ SharkEngine::Core::SharkVulkanDrawable::SharkVulkanDrawable(
 SharkEngine::Core::SharkVulkanDrawable::~SharkVulkanDrawable() {
 
 }
+
+uint32_t SharkEngine::Core::SharkVulkanDrawable::indexCount = 0;

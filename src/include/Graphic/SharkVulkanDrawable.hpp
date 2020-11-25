@@ -11,7 +11,7 @@
 namespace SharkEngine::Core{
     class SharkVulkanDrawable {
     public:
-        SharkVulkanDrawable(std::vector<uint32_t> vertices, const std::string &file);
+        SharkVulkanDrawable(const std::vector<Vertex>& vertices, const std::string &file);
         ~SharkVulkanDrawable();
         std::vector<Vertex> getVertices();
         std::vector<uint32_t> getIndices();
@@ -22,12 +22,10 @@ namespace SharkEngine::Core{
         std::vector<Vertex> vertices;
         std::vector<uint32_t> indices;
         std::vector<VkDescriptorSet> descriptorSets;
-        VkImage textureImage;
-        VkDeviceMemory textureImageMemory;
+        VkImage textureImage{};
+        VkDeviceMemory textureImageMemory{};
         VkImageView textureImageView;
     };
-
-    uint32_t SharkVulkanDrawable::indexCount = 0;
 }
 
 

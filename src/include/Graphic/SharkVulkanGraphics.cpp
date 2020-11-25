@@ -70,7 +70,7 @@ namespace SharkEngine::Core {
             }
         }
     }
-    
+
     void SharkVulkan::DrawFrame() {
         CreateCommandBuffer();
         CLogger::Debug("HELLO DRAWFRAME");
@@ -807,4 +807,6 @@ namespace SharkEngine::Core {
 //            createDescriptorSets();
         CreateCommandBuffer();
     }
+
+
 }// namespace SharkEngine::Core

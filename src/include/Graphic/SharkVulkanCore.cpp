@@ -26,4 +26,16 @@ namespace SharkEngine::Core {
         glfwSetFramebufferSizeCallback(window, SharkVulkan::FramebufferResizeCallback);
     }
 
+    void SharkVulkan::MainLoop() {
+
+    }
+
+    void SharkVulkan::Cleanup() {
+
+    }
+
+    void SharkVulkan::InitVulkan() {
+
+    }
+
 }// namespace SharkEngine::Core

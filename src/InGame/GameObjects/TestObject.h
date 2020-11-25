@@ -14,7 +14,9 @@ public:
     TestObject() : Entity() {};
     ~TestObject(){};
 
-    void Init() override;
+    void Init() override {
+        Entity::Init();
+    }
 
     TestComponent* testComponent;
 };

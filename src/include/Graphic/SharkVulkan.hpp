@@ -26,8 +26,8 @@ namespace SharkEngine::Core {
         VkDescriptorPool GetDescriptorPool();
         VkDescriptorSetLayout GetDescriptorSetLayout();
         VkSampler GetTextureSampler();
-        std::vector<SharkVulkanDrawable>* GetDrawables();
-        uint32_t AppendDrawable(const SharkVulkanDrawable& drawable);
+        std::vector<SharkVulkanDrawable> *GetDrawables();
+        uint32_t AppendDrawable(const SharkVulkanDrawable &drawable);
         void DeleteDrawable(uint32_t pos);
         void DeleteDrawable(uint32_t start, uint32_t end);
 
@@ -63,13 +63,12 @@ namespace SharkEngine::Core {
         void CreateCommandBuffer();
         void CreateSyncObjects();
 
-//        void UpdateVertexBuffer();
+        //        void UpdateVertexBuffer();
         void UpdateUniformBuffer(uint32_t currentImage);
 
         // CLEANUP
         void CleanupSwapChain();
         void RecreateSwapChain();
-
 
 
         /// UTIL FUNCTIONS
@@ -85,14 +84,14 @@ namespace SharkEngine::Core {
         VkFormat FindDepthFormat();
         bool HasStencilComponent(VkFormat format);
         void PickPhysicalDevice();
-        VkSurfaceFormatKHR ChooseSwapSurfaceFormat(const std::vector<VkSurfaceFormatKHR>& availableFormats);
-        VkPresentModeKHR ChooseSwapPresentMode(const std::vector<VkPresentModeKHR>& availablePresentModes);
-        VkExtent2D ChooseSwapExtent(const VkSurfaceCapabilitiesKHR& capabilities);
+        VkSurfaceFormatKHR ChooseSwapSurfaceFormat(const std::vector<VkSurfaceFormatKHR> &availableFormats);
+        VkPresentModeKHR ChooseSwapPresentMode(const std::vector<VkPresentModeKHR> &availablePresentModes);
+        VkExtent2D ChooseSwapExtent(const VkSurfaceCapabilitiesKHR &capabilities);
         bool CheckDeviceExtensionSupport(VkPhysicalDevice device);
         SwapChainSupportDetails QuerySwapChainSupport(VkPhysicalDevice device);
         bool IsDeviceSuitable(VkPhysicalDevice device);
         QueueFamilyIndices FindQueueFamilies(VkPhysicalDevice device);
-        std::vector<const char*> getRequiredExtensions();
+        std::vector<const char *> getRequiredExtensions();
         bool CheckValidationLayerSupport();
 
         void CreateImage(uint32_t width, uint32_t height, VkFormat format,
@@ -101,7 +100,7 @@ namespace SharkEngine::Core {
                          VkDeviceMemory &imageMemory);
         VkImageView CreateImageView(VkImage image, VkFormat format, VkImageAspectFlags aspectFlags);
         void TransitionImageLayout(VkImage image, VkFormat format,
-                                    VkImageLayout oldLayout, VkImageLayout newLayout);
+                                   VkImageLayout oldLayout, VkImageLayout newLayout);
         void CreateBuffer(VkDeviceSize size, VkBufferUsageFlags usage,
                           VkMemoryPropertyFlags properties, VkBuffer &buffer,
                           VkDeviceMemory &bufferMemory);
@@ -117,6 +116,14 @@ namespace SharkEngine::Core {
 
         void PopulateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT &createInfo);
         void SetupDebugMessenger();
+        static VKAPI_ATTR VkBool32
+                VKAPI_CALL
+                DebugCallback(
+                        VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity,
+                        VkDebugUtilsMessageTypeFlagsEXT messageType,
+                        const VkDebugUtilsMessengerCallbackDataEXT
+                                *pCallbackData,
+                        void *pUserData);
 
     private:
         /// MEMBER VARIABLES
@@ -179,8 +186,8 @@ namespace SharkEngine::Core {
         VkImageView depthImageView;
 
         // VERTEX / INDEX / UNIFORM BUFFERS
-//        VkBuffer vertexBuffer;
-//        VkDeviceMemory vertexBufferMemory;
+        //        VkBuffer vertexBuffer;
+        //        VkDeviceMemory vertexBufferMemory;
         VkBuffer indexBuffer;
         VkDeviceMemory indexBufferMemory;
 
