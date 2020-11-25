@@ -60,7 +60,6 @@ namespace SharkEngine::Core {
         void CreateIndexBuffer();
         void CreateUniformBuffers();
         void CreateDescriptorPool();
-        void CreateDescriptorSets();
         void CreateCommandBuffer();
         void CreateSyncObjects();
 
