@@ -6,6 +6,10 @@
 
 namespace SharkEngine::Core {
 
+    void SharkVulkan::Run() {
+
+    }
+
     void SharkVulkan::InitWindow() {
         glfwInit();
 

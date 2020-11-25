@@ -23,9 +23,17 @@ namespace SharkEngine::Core {
     }
 
     void SharkVulkan::DeleteDrawable(uint32_t pos) {
+<<<<<<< HEAD
         if(drawables.size() > pos || drawables.empty()) return;
         
         this->drawables.erase(this->drawables.begin() + (pos - 1));
+=======
+        this->drawables.erase(this->drawables.begin() + pos);
+    }
+
+    void SharkVulkan::DeleteDrawable(uint32_t start, uint32_t end) {
+        this->drawables.erase(this->drawables.begin() + start, this->drawables.begin() + end);
+>>>>>>> vulkan_develop
     }
 
     std::vector<char> SharkVulkan::ReadFile(const std::string &fileName) {
