@@ -42,4 +42,5 @@ namespace SharkEngine::Core {
     std::vector<SharkVulkanDrawable>* SharkVulkan::GetDrawables() {
         return &this->drawables;
     }
+
 }// namespace SharkEngine::Core

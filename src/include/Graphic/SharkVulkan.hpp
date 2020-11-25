@@ -29,6 +29,7 @@ namespace SharkEngine::Core {
         std::vector<SharkVulkanDrawable>* GetDrawables();
         uint32_t AppendDrawable(const SharkVulkanDrawable& drawable);
         void DeleteDrawable(uint32_t pos);
+        void DeleteDrawable(uint32_t start, uint32_t end);
 
         /// CORE FUNCTIONS
 

@@ -21,7 +21,11 @@ namespace SharkEngine::Core {
     }
 
     void SharkVulkan::DeleteDrawable(uint32_t pos) {
-        this->drawables.erase(pos);
+        this->drawables.erase(this->drawables.begin() + pos);
+    }
+
+    void SharkVulkan::DeleteDrawable(uint32_t start, uint32_t end) {
+        this->drawables.erase(this->drawables.begin() + start, this->drawables.begin() + end);
     }
 
 }// namespace SharkEngine::Core
