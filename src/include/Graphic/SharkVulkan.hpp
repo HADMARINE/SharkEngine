@@ -76,7 +76,6 @@ namespace SharkEngine::Core {
         static void FramebufferResizeCallback(GLFWwindow *window, int width, int height);
 
         static std::vector<char> ReadFile(const std::string &filename);
-        void *LoadTextures(std::string location);
 
         uint32_t FindMemoryType(uint32_t typeFilter, VkMemoryPropertyFlags properties);
         VkFormat FindSupportedFormat(const std::vector<VkFormat> &candidates, VkImageTiling tiling,

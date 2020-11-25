@@ -42,6 +42,14 @@ SharkEngine::Core::SharkVulkanDrawable::SharkVulkanDrawable(
         throw std::runtime_error("Failed to load texture image");
     }
 
+//    VkBuffer testBuf;
+//    CLogger::Debug("testbuf : %s", &testBuf);
+//    VkDeviceMemory testMem;
+//    SHARK_API_CORE->CreateBuffer(imageSize, VK_BUFFER_USAGE_TRANSFER_SRC_BIT,
+//                                 VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT,
+//                                 &testBuf, testMem);
+
+
     VkBuffer stagingBuffer;
     VkDeviceMemory stagingBufferMemory;
     SHARK_API_CORE->CreateBuffer(imageSize, VK_BUFFER_USAGE_TRANSFER_SRC_BIT,

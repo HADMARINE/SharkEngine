@@ -3,7 +3,6 @@
 //
 
 #include "SharkVulkan.hpp"
-#include <String>
 #include <fstream>
 
 namespace SharkEngine::Core {
@@ -11,11 +10,6 @@ namespace SharkEngine::Core {
     void SharkVulkan::FramebufferResizeCallback(GLFWwindow *window, int width, int height) {
         auto app = reinterpret_cast<SharkVulkan *>(glfwGetWindowUserPointer(window));
         app->framebufferResized = true;
-    }
-
-    void *SharkVulkan::LoadTextures(std::string location) {
-        // TODO
-        return nullptr;
     }
 
     uint32_t SharkVulkan::AppendDrawable(const SharkVulkanDrawable &drawable) {
@@ -386,7 +380,8 @@ namespace SharkEngine::Core {
 
         EndSingleTimeCommands(commandBuffer);
     }
-    void SharkVulkan::CreateBuffer(VkDeviceSize size, VkBufferUsageFlags usage, VkMemoryPropertyFlags properties, VkBuffer &buffer, VkDeviceMemory &bufferMemory) {
+    void SharkVulkan::CreateBuffer(VkDeviceSize size, VkBufferUsageFlags usage,
+                                   VkMemoryPropertyFlags properties, VkBuffer &buffer, VkDeviceMemory &bufferMemory) {
         VkBufferCreateInfo bufferInfo{};
         bufferInfo.sType = VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO;
         bufferInfo.size = size;

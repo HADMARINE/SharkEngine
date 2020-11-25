@@ -32,47 +32,57 @@ int main() {
     SHARK_API_CORE->Run();
 
 
-//    VulkanDrawable *tmp = reinterpret_cast<VulkanDrawable *>(new Drawable("texture.jpg", std::vector<Vertex>{
-//                                                                                                 {{-0.5f, -0.5f, 0.0f}, {1.0f, 0.0f, 0.0f, 1.0f}, {0.0f, 1.0f}},
-//                                                                                                 {{0.5f, -0.5f, 0.0f}, {0.0f, 1.0f, 0.0f, 1.0f}, {1.0f, 1.0f}},
-//                                                                                                 {{0.5f, 0.5f, 0.0f}, {0.0f, 0.0f, 1.0f, 1.0f}, {1.0f, 0.0f}},
-//                                                                                                 {{-0.5f, 0.5f, 0.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.0f, 0.0f}}}));
-//
-//    VulkanDrawable *tmp_2 = reinterpret_cast<VulkanDrawable *>(new Drawable("viking_room.png", std::vector<Vertex>{
-//                                                                                                       {{-0.5f, -0.5f, -0.5f}, {1.0f, 0.0f, 0.0f, 1.0f}, {0.0f, 0.0f}},
-//                                                                                                       {{0.5f, -0.5f, -0.5f}, {0.0f, 1.0f, 0.0f, 1.0f}, {1.0f, 0.0f}},
-//                                                                                                       {{0.5f, 0.5f, -0.5f}, {0.0f, 0.0f, 1.0f, 1.0f}, {1.0f, 1.0f}},
-//                                                                                                       {{-0.5f, 0.5f, -0.5f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.0f, 1.0f}}}));
+    SharkVulkanDrawable draw1(std::vector<Vertex>{
+                                      {{-0.5f, -0.5f, 0.0f}, {1.0f, 0.0f, 0.0f, 1.0f}, {0.0f, 1.0f}},
+                                      {{0.5f, -0.5f, 0.0f}, {0.0f, 1.0f, 0.0f, 1.0f}, {1.0f, 1.0f}},
+                                      {{0.5f, 0.5f, 0.0f}, {0.0f, 0.0f, 1.0f, 1.0f}, {1.0f, 0.0f}},
+                                      {{-0.5f, 0.5f, 0.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.0f, 0.0f}}},
+                              "texture.jpg");
+
+    SHARK_API_CORE->AppendDrawable(draw1);
 
 
-//    VULKAN_DRAW_MANAGER->AddVulkanDrawable(tmp);
-//    VULKAN_DRAW_MANAGER->AddVulkanDrawable(tmp_2);
+    //    VulkanDrawable *tmp = reinterpret_cast<VulkanDrawable *>(new Drawable("texture.jpg", std::vector<Vertex>{
+    //                                                                                                 {{-0.5f, -0.5f, 0.0f}, {1.0f, 0.0f, 0.0f, 1.0f}, {0.0f, 1.0f}},
+    //                                                                                                 {{0.5f, -0.5f, 0.0f}, {0.0f, 1.0f, 0.0f, 1.0f}, {1.0f, 1.0f}},
+    //                                                                                                 {{0.5f, 0.5f, 0.0f}, {0.0f, 0.0f, 1.0f, 1.0f}, {1.0f, 0.0f}},
+    //                                                                                                 {{-0.5f, 0.5f, 0.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.0f, 0.0f}}}));
+    //
+    //    VulkanDrawable *tmp_2 = reinterpret_cast<VulkanDrawable *>(new Drawable("viking_room.png", std::vector<Vertex>{
+    //                                                                                                       {{-0.5f, -0.5f, -0.5f}, {1.0f, 0.0f, 0.0f, 1.0f}, {0.0f, 0.0f}},
+    //                                                                                                       {{0.5f, -0.5f, -0.5f}, {0.0f, 1.0f, 0.0f, 1.0f}, {1.0f, 0.0f}},
+    //                                                                                                       {{0.5f, 0.5f, -0.5f}, {0.0f, 0.0f, 1.0f, 1.0f}, {1.0f, 1.0f}},
+    //                                                                                                       {{-0.5f, 0.5f, -0.5f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.0f, 1.0f}}}));
 
-    SHARK_ENGINE->GetSceneManager()->ChangeScene(new TestScene());
 
-    bool isWindowOpen = true;
-//    while (isWindowOpen) {
-//        VULKAN_DRAW_MANAGER->CheckInit();
-//
-//        SHARK_ENGINE->Start();
-//        //appObj->Update();
-//        SHARK_ENGINE->Update();
-//        SHARK_ENGINE->LateUpdate();
-//        SHARK_ENGINE->Render();
-//
-//        VULKAN_DRAW_MANAGER->Render();
-//        //Render Object
-//        isWindowOpen = VULKAN_CORE->Render();
-//
-//        SHARK_ENGINE->EndScene();
-//    }
+    //    VULKAN_DRAW_MANAGER->AddVulkanDrawable(tmp);
+    //    VULKAN_DRAW_MANAGER->AddVulkanDrawable(tmp_2);
 
-///
-///
-///
+//    SHARK_ENGINE->GetSceneManager()->ChangeScene(new TestScene());
 
-//    VULKAN_DRAW_MANAGER->ReleaseAll();
-//    VULKAN_TEXTURE_MANAGER->ReleaseTextures();
-//    VULKAN_CORE->Release();
+//    bool isWindowOpen = true;
+    //    while (isWindowOpen) {
+    //        VULKAN_DRAW_MANAGER->CheckInit();
+    //
+    //        SHARK_ENGINE->Start();
+    //        //appObj->Update();
+    //        SHARK_ENGINE->Update();
+    //        SHARK_ENGINE->LateUpdate();
+    //        SHARK_ENGINE->Render();
+    //
+    //        VULKAN_DRAW_MANAGER->Render();
+    //        //Render Object
+    //        isWindowOpen = VULKAN_CORE->Render();
+    //
+    //        SHARK_ENGINE->EndScene();
+    //    }
+
+    ///
+    ///
+    ///
+
+    //    VULKAN_DRAW_MANAGER->ReleaseAll();
+    //    VULKAN_TEXTURE_MANAGER->ReleaseTextures();
+    //    VULKAN_CORE->Release();
     //appObj->Release();
 }
