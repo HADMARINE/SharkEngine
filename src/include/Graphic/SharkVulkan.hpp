@@ -60,7 +60,7 @@ namespace SharkEngine::Core {
         BufferCreateInfo CreateIndexBuffer(std::vector<uint32_t> indices);
         void CreateUniformBuffers();
         void CreateDescriptorPool();
-        void CreateCommandBuffer();
+        void CreateCommandBuffers();
         void CreateSyncObjects();
 
         //        void UpdateVertexBuffer();
@@ -91,7 +91,7 @@ namespace SharkEngine::Core {
         SwapChainSupportDetails QuerySwapChainSupport(VkPhysicalDevice device);
         bool IsDeviceSuitable(VkPhysicalDevice device);
         QueueFamilyIndices FindQueueFamilies(VkPhysicalDevice device);
-        std::vector<const char *> getRequiredExtensions();
+        std::vector<const char *> GetRequiredExtensions();
         bool CheckValidationLayerSupport();
 
         void CreateImage(uint32_t width, uint32_t height, VkFormat format,
@@ -114,7 +114,7 @@ namespace SharkEngine::Core {
 
         /// DEBUG LAYERS
 
-        void PopulateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT &createInfo);
+        static void PopulateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT &createInfo);
         void SetupDebugMessenger();
         static VKAPI_ATTR VkBool32
                 VKAPI_CALL

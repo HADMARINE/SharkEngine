@@ -7,7 +7,10 @@
 namespace SharkEngine::Core {
 
     void SharkVulkan::Run() {
-
+        InitWindow();
+        InitVulkan();
+        MainLoop();
+        Cleanup();
     }
 
     void SharkVulkan::InitWindow() {
@@ -27,15 +30,35 @@ namespace SharkEngine::Core {
     }
 
     void SharkVulkan::MainLoop() {
-
+        while (!glfwWindowShouldClose(window)) {
+            glfwPollEvents();
+            DrawFrame();
+        }
+        vkDeviceWaitIdle(device);
     }
 
     void SharkVulkan::Cleanup() {
-
     }
 
     void SharkVulkan::InitVulkan() {
-
+        CreateInstance();
+        SetupDebugMessenger();
+        CreateSurface();
+        PickPhysicalDevice();
+        CreateLogicalDevice();
+        CreateSwapChain();
+        CreateImageViews();
+        CreateRenderPass();
+        CreateDescriptorSetLayout();
+        CreateGraphicsPipeline();
+        CreateCommandPool();
+        CreateDepthResources();
+        CreateFrameBuffers();
+        CreateTextureSampler();
+        CreateUniformBuffers();
+        CreateDescriptorPool();
+        CreateCommandBuffers();
+        CreateSyncObjects();
     }
 
 }// namespace SharkEngine::Core

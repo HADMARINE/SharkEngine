@@ -6,7 +6,7 @@
 
 namespace SharkEngine::Core {
 
-    void SharkVulkan::CreateCommandBuffer() {
+    void SharkVulkan::CreateCommandBuffers() {
         commandBuffers.resize(swapChainFramebuffers.size());
         VkCommandBufferAllocateInfo allocInfo{};
         allocInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
@@ -72,7 +72,7 @@ namespace SharkEngine::Core {
     }
 
     void SharkVulkan::DrawFrame() {
-        CreateCommandBuffer();
+        CreateCommandBuffers();
         CLogger::Debug("HELLO DRAWFRAME");
 
         vkWaitForFences(device, 1, &inFlightFences[currentFrame],
@@ -171,7 +171,7 @@ namespace SharkEngine::Core {
         createInfo.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
         createInfo.pApplicationInfo = &appInfo;
 
-        auto extensions = getRequiredExtensions();
+        auto extensions = GetRequiredExtensions();
         createInfo.enabledExtensionCount = static_cast<uint32_t>(extensions.size());
         createInfo.ppEnabledExtensionNames = extensions.data();
 
@@ -805,7 +805,7 @@ namespace SharkEngine::Core {
         CreateUniformBuffers();
         CreateDescriptorPool();
 //            createDescriptorSets();
-        CreateCommandBuffer();
+        CreateCommandBuffers();
     }
 
 

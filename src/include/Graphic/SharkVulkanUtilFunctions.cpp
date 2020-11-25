@@ -14,6 +14,7 @@ namespace SharkEngine::Core {
     }
 
     void *SharkVulkan::LoadTextures(std::string location) {
+        // TODO
         return nullptr;
     }
 
@@ -171,19 +172,117 @@ namespace SharkEngine::Core {
         return requiredExtensions.empty();
     }
     SwapChainSupportDetails SharkVulkan::QuerySwapChainSupport(VkPhysicalDevice device) {
-        return SwapChainSupportDetails();
+        SwapChainSupportDetails details;
+
+        vkGetPhysicalDeviceSurfaceCapabilitiesKHR(device, surface, &details.capabilities);
+
+        uint32_t formatCount;
+        vkGetPhysicalDeviceSurfaceFormatsKHR(device, surface, &formatCount, nullptr);
+
+        if (formatCount != 0) {
+            details.formats.resize(formatCount);
+            vkGetPhysicalDeviceSurfaceFormatsKHR(
+                    device, surface, &formatCount,
+                    details.formats.data());
+        }
+
+        uint32_t presentModeCount;
+        vkGetPhysicalDeviceSurfacePresentModesKHR(device, surface, &presentModeCount, nullptr);
+
+        if (presentModeCount != 0) {
+            details.presentModes.resize(presentModeCount);
+            vkGetPhysicalDeviceSurfacePresentModesKHR(
+                    device, surface, &presentModeCount,
+                    details.presentModes.data());
+        }
+
+        return details;
     }
     bool SharkVulkan::IsDeviceSuitable(VkPhysicalDevice device) {
-        return false;
+        QueueFamilyIndices indices = FindQueueFamilies(device);
+
+        bool extensionsSupported = CheckDeviceExtensionSupport(device);
+
+        bool swapChainAdequate = false;
+        if (extensionsSupported) {
+            SwapChainSupportDetails swapChainSupport = QuerySwapChainSupport(device);
+            swapChainAdequate = !swapChainSupport.formats.empty() &&
+                                !swapChainSupport.presentModes.empty();
+        }
+
+        VkPhysicalDeviceFeatures supportedFeatures;
+        vkGetPhysicalDeviceFeatures(device, &supportedFeatures);
+
+        return indices.isComplete() && extensionsSupported &&
+               swapChainAdequate && supportedFeatures.samplerAnisotropy;
     }
+
     QueueFamilyIndices SharkVulkan::FindQueueFamilies(VkPhysicalDevice device) {
-        return QueueFamilyIndices();
+        QueueFamilyIndices indices;
+
+        uint32_t queueFamilyCount = 0;
+        vkGetPhysicalDeviceQueueFamilyProperties(device, &queueFamilyCount, nullptr);
+
+        std::vector<VkQueueFamilyProperties> queueFamilies(queueFamilyCount);
+        vkGetPhysicalDeviceQueueFamilyProperties(device, &queueFamilyCount, queueFamilies.data());
+
+        int i = 0;
+        for (const auto &queueFamily : queueFamilies) {
+            if (queueFamily.queueFlags & VK_QUEUE_GRAPHICS_BIT) {
+                indices.graphicsFamily = i;
+            }
+
+            VkBool32 presentSupport = false;
+            vkGetPhysicalDeviceSurfaceSupportKHR(device, i, surface, &presentSupport);
+
+            if (presentSupport) {
+                indices.presentFamily = i;
+            }
+
+            if (indices.isComplete()) {
+                break;
+            }
+
+            i++;
+        }
+
+        return indices;
     }
-    std::vector<const char *> SharkVulkan::getRequiredExtensions() {
-        return std::vector<const char *>();
+
+    std::vector<const char *> SharkVulkan::GetRequiredExtensions() {
+        uint32_t glfwExtensionCount = 0;
+        const char **glfwExtensions;
+        glfwExtensions = glfwGetRequiredInstanceExtensions(&glfwExtensionCount);
+
+        std::vector<const char *> extensions(glfwExtensions, glfwExtensions + glfwExtensionCount);
+
+        if (GlobalPreferences::enableValidationLayers) {
+            extensions.push_back(VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
+        }
+
+        return extensions;
     }
     bool SharkVulkan::CheckValidationLayerSupport() {
-        return false;
+        uint32_t layerCount;
+        vkEnumerateInstanceLayerProperties(&layerCount, nullptr);
+
+        std::vector<VkLayerProperties> availableLayers(layerCount);
+        vkEnumerateInstanceLayerProperties(&layerCount, availableLayers.data());
+
+        for (const char *layerName : validationLayers) {
+            bool layerFound = false;
+
+            for (const auto &layerProperties : availableLayers) {
+                if (strcmp(layerName, layerProperties.layerName) == 0) {
+                    layerFound = true;
+                    break;
+                }
+            }
+            if (!layerFound) {
+                return false;
+            }
+        }
+        return true;
     }
     void SharkVulkan::CreateImage(uint32_t width, uint32_t height, VkFormat format, VkImageTiling tiling, VkImageUsageFlags usage, VkMemoryPropertyFlags properties, VkImage &image, VkDeviceMemory &imageMemory) {
         VkImageCreateInfo imageInfo{};
@@ -422,7 +521,7 @@ namespace SharkEngine::Core {
         PopulateDebugMessengerCreateInfo(createInfo);
 
         if (CreateDebugUtilsMessengerEXT(instance, &createInfo, nullptr, &debugMessenger) != VK_SUCCESS) {
-            CLogger::Error("Failed to set up debug message");
+            CLogger::Error("Failed to set up debug messenger");
             throw std::runtime_error("Failed to set up debug messenger");
         }
     }
@@ -439,15 +538,15 @@ namespace SharkEngine::Core {
         createInfo.pfnUserCallback = DebugCallback;
     }
 
-    VkBool32 SharkVulkan::DebugCallback(VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity, VkDebugUtilsMessageTypeFlagsEXT messageType, const VkDebugUtilsMessengerCallbackDataEXT *pCallbackData, void *pUserData) {
+    VKAPI_ATTR VkBool32 SharkVulkan::DebugCallback VKAPI_CALL(VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity, VkDebugUtilsMessageTypeFlagsEXT messageType, const VkDebugUtilsMessengerCallbackDataEXT *pCallbackData, void *pUserData) {
         CLogger::Debug("[VK] %s", pCallbackData->pMessage);
         return VK_FALSE;
     }
 
     VkResult CreateDebugUtilsMessengerEXT(VkInstance instance,
-                                          const VkDebugUtilsMessengerCreateInfoEXT* pCreateInfo,
-                                          const VkAllocationCallbacks* pAllocator,
-                                          VkDebugUtilsMessengerEXT* pDebugMessenger) {
+                                          const VkDebugUtilsMessengerCreateInfoEXT *pCreateInfo,
+                                          const VkAllocationCallbacks *pAllocator,
+                                          VkDebugUtilsMessengerEXT *pDebugMessenger) {
         auto func = (PFN_vkCreateDebugUtilsMessengerEXT) vkGetInstanceProcAddr(instance, "vkCreateDebugUtilsMessengerEXT");
         if (func != nullptr) {
             return func(instance, pCreateInfo, pAllocator, pDebugMessenger);
@@ -457,7 +556,7 @@ namespace SharkEngine::Core {
     }
 
     void DestroyDebugUtilsMessengerdEXT(VkInstance instance, VkDebugUtilsMessengerEXT debugMessenger,
-                                        const VkAllocationCallbacks* pAllocator) {
+                                        const VkAllocationCallbacks *pAllocator) {
         auto func = (PFN_vkDestroyDebugUtilsMessengerEXT) vkGetInstanceProcAddr(instance,
                                                                                 "vkDestroyDebugUtilsMessengerEXT");
         if (func != nullptr) {
