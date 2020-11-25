@@ -56,8 +56,8 @@ namespace SharkEngine::Core {
         void CreateDepthResources();
         void CreateFrameBuffers();
         void CreateTextureSampler();
-        void CreateVertexBuffer();
-        void CreateIndexBuffer();
+        BufferCreateInfo CreateVertexBuffer(std::vector<Vertex> vertices);
+        BufferCreateInfo CreateIndexBuffer(std::vector<uint32_t> indices);
         void CreateUniformBuffers();
         void CreateDescriptorPool();
         void CreateCommandBuffer();
@@ -147,6 +147,9 @@ namespace SharkEngine::Core {
         // RENDER PASS
         VkRenderPass renderPass;
 
+        // SURFACE
+        VkSurfaceKHR surface;
+
         // DESCRIPTOR
         VkDescriptorPool descriptorPool;
         VkDescriptorSetLayout descriptorSetLayout;
@@ -176,8 +179,8 @@ namespace SharkEngine::Core {
         VkImageView depthImageView;
 
         // VERTEX / INDEX / UNIFORM BUFFERS
-        VkBuffer vertexBuffer;
-        VkDeviceMemory vertexBufferMemory;
+//        VkBuffer vertexBuffer;
+//        VkDeviceMemory vertexBufferMemory;
         VkBuffer indexBuffer;
         VkDeviceMemory indexBufferMemory;
 

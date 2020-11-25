@@ -112,7 +112,10 @@ namespace SharkEngine::Core {
     void DestroyDebugUtilsMessengerEXT(VkInstance instance, VkDebugUtilsMessengerEXT debugMessenger,
                                        const VkAllocationCallbacks* pAllocator);
 
-
+    struct BufferCreateInfo {
+        VkBuffer buffer;
+        VkDeviceMemory memory;
+    };
 
 }
 

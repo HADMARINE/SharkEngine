@@ -1,21 +1,21 @@
+////
+//// Created by EunwooSong on 2020-11-01.
+////
 //
-// Created by EunwooSong on 2020-11-01.
+//#include "TestObject.h"
+//#include "../Scripts/TestComponent.h"
+//#include "../../include/Engine/Scene/Scene.h"
+//#include "../../CLogger.hpp"
+//using namespace SharkEngine::Core;
 //
-
-#include "TestObject.h"
-#include "../Scripts/TestComponent.h"
-#include "../../include/Engine/Scene/Scene.h"
-#include "../../CLogger.hpp"
-using namespace SharkEngine::Core;
-
-void TestObject::Init() {
-    Entity::Init();
-
-    CLogger::Info("Test Object Initialize");
-
-    testComponent = new TestComponent();
-    m_Scene->AddComponent<TestComponent>(this, testComponent);
-
-    if(m_Scene->GetComponent<TestComponent>(0)->GetOwner() == this)
-        CLogger::Error("GetComponent Test");
-};
+//void TestObject::Init() {
+//    Entity::Init();
+//
+//    CLogger::Info("Test Object Initialize");
+//
+//    testComponent = new TestComponent();
+//    m_Scene->AddComponent<TestComponent>(this, testComponent);
+//
+//    if(m_Scene->GetComponent<TestComponent>(0)->GetOwner() == this)
+//        CLogger::Error("GetComponent Test");
+//};

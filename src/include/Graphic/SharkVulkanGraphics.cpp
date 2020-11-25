@@ -45,27 +45,32 @@ namespace SharkEngine::Core {
             vkCmdBindPipeline(commandBuffers[i], VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipeline);
 
             for (auto drawable : drawables) {
-
-                VkBuffer vertexBuffers[] = {vertexBuffer};
+                auto vertexBuffer = CreateVertexBuffer(drawable.getVertices());
+                auto indexBuffer = CreateIndexBuffer(drawable.getIndices());
+                VkBuffer vertexBuffers[] = {vertexBuffer.buffer};
                 VkDeviceSize offsets[] = {0};
 
                 vkCmdBindVertexBuffers(commandBuffers[i], 0, 1, vertexBuffers, offsets);
 
-                vkCmdBindIndexBuffer(commandBuffers[i], indexBuffer, 0, VK_INDEX_TYPE_UINT16);
+                vkCmdBindIndexBuffer(commandBuffers[i], indexBuffer.buffer, 0, VK_INDEX_TYPE_UINT16);
 
                 vkCmdBindDescriptorSets(commandBuffers[i], VK_PIPELINE_BIND_POINT_GRAPHICS, pipelineLayout, 0, 1, reinterpret_cast<VkDescriptorSet const *>(&descriptorSets[i]), 0, nullptr);
 
                 vkCmdDrawIndexed(commandBuffers[i], static_cast<uint32_t>(indices.size()), 1, 0, 0, 0);
-                
+
+                vkFreeMemory(device, vertexBuffer.memory, nullptr);
+                vkFreeMemory(device, indexBuffer.memory, nullptr);
             }
 
             vkCmdEndRenderPass(commandBuffers[i]);
 
             if (vkEndCommandBuffer(commandBuffers[i]) != VK_SUCCESS) {
-                throw std::runtime_error("failed to record command buffer!");
+                CLogger::Error("Failed to record command buffer");
+                throw std::runtime_error("Failed to record command buffer");
             }
         }
     }
+    
     void SharkVulkan::DrawFrame() {
         CreateCommandBuffer();
         CLogger::Debug("HELLO DRAWFRAME");
@@ -607,6 +612,7 @@ namespace SharkEngine::Core {
         samplerInfo.addressModeU = VK_SAMPLER_ADDRESS_MODE_REPEAT;
         samplerInfo.addressModeV = VK_SAMPLER_ADDRESS_MODE_REPEAT;
         samplerInfo.addressModeW = VK_SAMPLER_ADDRESS_MODE_REPEAT;
+
         // if device not supported, set antisotropyEnable to VK_FALSE, maxAntisotropy to 1.0f
         samplerInfo.anisotropyEnable = VK_TRUE;
         samplerInfo.maxAnisotropy = 16.0f;
@@ -625,7 +631,9 @@ namespace SharkEngine::Core {
             throw std::runtime_error("Failed to create texture sampler");
         }
     }
-    void SharkVulkan::CreateVertexBuffer() {
+    BufferCreateInfo SharkVulkan::CreateVertexBuffer(std::vector<Vertex> vertices) {
+        BufferCreateInfo createResult;
+
         VkDeviceSize bufferSize = sizeof(vertices[0]) * vertices.size();
 
         VkBuffer stagingBuffer;
@@ -640,13 +648,17 @@ namespace SharkEngine::Core {
         vkUnmapMemory(device, stagingBufferMemory);
 
         CreateBuffer(bufferSize, VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_VERTEX_BUFFER_BIT,
-                     VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, vertexBuffer, vertexBufferMemory);
+                     VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, createResult.buffer, createResult.memory);
 
-        CopyBuffer(stagingBuffer, vertexBuffer, bufferSize);
+        CopyBuffer(stagingBuffer, createResult.buffer, bufferSize);
         vkDestroyBuffer(device, stagingBuffer, nullptr);
         vkFreeMemory(device, stagingBufferMemory, nullptr);
+
+        return createResult;
     }
-    void SharkVulkan::CreateIndexBuffer() {
+    BufferCreateInfo SharkVulkan::CreateIndexBuffer(std::vector<uint32_t> indices) {
+        BufferCreateInfo createResult;
+
         VkDeviceSize bufferSize = sizeof(indices[0]) * indices.size();
 
         VkBuffer stagingBuffer;
@@ -661,12 +673,14 @@ namespace SharkEngine::Core {
         vkUnmapMemory(device, stagingBufferMemory);
 
         CreateBuffer(bufferSize, VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_INDEX_BUFFER_BIT,
-                     VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, indexBuffer, indexBufferMemory);
+                     VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, createResult.buffer, createResult.memory);
 
-        CopyBuffer(stagingBuffer, indexBuffer, bufferSize);
+        CopyBuffer(stagingBuffer, createResult.buffer, bufferSize);
 
         vkDestroyBuffer(device, stagingBuffer, nullptr);
         vkFreeMemory(device, stagingBufferMemory, nullptr);
+
+        return createResult;
     }
     void SharkVulkan::CreateUniformBuffers() {
         VkDeviceSize bufferSize = sizeof(UniformBufferObject);

@@ -5,7 +5,7 @@
 #include "SharkVulkan.hpp"
 #include "SharkVulkanDrawable.hpp"
 
-std::vector<uint32_t> SharkEngine::Core::SharkVulkanDrawable::getVertices() {
+std::vector<SharkEngine::Core::Vertex> SharkEngine::Core::SharkVulkanDrawable::getVertices() {
     return this->vertices;
 }
 
@@ -22,7 +22,6 @@ SharkEngine::Core::SharkVulkanDrawable::SharkVulkanDrawable(
 
     this->vertices = vertices;
 
-    uint32_t indexCount = 0;
     for (int i = 0; i < vertices.size() - 2; i++) {
         this->indices.push_back(indexCount);
         this->indices.push_back(indexCount + i + 1);

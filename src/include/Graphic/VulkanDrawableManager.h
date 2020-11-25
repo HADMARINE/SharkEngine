@@ -1,37 +1,37 @@
+////
+//// Created by EunwooSong on 2020-11-03.
+////
 //
-// Created by EunwooSong on 2020-11-03.
+//#ifndef SHARKENGINE_VULKANDRAWABLEMANAGER_H
+//#define SHARKENGINE_VULKANDRAWABLEMANAGER_H
 //
-
-#ifndef SHARKENGINE_VULKANDRAWABLEMANAGER_H
-#define SHARKENGINE_VULKANDRAWABLEMANAGER_H
-
-#include <vector>
-#include "VulkanDrawable.h"
-
-#define VULKAN_DRAW_MANAGER VulkanDrawableManager::Instance()
-
-class VulkanDrawable;
-
-class VulkanDrawableManager {
-public:
-    static VulkanDrawableManager* Instance();
-
-    void CheckInit();
-    void Render();
-    void EndScene();
-
-    void ReCreateSwapChain();
-    void ReleaseAll();
-
-    void AddVulkanDrawable(VulkanDrawable* drawIter);
-    void DestroyVulkanDrawable(VulkanDrawable* drawIter);
-
-private:
-    //SwapChain, drawIndexBuffer
-    std::vector<std::vector<VkCommandBuffer*>> commandBuffers;
-
-    std::vector<VulkanDrawable*> drawablesList;
-};
-
-
-#endif//SHARKENGINE_VULKANDRAWABLEMANAGER_H
+//#include <vector>
+//#include "VulkanDrawable.h"
+//
+//#define VULKAN_DRAW_MANAGER VulkanDrawableManager::Instance()
+//
+//class VulkanDrawable;
+//
+//class VulkanDrawableManager {
+//public:
+//    static VulkanDrawableManager* Instance();
+//
+//    void CheckInit();
+//    void Render();
+//    void EndScene();
+//
+//    void ReCreateSwapChain();
+//    void ReleaseAll();
+//
+//    void AddVulkanDrawable(VulkanDrawable* drawIter);
+//    void DestroyVulkanDrawable(VulkanDrawable* drawIter);
+//
+//private:
+//    //SwapChain, drawIndexBuffer
+//    std::vector<std::vector<VkCommandBuffer*>> commandBuffers;
+//
+//    std::vector<VulkanDrawable*> drawablesList;
+//};
+//
+//
+//#endif//SHARKENGINE_VULKANDRAWABLEMANAGER_H
