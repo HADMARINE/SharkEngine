@@ -7,6 +7,7 @@
 
 #include "../../CoreDefine.h"
 #include "Base/Component.h"
+#include "SharkMath.h"
 
 namespace SharkEngine::Core {
     class Sprite2DRenderer

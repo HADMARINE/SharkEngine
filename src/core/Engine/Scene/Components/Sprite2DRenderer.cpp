@@ -6,6 +6,7 @@
 #include "include/Engine/SharkSystem.hpp"
 #include "include/Engine/Scene/Components/Transform.h"
 
+
 SharkEngine::Core::Sprite2DRenderer::Sprite2DRenderer(const char *path) {
     SetTexture(path);
 }

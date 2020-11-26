@@ -7,6 +7,7 @@
 
 #include "include/Engine/Scene/Components/Base/Component.h"
 #include "include/Engine/CoreDefine.h"
+#include "SharkMath.h"
 
 namespace SharkEngine::Core {
     class Button : public Component {

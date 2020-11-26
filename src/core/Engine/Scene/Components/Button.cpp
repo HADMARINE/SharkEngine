@@ -7,6 +7,7 @@
 #include "include/Engine/Scene/Components/Transform.h"
 #include "include/Engine/Scene/GameObject/GameObject.h"
 #include "include/Engine/SharkSystem.hpp"
+#include "SharkMath.h"
 
 SharkEngine::Core::Button::~Button() {
 }
@@ -18,7 +19,7 @@ void SharkEngine::Core::Button::Update() {
 
     Vec2 currentCursorPos = SHARK_INPUT_MGR->GetCursorPos();
 
-    if(boundaryRect.offset(GetOwner()->transform->GetLocalPos()).Contain(currentCursorPos)) {
+    if(boundaryRect.Offset(GetOwner()->transform->GetLocalPos()).Contain(currentCursorPos)) {
         isOnCursor = true;
         isEndCursor = true;
     }
