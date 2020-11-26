@@ -1,0 +1,8 @@
+//
+// Created by EunwooSong on 2020-11-26.
+//
+
+#ifndef SHARKENGINE_SHARKMATH_H
+#define SHARKENGINE_SHARKMATH_H
+
+#endif//SHARKENGINE_SHARKMATH_H
