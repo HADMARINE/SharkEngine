@@ -14,6 +14,7 @@ namespace SharkEngine::Core {
 
     uint32_t SharkVulkan::AppendDrawable(const SharkVulkanDrawable &drawable) {
         this->drawables.push_back(drawable);
+        SHARK_API_CORE->CreateDescriptorPool();
         return this->drawables.size() - 1;
     }
 

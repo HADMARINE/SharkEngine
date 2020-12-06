@@ -29,7 +29,7 @@ int main() {
 
     SHARK_ENGINE->InitializeEngine();
 
-    SHARK_API_CORE->Run();
+    SHARK_API_CORE->Init();
 
 
     SharkVulkanDrawable draw1(std::vector<Vertex>{
@@ -39,7 +39,18 @@ int main() {
                                       {{-0.5f, 0.5f, 0.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.0f, 0.0f}}},
                               "texture.jpg");
 
+    SharkVulkanDrawable draw2(std::vector<Vertex>{
+                                      {{-0.5f, -0.5f, 0.0f}, {1.0f, 0.0f, 0.0f, 1.0f}, {0.0f, 1.0f}},
+                                      {{0.5f, -0.5f, 0.0f}, {0.0f, 1.0f, 0.0f, 1.0f}, {1.0f, 1.0f}},
+                                      {{0.5f, 0.5f, 0.0f}, {0.0f, 0.0f, 1.0f, 1.0f}, {1.0f, 0.0f}},
+                                      {{-0.5f, 0.5f, 0.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.0f, 0.0f}}},
+                              "texture2.jpg");
+
     SHARK_API_CORE->AppendDrawable(draw1);
+    SHARK_API_CORE->AppendDrawable(draw2);
+
+
+    SHARK_API_CORE->Run();
 
 
     //    VulkanDrawable *tmp = reinterpret_cast<VulkanDrawable *>(new Drawable("texture.jpg", std::vector<Vertex>{

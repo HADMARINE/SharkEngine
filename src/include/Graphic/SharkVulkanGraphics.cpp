@@ -44,7 +44,10 @@ namespace SharkEngine::Core {
 
             vkCmdBindPipeline(commandBuffers[i], VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipeline);
 
+            CLogger::Debug("drawables : %d", drawables.size());
+
             for (auto drawable : drawables) {
+                CLogger::Debug("DRAW!");
                 auto vertexBuffer = CreateVertexBuffer(drawable.getVertices());
                 auto indexBuffer = CreateIndexBuffer(drawable.getIndices());
                 VkBuffer vertexBuffers[] = {vertexBuffer.buffer};
@@ -54,12 +57,12 @@ namespace SharkEngine::Core {
 
                 vkCmdBindIndexBuffer(commandBuffers[i], indexBuffer.buffer, 0, VK_INDEX_TYPE_UINT16);
 
-                vkCmdBindDescriptorSets(commandBuffers[i], VK_PIPELINE_BIND_POINT_GRAPHICS, pipelineLayout, 0, 1, reinterpret_cast<VkDescriptorSet const *>(&descriptorSets[i]), 0, nullptr);
+                vkCmdBindDescriptorSets(commandBuffers[i], VK_PIPELINE_BIND_POINT_GRAPHICS, pipelineLayout, 0, 1, &drawable.getDescriptorSets()[i], 0, nullptr);
 
                 vkCmdDrawIndexed(commandBuffers[i], static_cast<uint32_t>(indices.size()), 1, 0, 0, 0);
 
-                vkFreeMemory(device, vertexBuffer.memory, nullptr);
-                vkFreeMemory(device, indexBuffer.memory, nullptr);
+//                vkFreeMemory(device, vertexBuffer.memory, nullptr);
+//                vkFreeMemory(device, indexBuffer.memory, nullptr);
             }
 
             vkCmdEndRenderPass(commandBuffers[i]);
@@ -704,7 +707,7 @@ namespace SharkEngine::Core {
         poolInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO;
         poolInfo.poolSizeCount = static_cast<uint32_t>(poolSizes.size());
         poolInfo.pPoolSizes = poolSizes.data();
-        poolInfo.maxSets = static_cast<uint32_t>(swapChainImages.size());
+        poolInfo.maxSets = static_cast<uint32_t>(swapChainImages.size() * (drawables.size() + 2));
 
         if (vkCreateDescriptorPool(device, &poolInfo, nullptr, &descriptorPool) != VK_SUCCESS) {
             CLogger::Error("Failed to create descriptor pool");

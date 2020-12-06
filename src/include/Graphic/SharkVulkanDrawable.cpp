@@ -22,15 +22,18 @@ std::vector<VkDescriptorSet> SharkEngine::Core::SharkVulkanDrawable::getDescript
 }
 
 SharkEngine::Core::SharkVulkanDrawable::SharkVulkanDrawable(
-        const std::vector<Vertex>& vertices, const std::string &file) {
+        const std::vector<Vertex> &vertices, const std::string &file) {
 
     this->vertices = vertices;
 
+    indexCount = 0;
     for (int i = 0; i < vertices.size() - 2; i++) {
         this->indices.push_back(indexCount);
         this->indices.push_back(indexCount + i + 1);
         this->indices.push_back(indexCount + i + 2);
     }
+
+    indexCount += vertices.size();
 
     int texWidth, texHeight, texChannels;
 
@@ -42,19 +45,11 @@ SharkEngine::Core::SharkVulkanDrawable::SharkVulkanDrawable(
         throw std::runtime_error("Failed to load texture image");
     }
 
-//    VkBuffer testBuf;
-//    CLogger::Debug("testbuf : %s", &testBuf);
-//    VkDeviceMemory testMem;
-//    SHARK_API_CORE->CreateBuffer(imageSize, VK_BUFFER_USAGE_TRANSFER_SRC_BIT,
-//                                 VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT,
-//                                 &testBuf, testMem);
-
-
     VkBuffer stagingBuffer;
     VkDeviceMemory stagingBufferMemory;
     SHARK_API_CORE->CreateBuffer(imageSize, VK_BUFFER_USAGE_TRANSFER_SRC_BIT,
-                 VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT,
-                 stagingBuffer, stagingBufferMemory);
+                                 VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT,
+                                 stagingBuffer, stagingBufferMemory);
 
     void *data;
     vkMapMemory(*SHARK_API_CORE->GetDevice(), stagingBufferMemory, 0, imageSize, 0, &data);
@@ -64,9 +59,9 @@ SharkEngine::Core::SharkVulkanDrawable::SharkVulkanDrawable(
     stbi_image_free(pixels);
 
     SHARK_API_CORE->CreateImage(texWidth, texHeight,
-                VK_FORMAT_R8G8B8A8_SRGB, VK_IMAGE_TILING_OPTIMAL,
-                VK_IMAGE_USAGE_TRANSFER_DST_BIT | VK_IMAGE_USAGE_SAMPLED_BIT,
-                VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, this->textureImage, this->textureImageMemory);
+                                VK_FORMAT_R8G8B8A8_SRGB, VK_IMAGE_TILING_OPTIMAL,
+                                VK_IMAGE_USAGE_TRANSFER_DST_BIT | VK_IMAGE_USAGE_SAMPLED_BIT,
+                                VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, this->textureImage, this->textureImageMemory);
 
     SHARK_API_CORE->TransitionImageLayout(this->textureImage, VK_FORMAT_R8G8B8A8_SRGB,
                                           VK_IMAGE_LAYOUT_UNDEFINED,
@@ -82,9 +77,7 @@ SharkEngine::Core::SharkVulkanDrawable::SharkVulkanDrawable(
     vkFreeMemory(*SHARK_API_CORE->GetDevice(), stagingBufferMemory, nullptr);
 
     this->textureImageView = SHARK_API_CORE->CreateImageView(this->textureImage, VK_FORMAT_R8G8B8A8_SRGB,
-                                                       VK_IMAGE_ASPECT_COLOR_BIT);
-
-
+                                                             VK_IMAGE_ASPECT_COLOR_BIT);
 
 
     std::vector<VkDescriptorSetLayout> layouts(SHARK_API_CORE->GetSwapChainImages().size(),
@@ -133,11 +126,9 @@ SharkEngine::Core::SharkVulkanDrawable::SharkVulkanDrawable(
 
         vkUpdateDescriptorSets(*SHARK_API_CORE->GetDevice(), static_cast<uint32_t>(descriptorWrites.size()), descriptorWrites.data(), 0, nullptr);
     }
-
 }
 
 SharkEngine::Core::SharkVulkanDrawable::~SharkVulkanDrawable() {
-
 }
 
 uint32_t SharkEngine::Core::SharkVulkanDrawable::indexCount = 0;

@@ -6,9 +6,12 @@
 
 namespace SharkEngine::Core {
 
-    void SharkVulkan::Run() {
+    void SharkVulkan::Init() {
         InitWindow();
         InitVulkan();
+    }
+
+    void SharkVulkan::Run() {
         MainLoop();
         Cleanup();
     }

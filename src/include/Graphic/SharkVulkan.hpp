@@ -32,7 +32,7 @@ namespace SharkEngine::Core {
         void DeleteDrawable(uint32_t start, uint32_t end);
 
         /// CORE FUNCTIONS
-
+        void Init();
         void Run();
         void MainLoop();
         void Cleanup();
@@ -159,7 +159,6 @@ namespace SharkEngine::Core {
         // DESCRIPTOR
         VkDescriptorPool descriptorPool;
         VkDescriptorSetLayout descriptorSetLayout;
-        std::vector<std::vector<VkDescriptorSet>> descriptorSets;
 
         // PIPELINE
         VkPipeline graphicsPipeline;
